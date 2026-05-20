@@ -14,24 +14,24 @@ export type DeviceCategory = Record<string, Device[]> & {
 };
 
 export const devicesData: DeviceCategory = {
-	OnePlus: [
+	Phone: [
 		{
-			name: "OnePlus 13T",
-			image: "/images/device/oneplus13t.webp",
-			specs: "Gray / 16G + 1TB",
+			name: "Google Pixel 10 Pro XL",
+			image: "/images/device/pixel.png",
+			specs: "Obsidian / 16G + 512TB",
 			description:
-				"Flagship performance, Hasselblad imaging, 80W SuperVOOC.",
-			link: "https://www.oneplus.com/cn/13t",
+				"Flagship performance, GrapheneOS Security, butter smooth experience.",
+			link: "https://store.google.com/de/product/pixel_10_pro",
 		},
 	],
 	Router: [
 		{
-			name: "GL-MT3000",
-			image: "/images/device/mt3000.webp",
-			specs: "1000Mbps / 2.5G",
+			name: "Fritzbox 6660",
+			image: "/images/device/fritz.png",
+			specs: "1000Mbps / 2.5G / Wifi 6",
 			description:
-				"Portable WiFi 6 router suitable for business trips and home use.",
-			link: "https://www.gl-inet.cn/products/gl-mt3000/",
+				"Stationary WiFi 6 router, good enough for Home Users.",
+			link: "https://fritz.com/en/pages/service-fritz-box-6660-cable",
 		},
 	],
 };
