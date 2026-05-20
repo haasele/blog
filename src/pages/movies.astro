@@ -1,0 +1,556 @@
+---
+import "../styles/movie.css";
+
+import { MovieFilters, MovieGrid } from "@components/features/movie";
+import { PageHeader } from "@components/features/page-header";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+
+import { siteConfig } from "../config";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import {
+	getMovieList,
+	getMovieSourceConfigs,
+	getStatusMap,
+} from "../utils/movie-data";
+import { widgetManager } from "../utils/widget-manager";
+
+if (!siteConfig.featurePages.movie) {
+	return Astro.redirect("/404/");
+}
+
+const hasRightSidebars =
+	widgetManager.getComponentsByPosition("top", "right", "desktop").length >
+		0 ||
+	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length >
+		0;
+
+const MOVIE_MODE = siteConfig.movie?.mode || "bangumi";
+const sourceConfigs = getMovieSourceConfigs();
+const { movieList, currentConfig } = getMovieList(MOVIE_MODE, sourceConfigs);
+
+let emptyDescription = "";
+let showEmptyState = false;
+
+if (
+	MOVIE_MODE === "bilibili" &&
+	(!siteConfig.bilibili?.vmid || siteConfig.bilibili.vmid === "")
+) {
+	showEmptyState = true;
+	emptyDescription = i18n(I18nKey.movieConfigBilibili);
+} else if (
+	MOVIE_MODE === "bangumi" &&
+	siteConfig.bangumi?.userId === "your-user-id"
+) {
+	showEmptyState = true;
+	emptyDescription = i18n(I18nKey.movieConfigBangumi);
+} else if (movieList.length === 0) {
+	showEmptyState = true;
+	if (
+		currentConfig &&
+		currentConfig.type === "json" &&
+		"emptyDescription" in currentConfig &&
+		currentConfig.emptyDescription
+	) {
+		emptyDescription = currentConfig.emptyDescription;
+	} else if (MOVIE_MODE === "local") {
+		emptyDescription = i18n(I18nKey.movieEmptyLocal);
+	} else {
+		emptyDescription = "No movie data found.";
+	}
+}
+
+const statusMap = getStatusMap();
+const INITIAL_DISPLAY_COUNT = 24;
+const visibleMovieList = movieList.slice(0, INITIAL_DISPLAY_COUNT);
+const hiddenMovieList = movieList.slice(INITIAL_DISPLAY_COUNT);
+const showExtendedFilters = MOVIE_MODE === "bangumi";
+const emptyMessage = i18n(I18nKey.movieEmpty);
+---
+
+<MainGridLayout
+	title={i18n(I18nKey.movie)}
+	description={i18n(I18nKey.movieSubtitle)}
+>
+	<div
+		class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+	>
+		<div class="card-base movie-card-base z-10 px-9 py-6 relative w-full">
+			<div class="relative w-full mb-8">
+				<PageHeader
+					title={i18n(I18nKey.movieTitle)}
+					subtitle={i18n(I18nKey.movieSubtitle)}
+				/>
+
+				<div class="mb-6">
+					<MovieFilters
+						filterAllLabel={i18n(I18nKey.movieFilterAll)}
+						statusWatchingLabel={i18n(I18nKey.movieStatusWatching)}
+						statusPlannedLabel={i18n(I18nKey.movieStatusPlanned)}
+						statusCompletedLabel={i18n(
+							I18nKey.movieStatusCompleted,
+						)}
+						statusOnHoldLabel={i18n(I18nKey.movieStatusOnHold)}
+						statusDroppedLabel={i18n(I18nKey.movieStatusDropped)}
+						showExtendedFilters={showExtendedFilters}
+					/>
+				</div>
+			</div>
+
+			<div class="mb-8">
+				{
+					showEmptyState ? (
+						<div class="text-center py-12">
+							<div class="text-5xl mb-4">😢</div>
+							<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
+								{emptyMessage}
+							</h3>
+							<p class="text-black/60 dark:text-white/60">
+								{emptyDescription}
+							</p>
+						</div>
+					) : (
+						<MovieGrid
+							visibleMovieList={visibleMovieList}
+							hiddenMovieList={hiddenMovieList}
+							statusMap={statusMap}
+							yearLabel={i18n(I18nKey.movieYear)}
+							studioLabel={i18n(I18nKey.movieStudio)}
+						/>
+					)
+				}
+			</div>
+		</div>
+	</div>
+
+	<script is:inline define:vars={{ hasRightSidebars }}>
+		(function () {
+			const containerId = "movie-list-container";
+
+			function updateMovieListLayout(layout, shouldAnimate = true) {
+				const movieListContainer = document.getElementById(containerId);
+				if (!movieListContainer) {
+					return;
+				}
+				movieListContainer.dataset.currentLayout = layout;
+
+				const movieItems = Array.from(
+					document.querySelectorAll("[data-movie-status]"),
+				);
+				const visibleItems = movieItems.filter(
+					(item) => item.offsetParent !== null,
+				);
+				const firstPositions = new Map();
+				if (shouldAnimate) {
+					visibleItems.forEach((item) => {
+						const rect = item.getBoundingClientRect();
+						firstPositions.set(item, {
+							left: rect.left,
+							top: rect.top,
+							width: rect.width,
+							height: rect.height,
+						});
+					});
+				}
+
+				const style = document.createElement("style");
+				style.innerHTML = `.movie-grid-container .group { transition: none !important; }`;
+				document.head.appendChild(style);
+				movieListContainer.classList.remove(
+					"movie-list-mode",
+					"movie-grid-mode",
+				);
+				movieListContainer.classList.remove(
+					"grid-cols-1",
+					"md:grid-cols-2",
+					"lg:grid-cols-3",
+				);
+				if (layout === "grid") {
+					movieListContainer.classList.add("movie-grid-mode");
+					if (hasRightSidebars) {
+						const rightSidebar = document.querySelector(
+							".right-sidebar-container",
+						);
+						if (rightSidebar) {
+							rightSidebar.style.display = "none";
+							rightSidebar.classList.add("hidden-in-grid-mode");
+						}
+					}
+					const mainGrid = document.getElementById("main-grid");
+					if (mainGrid) {
+						mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
+						mainGrid.classList.add("two-column-layout");
+					}
+				} else {
+					movieListContainer.classList.add("movie-list-mode");
+					movieListContainer.classList.add(
+						"grid-cols-1",
+						"lg:grid-cols-2",
+					);
+					if (hasRightSidebars) {
+						const rightSidebar = document.querySelector(
+							".right-sidebar-container",
+						);
+						if (rightSidebar) {
+							rightSidebar.style.display = "";
+							rightSidebar.classList.remove(
+								"hidden-in-grid-mode",
+							);
+						}
+					}
+					const mainGrid = document.getElementById("main-grid");
+					if (mainGrid) {
+						mainGrid.style.gridTemplateColumns = "";
+						mainGrid.classList.remove("two-column-layout");
+					}
+				}
+
+				void movieListContainer.offsetHeight;
+				if (!shouldAnimate) {
+					if (style.parentNode) {
+						style.parentNode.removeChild(style);
+					}
+					return;
+				}
+
+				requestAnimationFrame(() => {
+					if (style.parentNode) {
+						style.parentNode.removeChild(style);
+					}
+
+					visibleItems.forEach((item) => {
+						const first = firstPositions.get(item);
+						if (!first) {
+							return;
+						}
+						const last = item.getBoundingClientRect();
+
+						const deltaX = Math.round(first.left - last.left);
+						const deltaY = Math.round(first.top - last.top);
+						const deltaW = first.width / last.width;
+						const deltaH = first.height / last.height;
+
+						if (
+							Math.abs(deltaX) < 1 &&
+							Math.abs(deltaY) < 1 &&
+							Math.abs(deltaW - 1) < 0.01 &&
+							Math.abs(deltaH - 1) < 0.01
+						) {
+							return;
+						}
+
+						item.style.willChange = "transform";
+						item.style.transition = "none";
+						item.style.transformOrigin = "top left";
+						item.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
+					});
+
+					void movieListContainer.offsetHeight;
+					requestAnimationFrame(() => {
+						visibleItems.forEach((item) => {
+							item.style.transition =
+								"transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)";
+							item.style.transform = "";
+						});
+						setTimeout(() => {
+							visibleItems.forEach((item) => {
+								item.style.transition = "";
+								item.style.transformOrigin = "";
+								item.style.transform = "";
+								item.style.willChange = "";
+							});
+						}, 500);
+					});
+				});
+			}
+
+			function initMovieLayout() {
+				const movieListContainer = document.getElementById(containerId);
+				if (!movieListContainer) {
+					return false;
+				}
+				const currentLayout =
+					localStorage.getItem("postListLayout") || "list";
+				updateMovieListLayout(currentLayout, false);
+				requestAnimationFrame(() => {
+					movieListContainer.classList.remove("opacity-0");
+				});
+				return true;
+			}
+
+			let retryCount = 0;
+			const maxRetries = 10;
+
+			function tryInit() {
+				if (initMovieLayout()) {
+					return;
+				}
+				if (retryCount < maxRetries) {
+					retryCount++;
+					const delay = Math.min(
+						100 * Math.pow(1.5, retryCount),
+						1000,
+					);
+					setTimeout(tryInit, delay);
+				} else {
+					setTimeout(() => {
+						const movieListContainer =
+							document.getElementById(containerId);
+						if (movieListContainer) {
+							const currentLayout =
+								localStorage.getItem("postListLayout") ||
+								"list";
+							updateMovieListLayout(currentLayout, false);
+							movieListContainer.classList.remove("opacity-0");
+						}
+					}, 2000);
+				}
+			}
+
+			if (document.readyState === "loading") {
+				document.addEventListener("DOMContentLoaded", tryInit);
+			} else {
+				tryInit();
+			}
+
+			window.addEventListener("layoutChange", (event) => {
+				updateMovieListLayout(event.detail.layout);
+			});
+		})();
+	</script>
+
+	<script is:inline>
+		if (typeof window.movieFilterEventListeners === "undefined") {
+			window.movieFilterEventListeners = [];
+		}
+
+		function initFilterButtons() {
+			const filterTags = document.querySelectorAll(".movie-filter-tag");
+			const sentinel = document.getElementById(
+				"infinite-scroll-sentinel",
+			);
+			const listContainer = document.getElementById(
+				"movie-list-container",
+			);
+			const lazyStore = document.getElementById("movie-lazy-store");
+			window.movieFilterEventListeners.forEach((listener) => {
+				const [element, type, handler] = listener;
+				element.removeEventListener(type, handler);
+			});
+			window.movieFilterEventListeners = [];
+			filterTags.forEach((tag) => {
+				const clickHandler = function () {
+					if (this.classList.contains("movie-active")) {
+						return;
+					}
+
+					filterTags.forEach((t) =>
+						t.classList.remove("movie-active"),
+					);
+					this.classList.add("movie-active");
+
+					if (
+						lazyStore &&
+						lazyStore.content.children.length > 0 &&
+						listContainer
+					) {
+						const fragment = document.createDocumentFragment();
+						while (lazyStore.content.firstChild) {
+							const node = lazyStore.content.firstChild;
+							fragment.appendChild(node);
+						}
+						listContainer.appendChild(fragment);
+					}
+
+					if (sentinel) {
+						sentinel.style.display = "none";
+					}
+					const initialHidden =
+						listContainer.querySelectorAll(".initial-hidden");
+					initialHidden.forEach((el) => {
+						el.classList.remove("hidden", "initial-hidden");
+					});
+
+					const status = this.getAttribute("data-status");
+					const movieItems = Array.from(
+						listContainer.children,
+					).filter((item) => item.hasAttribute("data-movie-status"));
+					const itemsToHide = [];
+					const itemsToShow = [];
+					const itemsToKeep = [];
+					movieItems.forEach((item) => {
+						const itemStatus =
+							item.getAttribute("data-movie-status");
+						const shouldShow =
+							status === "all" || itemStatus === status;
+						const isCurrentlyVisible =
+							!item.classList.contains("movie-hidden");
+
+						if (shouldShow) {
+							isCurrentlyVisible
+								? itemsToKeep.push(item)
+								: itemsToShow.push(item);
+						} else {
+							if (isCurrentlyVisible) {
+								itemsToHide.push(item);
+							}
+						}
+					});
+					const firstPositions = new Map();
+					itemsToKeep.forEach((item) => {
+						const rect = item.getBoundingClientRect();
+						firstPositions.set(item, {
+							left: rect.left,
+							top: rect.top,
+						});
+					});
+					const runAnimation = () => {
+						itemsToHide.forEach((item) => {
+							item.classList.add("movie-hidden");
+							item.classList.remove("movie-fade-out");
+						});
+						itemsToShow.forEach((item) => {
+							item.classList.remove("movie-hidden");
+							item.classList.add("movie-fade-in");
+							item.style.transition = "none";
+						});
+						itemsToKeep.forEach((item) => {
+							const first = firstPositions.get(item);
+							if (!first) {
+								return;
+							}
+
+							const rect = item.getBoundingClientRect();
+							const deltaX = Math.round(first.left - rect.left);
+							const deltaY = Math.round(first.top - rect.top);
+
+							if (deltaX !== 0 || deltaY !== 0) {
+								item.style.willChange = "transform";
+								item.style.transition = "none";
+								item.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+							}
+						});
+						requestAnimationFrame(() => {
+							itemsToKeep.forEach((item) => {
+								item.style.transition =
+									"transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
+								item.style.transform = "";
+							});
+
+							const STAGGER_LIMIT = 20;
+							itemsToShow.forEach((item, index) => {
+								item.style.transition = "";
+								item.style.willChange = "opacity, transform";
+
+								const delay =
+									index < STAGGER_LIMIT ? index * 30 : 0;
+								item.style.transitionDelay = `${delay}ms`;
+
+								requestAnimationFrame(() => {
+									item.classList.remove("movie-fade-in");
+									item.classList.add("movie-fade-in-active");
+								});
+							});
+
+							setTimeout(
+								() => {
+									[...itemsToKeep, ...itemsToShow].forEach(
+										(item) => {
+											item.classList.remove(
+												"movie-fade-in-active",
+											);
+											item.style.transition = "";
+											item.style.transform = "";
+											item.style.opacity = "";
+											item.style.willChange = "";
+											item.style.transitionDelay = "";
+										},
+									);
+								},
+								600 +
+									(itemsToShow.length > 0
+										? Math.min(itemsToShow.length, 20) * 30
+										: 0),
+							);
+						});
+					};
+					if (itemsToHide.length > 0) {
+						itemsToHide.forEach((item) =>
+							item.classList.add("movie-fade-out"),
+						);
+						setTimeout(runAnimation, 200);
+					} else {
+						runAnimation();
+					}
+				};
+
+				tag.addEventListener("click", clickHandler);
+				window.movieFilterEventListeners.push([
+					tag,
+					"click",
+					clickHandler,
+				]);
+			});
+			if (sentinel && lazyStore && listContainer) {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						if (entries[0].isIntersecting) {
+							const BATCH_SIZE = 24;
+							if (lazyStore.content.children.length === 0) {
+								sentinel.style.display = "none";
+								observer.disconnect();
+								return;
+							}
+
+							const fragment = document.createDocumentFragment();
+							let movedCount = 0;
+							while (
+								lazyStore.content.firstChild &&
+								movedCount < BATCH_SIZE
+							) {
+								const node = lazyStore.content.firstChild;
+								if (node.nodeType === 1) {
+									node.classList.add("movie-fade-in-active");
+								}
+								fragment.appendChild(node);
+								movedCount++;
+							}
+
+							requestAnimationFrame(() => {
+								listContainer.appendChild(fragment);
+								if (lazyStore.content.children.length === 0) {
+									sentinel.style.display = "none";
+									observer.disconnect();
+								}
+							});
+						}
+					},
+					{ rootMargin: "200px" },
+				);
+				observer.observe(sentinel);
+			} else if (sentinel) {
+				sentinel.style.display = "none";
+			}
+		}
+
+		document.addEventListener("DOMContentLoaded", initFilterButtons);
+		function setupSwupListeners() {
+			if (window.swup) {
+				window.swup.hooks.on("content:replace", () =>
+					setTimeout(initFilterButtons, 150),
+				);
+				window.swup.hooks.on("page:view", () =>
+					setTimeout(initFilterButtons, 150),
+				);
+			}
+		}
+
+		if (typeof window !== "undefined") {
+			if (window.swup) {
+				setupSwupListeners();
+			} else {
+				document.addEventListener("swup:enable", setupSwupListeners);
+			}
+		}
+	</script>
+</MainGridLayout>

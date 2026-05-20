@@ -32,7 +32,7 @@ export interface SiteConfig {
 
 	// Feature page toggles
 	featurePages: {
-		anime: boolean; // Anime page toggle
+		movie: boolean; // Movie page toggle
 		diary: boolean; // Diary page toggle
 		friends: boolean; // Friends page toggle
 		projects: boolean; // Projects page toggle
@@ -95,9 +95,9 @@ export interface SiteConfig {
 		useWebp?: boolean; // Use WebP format (default true)
 	};
 
-	// Anime page configuration
-	anime?: {
-		mode?: "bangumi" | "local" | "bilibili"; // Anime page data source mode
+	// Movie page configuration
+	movie?: {
+		mode?: "bangumi" | "local" | "bilibili"; // Movie page data source mode
 	};
 
 	// Diary page Memos API URL; client fetches dynamic data
@@ -183,7 +183,7 @@ export enum LinkPreset {
 	Archive = 1,
 	About = 2,
 	Friends = 3,
-	Anime = 4,
+	Movie = 4,
 	Diary = 5,
 	Albums = 6,
 	Projects = 7,

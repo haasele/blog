@@ -16,7 +16,7 @@ Mizuki-Content/
 │   ├── about.md
 │   └── friends.md
 ├── data/               # Data files
-│   ├── anime.ts
+│   ├── movie.ts
 │   ├── projects.ts
 │   ├── skills.ts
 │   └── timeline.ts
@@ -186,8 +186,8 @@ Add to CI/CD configuration:
 
 ## 📦 Data File Reference
 
-### anime.ts
-Anime tracking data — list of shows you watch.
+### movie.ts
+Movie tracking data — list of shows you watch.
 
 ### projects.ts
 Project showcase data.

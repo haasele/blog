@@ -347,37 +347,37 @@ async function fetchMetingPlaylistText() {
 	}
 }
 
-// Collect text from Bilibili anime data
-async function fetchBilibiliAnimeText() {
+// Collect text from Bilibili movie data
+async function fetchBilibiliMovieText() {
 	try {
-		// Read config for anime page settings
+		// Read config for movie page settings
 		const configPath = path.join(__dirname, "../src/config.ts");
 		const configContent = fs.readFileSync(configPath, "utf-8");
 
-		// Check whether anime page is enabled
+		// Check whether movie page is enabled
 		const featurePagesMatch = configContent.match(
 			/featurePages:\s*\{([\s\S]*?)\}/,
 		);
 		if (featurePagesMatch) {
 			const featureConfig = featurePagesMatch[1];
-			const animeMatch = featureConfig.match(/anime:\s*(true|false)/);
-			if (!animeMatch || animeMatch[1] === "false") {
+			const movieMatch = featureConfig.match(/movie:\s*(true|false)/);
+			if (!movieMatch || movieMatch[1] === "false") {
 				console.log(
-					"ℹ Anime page disabled, skipping Bilibili text collection",
+					"ℹ Movie page disabled, skipping Bilibili text collection",
 				);
 				return new Set();
 			}
 		}
 
-		// Extract anime configuration
-		const animeModeMatch = configContent.match(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
+		// Extract movie configuration
+		const movieModeMatch = configContent.match(
+			/movie:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
-		const mode = animeModeMatch ? animeModeMatch[1] : "bangumi";
+		const mode = movieModeMatch ? movieModeMatch[1] : "bangumi";
 
 		if (mode !== "bilibili") {
 			console.log(
-				`ℹ Anime mode is not "bilibili", skipping Bilibili text collection`,
+				`ℹ Movie mode is not "bilibili", skipping Bilibili text collection`,
 			);
 			return new Set();
 		}
@@ -394,13 +394,13 @@ async function fetchBilibiliAnimeText() {
 			return new Set();
 		}
 
-		console.log("ℹ Reading anime data from Bilibili data file...");
+		console.log("ℹ Reading movie data from Bilibili data file...");
 
 		const textSet = new Set();
 		const fileContent = fs.readFileSync(dataFilePath, "utf-8");
-		const animeList = JSON.parse(fileContent);
+		const movieList = JSON.parse(fileContent);
 
-		if (!Array.isArray(animeList)) {
+		if (!Array.isArray(movieList)) {
 			console.log(
 				"⚠ Bilibili data is not an array, skipping text collection",
 			);
@@ -409,8 +409,8 @@ async function fetchBilibiliAnimeText() {
 
 		let processedCount = 0;
 
-		// Process each anime entry
-		for (const item of animeList) {
+		// Process each movie entry
+		for (const item of movieList) {
 			// Extract title
 			const title = item.title || "";
 			for (const char of title) {
@@ -459,10 +459,10 @@ async function fetchBilibiliAnimeText() {
 
 		if (processedCount > 0) {
 			console.log(
-				`✓ Successfully processed ${processedCount} anime items from Bilibili data`,
+				`✓ Successfully processed ${processedCount} movie items from Bilibili data`,
 			);
 		} else {
-			console.log("⚠ No anime data found in Bilibili data file");
+			console.log("⚠ No movie data found in Bilibili data file");
 		}
 
 		return textSet;
@@ -474,47 +474,47 @@ async function fetchBilibiliAnimeText() {
 	}
 }
 
-// Collect text from Bangumi API anime data
-async function fetchBangumiAnimeText() {
+// Collect text from Bangumi API movie data
+async function fetchBangumiMovieText() {
 	try {
-		// Read config for anime page settings
+		// Read config for movie page settings
 		const configPath = path.join(__dirname, "../src/config.ts");
 		const configContent = fs.readFileSync(configPath, "utf-8");
 
-		// Check whether anime page is enabled
+		// Check whether movie page is enabled
 		const featurePagesMatch = configContent.match(
 			/featurePages:\s*\{([\s\S]*?)\}/,
 		);
 		if (featurePagesMatch) {
 			const featureConfig = featurePagesMatch[1];
-			const animeMatch = featureConfig.match(/anime:\s*(true|false)/);
-			if (!animeMatch || animeMatch[1] === "false") {
+			const movieMatch = featureConfig.match(/movie:\s*(true|false)/);
+			if (!movieMatch || movieMatch[1] === "false") {
 				console.log(
-					"ℹ Anime page disabled, skipping Bangumi API text collection",
+					"ℹ Movie page disabled, skipping Bangumi API text collection",
 				);
 				return new Set();
 			}
 		}
 
-		// Extract anime configuration
+		// Extract movie configuration
 		const bangumiUserIdMatch = configContent.match(
 			/bangumi:\s*\{[\s\S]*?userId:\s*["']([^"']+)["']/,
 		);
-		const animeModeMatch = configContent.match(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
+		const movieModeMatch = configContent.match(
+			/movie:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 
 		const userId = bangumiUserIdMatch ? bangumiUserIdMatch[1] : null;
-		const mode = animeModeMatch ? animeModeMatch[1] : "bangumi";
+		const mode = movieModeMatch ? movieModeMatch[1] : "bangumi";
 
 		if (mode !== "bangumi" || !userId) {
 			console.log(
-				`ℹ Anime mode is not "bangumi" or no userId configured, skipping Bangumi API text collection`,
+				`ℹ Movie mode is not "bangumi" or no userId configured, skipping Bangumi API text collection`,
 			);
 			return new Set();
 		}
 
-		console.log("ℹ Fetching anime data from Bangumi API...");
+		console.log("ℹ Fetching movie data from Bangumi API...");
 		console.log(`  User ID: ${userId}`);
 
 		const textSet = new Set();
@@ -614,7 +614,7 @@ async function fetchBangumiAnimeText() {
 
 		// Iterate all collection types
 		for (const type of collectionTypes) {
-			const collections = await fetchCollection(userId, 2, type); // 2=anime
+			const collections = await fetchCollection(userId, 2, type); // 2=movie
 
 			if (collections.length === 0) {
 				continue;
@@ -625,7 +625,7 @@ async function fetchBangumiAnimeText() {
 			);
 			totalItems += collections.length;
 
-			// Process each anime entry
+			// Process each movie entry
 			for (const item of collections) {
 				const subject = item.subject || {};
 
@@ -683,16 +683,16 @@ async function fetchBangumiAnimeText() {
 
 		if (totalItems > 0) {
 			console.log(
-				`✓ Successfully processed ${totalItems} anime items from Bangumi API`,
+				`✓ Successfully processed ${totalItems} movie items from Bangumi API`,
 			);
 		} else {
-			console.log("⚠ No anime data found from Bangumi API");
+			console.log("⚠ No movie data found from Bangumi API");
 		}
 
 		return textSet;
 	} catch (error) {
 		console.log(
-			`⚠ Error processing Bangumi API config: ${error.message}, skipping anime text collection`,
+			`⚠ Error processing Bangumi API config: ${error.message}, skipping movie text collection`,
 		);
 		return new Set();
 	}
@@ -991,8 +991,8 @@ async function collectText() {
 		);
 	}
 
-	// 7. Collect text from Bangumi API anime data
-	const bangumiTextSet = await fetchBangumiAnimeText();
+	// 7. Collect text from Bangumi API movie data
+	const bangumiTextSet = await fetchBangumiMovieText();
 
 	// Merge Bangumi API characters into main set
 	for (const char of bangumiTextSet) {
@@ -1001,12 +1001,12 @@ async function collectText() {
 
 	if (bangumiTextSet.size > 0) {
 		console.log(
-			`✓ Added ${bangumiTextSet.size} unique characters from Bangumi anime data`,
+			`✓ Added ${bangumiTextSet.size} unique characters from Bangumi movie data`,
 		);
 	}
 
 	// 8. Collect text from Bilibili data file
-	const bilibiliTextSet = await fetchBilibiliAnimeText();
+	const bilibiliTextSet = await fetchBilibiliMovieText();
 
 	// Merge Bilibili data characters into main set
 	for (const char of bilibiliTextSet) {
@@ -1015,7 +1015,7 @@ async function collectText() {
 
 	if (bilibiliTextSet.size > 0) {
 		console.log(
-			`✓ Added ${bilibiliTextSet.size} unique characters from Bilibili anime data`,
+			`✓ Added ${bilibiliTextSet.size} unique characters from Bilibili movie data`,
 		);
 	}
 

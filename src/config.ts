@@ -37,7 +37,7 @@ export const siteConfig: SiteConfig = {
 
 	// Feature page toggles (disable unused pages to improve SEO; remove navbar links when off)
 	featurePages: {
-		anime: true, // Anime page toggle
+		movie: true, // Movie page toggle
 		diary: true, // Diary page toggle
 		friends: true, // Friends page toggle
 		projects: true, // Projects page toggle
@@ -83,8 +83,8 @@ export const siteConfig: SiteConfig = {
 		// Security: if SESSDATA is leaked, open Bilibili mobile app -> Me -> Settings -> Security & Privacy -> Login devices -> Sign out all devices
 	},
 
-	anime: {
-		mode: "local", // Anime page mode: "bangumi" uses Bangumi API, "local" uses local config, "bilibili" uses Bilibili API
+	movie: {
+		mode: "local", // Movie page mode: "bangumi" uses Bangumi API, "local" uses local config, "bilibili" uses Bilibili API
 	},
 
 	// Memos API URL for diary page; leave empty to use static data
@@ -162,33 +162,31 @@ export const siteConfig: SiteConfig = {
 
 		homeText: {
 			enable: true, // Show custom text on homepage
-			title: "My Room", // Homepage banner title
+			title: "Home", // Homepage banner title
 
 			subtitle: [
-				"Nothing special, but having you here is enough",
-				"You are still my light",
-				"Before I knew it, you became my everyday",
-				"Talking to you makes every day a little brighter",
-				"Today is nothing special. But still, a good day",
+				"Nothing special here,don't expect anything",
+				"'Be Yourself' , Miles Morales",
+				"'You made those words up.', Soldier Boy",
 			],
 			typewriter: {
 				enable: true, // Enable typewriter effect for subtitle
 
-				speed: 100, // Typing speed (ms)
-				deleteSpeed: 50, // Delete speed (ms)
-				pauseTime: 2000, // Pause after full text (ms)
+				speed: 50, // Typing speed (ms)
+				deleteSpeed: 25, // Delete speed (ms)
+				pauseTime: 10000, // Pause after full text (ms)
 			},
 		},
 
 		credit: {
 			enable: false, // Show banner image credit text
 
-			text: "Describe", // Credit text to display
+			text: "Images", // Credit text to display
 			url: "", // (Optional) URL to original artwork or artist page
 		},
 
 		navbar: {
-			transparentMode: "semi", // Navbar: "semi" = frosted glass, "full" = lighter glass over banner, "semifull" = stronger glass after scroll
+			transparentMode: "semifull", // Navbar: "semi" = frosted glass, "full" = lighter glass over banner, "semifull" = stronger glass after scroll
 		},
 	},
 	toc: {
@@ -202,12 +200,11 @@ export const siteConfig: SiteConfig = {
 	showCoverInContent: true, // Show post cover on article page
 	generateOgImages: false, // Generate OpenGraph images (slow to render; avoid enabling during local dev)
 	favicon: [
-		// Leave empty to use default favicon
 		// {
-		//   src: '/favicon/icon.png',    // Icon file path
-		//   theme: 'light',              // Optional theme: 'light' | 'dark'
-		//   sizes: '32x32',              // Optional icon size
-		// }
+		// 	src: "/favicon/favicon.ico", // Icon file path
+		// 	theme: "light", // Optional theme: 'light' | 'dark'
+		// 	sizes: "32x32", // Optional icon size
+		// },
 	],
 
 	// Font config
@@ -279,21 +276,21 @@ export const navBarConfig: NavBarConfig = {
 			children: [
 				{
 					name: "GitHub",
-					url: "https://github.com/LyraVoid/Mizuki",
+					url: "https://github.com/haasele",
 					external: true,
 					icon: "fa7-brands:github",
 				},
 				{
-					name: "Bilibili",
-					url: "https://space.bilibili.com/701864046",
+					name: "instagram",
+					url: "https://instagram.com/motiviert.linksradikal",
 					external: true,
-					icon: "fa7-brands:bilibili",
+					icon: "fa7-brands:instagram",
 				},
 				{
-					name: "Gitee",
-					url: "https://gitee.com/matsuzakayuki/Mizuki",
+					name: "LinkedIn",
+					url: "https://linkedin.com/leonhaase",
 					external: true,
-					icon: "mdi:git",
+					icon: "mdi:linkedin",
 				},
 			],
 		},
@@ -303,8 +300,8 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:person",
 			children: [
 				{
-					name: "Anime",
-					url: "/anime/",
+					name: "Movies",
+					url: "/movies/",
 					icon: "material-symbols:movie",
 				},
 				{
@@ -318,7 +315,7 @@ export const navBarConfig: NavBarConfig = {
 					icon: "material-symbols:photo-library",
 				},
 				{
-					name: "Devices",
+					name: "Tech",
 					url: "/devices/",
 					icon: "material-symbols:devices",
 					external: false,
@@ -336,8 +333,8 @@ export const navBarConfig: NavBarConfig = {
 					icon: "material-symbols:person",
 				},
 				{
-					name: "Friends",
-					url: "/friends/",
+					name: "Tech-Stack",
+					url: "/stack/",
 					icon: "material-symbols:group",
 				},
 			],

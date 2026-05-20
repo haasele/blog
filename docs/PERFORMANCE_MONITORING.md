@@ -83,7 +83,7 @@ Main config: `lighthouserc.json`
       "url": [
         "http://localhost:4321/",
         "http://localhost:4321/about/",
-        "http://localhost:4321/anime/"
+        "http://localhost:4321/movie/"
       ]
     },
     "assert": {
@@ -222,7 +222,7 @@ Edit `lighthouserc.json` and add URLs to the `url` array:
 "url": [
   "http://localhost:4321/",
   "http://localhost:4321/about/",
-  "http://localhost:4321/anime/",
+  "http://localhost:4321/movie/",
   "http://localhost:4321/new-page/"  // New page
 ]
 ```

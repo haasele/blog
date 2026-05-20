@@ -40,11 +40,11 @@ async function getUserIdFromConfig() {
 	}
 }
 
-async function getAnimeModeFromConfig() {
+async function getMovieModeFromConfig() {
 	try {
 		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
 		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
+			/movie:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 
 		if (match && match[1]) {
@@ -179,7 +179,7 @@ async function processData(items, status) {
 				item.subject?.name_cn || item.subject?.name || "Unknown Title",
 			status: status,
 			rating: rating,
-			cover: item.subject?.images?.medium || "/assets/anime/default.webp",
+			cover: item.subject?.images?.medium || "/assets/movie/default.webp",
 			description: description,
 			episodes: `${totalEpisodes} episodes`,
 			year: year,
@@ -203,10 +203,10 @@ async function processData(items, status) {
 async function main() {
 	console.log("Initializing Bangumi data update script...");
 
-	const animeMode = await getAnimeModeFromConfig();
-	if (animeMode !== "bangumi") {
+	const movieMode = await getMovieModeFromConfig();
+	if (movieMode !== "bangumi") {
 		console.log(
-			`Detected current anime mode is "${animeMode}", skipping Bangumi data update.`,
+			`Detected current movie mode is "${movieMode}", skipping Bangumi data update.`,
 		);
 		return;
 	}
@@ -222,13 +222,13 @@ async function main() {
 		{ type: 5, status: "dropped" },
 	];
 
-	let finalAnimeList = [];
+	let finalMovieList = [];
 
 	for (const c of collections) {
 		const rawData = await fetchCollection(USER_ID, c.type);
 		if (rawData.length > 0) {
 			const processed = await processData(rawData, c.status);
-			finalAnimeList = [...finalAnimeList, ...processed];
+			finalMovieList = [...finalMovieList, ...processed];
 		}
 	}
 
@@ -239,9 +239,9 @@ async function main() {
 		await fs.mkdir(dir, { recursive: true });
 	}
 
-	await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalAnimeList, null, 2));
+	await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalMovieList, null, 2));
 	console.log(`\nUpdate complete! Data saved to: ${OUTPUT_FILE}`);
-	console.log(`Total collected: ${finalAnimeList.length} anime series`);
+	console.log(`Total collected: ${finalMovieList.length} movie series`);
 }
 
 main().catch((err) => {

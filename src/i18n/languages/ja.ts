@@ -57,30 +57,30 @@ export const ja: Translation = {
 	[Key.author]: "著者",
 	[Key.publishedAt]: "公開日",
 	[Key.license]: "ライセンス",
-	[Key.anime]: "視聴したアニメ",
+	[Key.movie]: "視聴したアニメ",
 	[Key.diary]: "日記",
 
-	// Anime Page
-	[Key.animeTitle]: "視聴したアニメ",
-	[Key.animeSubtitle]: "アニメの旅の記録です",
-	[Key.animeStatusWatching]: "視聴中",
-	[Key.animeStatusCompleted]: "完了",
-	[Key.animeStatusPlanned]: "検討中",
-	[Key.animeStatusOnHold]: "保留中",
-	[Key.animeStatusDropped]: "中断",
-	[Key.animeFilterAll]: "すべて",
-	[Key.animeYear]: "年",
-	[Key.animeStudio]: "スタジオ",
-	[Key.animeEmpty]: "アニメのデータはありません",
-	[Key.animeEmptyBangumi]:
+	// Movie Page
+	[Key.movieTitle]: "視聴したアニメ",
+	[Key.movieSubtitle]: "アニメの旅の記録です",
+	[Key.movieStatusWatching]: "視聴中",
+	[Key.movieStatusCompleted]: "完了",
+	[Key.movieStatusPlanned]: "検討中",
+	[Key.movieStatusOnHold]: "保留中",
+	[Key.movieStatusDropped]: "中断",
+	[Key.movieFilterAll]: "すべて",
+	[Key.movieYear]: "年",
+	[Key.movieStudio]: "スタジオ",
+	[Key.movieEmpty]: "アニメのデータはありません",
+	[Key.movieEmptyBangumi]:
 		"Bangumiの構成またはネットワークの接続を確認してください",
-	[Key.animeEmptyBilibili]:
+	[Key.movieEmptyBilibili]:
 		"Bilibiliの構成またはネットワークの接続を確認してください",
-	[Key.animeEmptyLocal]:
-		"src/data/anime.tsファイルにアニメの情報を追加してください",
-	[Key.animeConfigBilibili]:
+	[Key.movieEmptyLocal]:
+		"src/data/movie.tsファイルにアニメの情報を追加してください",
+	[Key.movieConfigBilibili]:
 		"src/config.tsファイルにBilibiliのvmidを設定してください",
-	[Key.animeConfigBangumi]:
+	[Key.movieConfigBangumi]:
 		"src/config.tsファイルにBangumiのユーザーIDを設定してください",
 
 	// Diary Page

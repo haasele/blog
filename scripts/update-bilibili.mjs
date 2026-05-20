@@ -85,11 +85,11 @@ async function getUseWebpFromConfig() {
 	}
 }
 
-async function getAnimeModeFromConfig() {
+async function getMovieModeFromConfig() {
 	try {
 		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
 		const match = configContent.match(
-			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
+			/movie:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 
 		if (match && match[1]) {
@@ -320,10 +320,10 @@ async function processData(
 async function main() {
 	console.log("Initializing Bilibili data update script...");
 
-	const animeMode = await getAnimeModeFromConfig();
-	if (animeMode !== "bilibili") {
+	const movieMode = await getMovieModeFromConfig();
+	if (movieMode !== "bilibili") {
 		console.log(
-			`Detected current anime mode is "${animeMode}", skipping Bilibili data update.`,
+			`Detected current movie mode is "${movieMode}", skipping Bilibili data update.`,
 		);
 		return;
 	}
@@ -368,7 +368,7 @@ async function main() {
 		SESSDATA,
 	);
 
-	const finalAnimeList = [...planned, ...watching, ...completed];
+	const finalMovieList = [...planned, ...watching, ...completed];
 
 	const dir = path.dirname(OUTPUT_FILE);
 	try {
@@ -377,9 +377,9 @@ async function main() {
 		await fs.mkdir(dir, { recursive: true });
 	}
 
-	await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalAnimeList, null, 2));
+	await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalMovieList, null, 2));
 	console.log(`\nUpdate complete! Data saved to: ${OUTPUT_FILE}`);
-	console.log(`Total collected: ${finalAnimeList.length} anime series`);
+	console.log(`Total collected: ${finalMovieList.length} movie series`);
 	console.log(`  - Planned: ${planned.length}`);
 	console.log(`  - Watching: ${watching.length}`);
 	console.log(`  - Completed: ${completed.length}`);

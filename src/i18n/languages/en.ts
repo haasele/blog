@@ -57,30 +57,30 @@ export const en: Translation = {
 	[Key.author]: "Author",
 	[Key.publishedAt]: "Published at",
 	[Key.license]: "License",
-	[Key.anime]: "Anime",
+	[Key.movie]: "Movie",
 	[Key.diary]: "Diary",
 
-	// Anime Page
-	[Key.animeTitle]: "My Anime List",
-	[Key.animeSubtitle]: "Record my anime journey",
-	[Key.animeStatusWatching]: "Watching",
-	[Key.animeStatusCompleted]: "Completed",
-	[Key.animeStatusPlanned]: "Planned",
-	[Key.animeStatusOnHold]: "On Hold",
-	[Key.animeStatusDropped]: "Dropped",
-	[Key.animeFilterAll]: "All",
-	[Key.animeYear]: "Year",
-	[Key.animeStudio]: "Studio",
-	[Key.animeEmpty]: "No anime data available",
-	[Key.animeEmptyBangumi]:
+	// Movie Page
+	[Key.movieTitle]: "My Movie List",
+	[Key.movieSubtitle]: "Record my movie journey",
+	[Key.movieStatusWatching]: "Watching",
+	[Key.movieStatusCompleted]: "Completed",
+	[Key.movieStatusPlanned]: "Planned",
+	[Key.movieStatusOnHold]: "On Hold",
+	[Key.movieStatusDropped]: "Dropped",
+	[Key.movieFilterAll]: "All",
+	[Key.movieYear]: "Year",
+	[Key.movieStudio]: "Studio",
+	[Key.movieEmpty]: "No movie data available",
+	[Key.movieEmptyBangumi]:
 		"Please check Bangumi configuration or network connection",
-	[Key.animeEmptyBilibili]:
+	[Key.movieEmptyBilibili]:
 		"Please check Bilibili configuration or network connection",
-	[Key.animeEmptyLocal]:
-		"Please add anime information in src/data/anime.ts file",
-	[Key.animeConfigBilibili]:
+	[Key.movieEmptyLocal]:
+		"Please add movie information in src/data/movie.ts file",
+	[Key.movieConfigBilibili]:
 		"Please set your Bilibili vmid in the src/config.ts file",
-	[Key.animeConfigBangumi]:
+	[Key.movieConfigBangumi]:
 		"Please set your Bangumi userId in the src/config.ts file",
 
 	// Diary Page

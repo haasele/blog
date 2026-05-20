@@ -57,27 +57,27 @@ export const zh_CN: Translation = {
 	[Key.author]: "作者",
 	[Key.publishedAt]: "发布于",
 	[Key.license]: "许可协议",
-	[Key.anime]: "追番",
+	[Key.movie]: "追番",
 	[Key.diary]: "日记",
 
-	// Anime Page
-	[Key.animeTitle]: "我的追番记录",
-	[Key.animeSubtitle]: "记录我的二次元之旅",
-	[Key.animeStatusWatching]: "在看",
-	[Key.animeStatusCompleted]: "看过",
-	[Key.animeStatusPlanned]: "想看",
-	[Key.animeStatusOnHold]: "搁置",
-	[Key.animeStatusDropped]: "抛弃",
-	[Key.animeFilterAll]: "全部",
-	[Key.animeYear]: "年份",
-	[Key.animeStudio]: "制作",
-	[Key.animeEmpty]: "暂无追番数据",
-	[Key.animeEmptyBangumi]: "请检查 Bangumi 配置或网络连接",
-	[Key.animeEmptyBilibili]: "请检查 Bilibili 配置或网络连接",
-	[Key.animeEmptyLocal]: "请在 src/data/anime.ts 文件中添加番剧信息",
-	[Key.animeConfigBilibili]:
+	// Movie Page
+	[Key.movieTitle]: "我的追番记录",
+	[Key.movieSubtitle]: "记录我的二次元之旅",
+	[Key.movieStatusWatching]: "在看",
+	[Key.movieStatusCompleted]: "看过",
+	[Key.movieStatusPlanned]: "想看",
+	[Key.movieStatusOnHold]: "搁置",
+	[Key.movieStatusDropped]: "抛弃",
+	[Key.movieFilterAll]: "全部",
+	[Key.movieYear]: "年份",
+	[Key.movieStudio]: "制作",
+	[Key.movieEmpty]: "暂无追番数据",
+	[Key.movieEmptyBangumi]: "请检查 Bangumi 配置或网络连接",
+	[Key.movieEmptyBilibili]: "请检查 Bilibili 配置或网络连接",
+	[Key.movieEmptyLocal]: "请在 src/data/movie.ts 文件中添加番剧信息",
+	[Key.movieConfigBilibili]:
 		"请在 src/config.ts 文件中设置您的 Bilibili vmid",
-	[Key.animeConfigBangumi]:
+	[Key.movieConfigBangumi]:
 		"请在 src/config.ts 文件中设置您的 Bangumi userId",
 
 	// Diary Page

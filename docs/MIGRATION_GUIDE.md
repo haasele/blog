@@ -36,7 +36,7 @@ This repository holds all Mizuki blog content: posts, data, and images.
 
 - `posts/` - Blog posts
 - `spec/` - Special pages (about, friends, etc.)
-- `data/` - Data files (anime, projects, skills, timeline)
+- `data/` - Data files (movie, projects, skills, timeline)
 - `images/` - Image assets
 
 ## Usage
@@ -61,7 +61,7 @@ cp -r "$MIZUKI_PATH/src/content/posts/"* "$CONTENT_PATH/posts/"
 cp -r "$MIZUKI_PATH/src/content/spec/"* "$CONTENT_PATH/spec/"
 
 # Copy data files
-cp "$MIZUKI_PATH/src/data/anime.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "anime.ts not found"
+cp "$MIZUKI_PATH/src/data/movie.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "movie.ts not found"
 cp "$MIZUKI_PATH/src/data/projects.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "projects.ts not found"
 cp "$MIZUKI_PATH/src/data/skills.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "skills.ts not found"
 cp "$MIZUKI_PATH/src/data/timeline.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "timeline.ts not found"
@@ -132,7 +132,7 @@ cp -r public/images ../mizuki-content-backup/
 # Remove migrated content (keep directory structure)
 rm -rf src/content/posts/*
 rm -rf src/content/spec/*
-rm -f src/data/anime.ts src/data/projects.ts src/data/skills.ts src/data/timeline.ts
+rm -f src/data/movie.ts src/data/projects.ts src/data/skills.ts src/data/timeline.ts
 rm -rf public/images/albums/* public/images/diary/*
 
 touch src/content/posts/.gitkeep
@@ -159,7 +159,7 @@ pnpm dev
 # - Posts display correctly
 # - Images load
 # - Special pages work
-# - Data pages work (anime, projects, etc.)
+# - Data pages work (movie, projects, etc.)
 ```
 
 ### Build Test

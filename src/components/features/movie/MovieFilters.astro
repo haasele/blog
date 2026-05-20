@@ -1,0 +1,48 @@
+---
+interface Props {
+	filterAllLabel: string;
+	statusWatchingLabel: string;
+	statusPlannedLabel: string;
+	statusCompletedLabel: string;
+	statusOnHoldLabel?: string;
+	statusDroppedLabel?: string;
+	showExtendedFilters: boolean;
+}
+
+const {
+	filterAllLabel,
+	statusWatchingLabel,
+	statusPlannedLabel,
+	statusCompletedLabel,
+	statusOnHoldLabel,
+	statusDroppedLabel,
+	showExtendedFilters,
+} = Astro.props;
+---
+
+<div class="movie-filter-container flex flex-wrap gap-2">
+	<button class="movie-filter-tag movie-active" data-status="all"
+		>{filterAllLabel}</button
+	>
+	<button class="movie-filter-tag" data-status="watching"
+		>{statusWatchingLabel}</button
+	>
+	<button class="movie-filter-tag" data-status="planned"
+		>{statusPlannedLabel}</button
+	>
+	<button class="movie-filter-tag" data-status="completed"
+		>{statusCompletedLabel}</button
+	>
+	{
+		showExtendedFilters && (
+			<>
+				<button class="movie-filter-tag" data-status="onhold">
+					{statusOnHoldLabel}
+				</button>
+				<button class="movie-filter-tag" data-status="dropped">
+					{statusDroppedLabel}
+				</button>
+			</>
+		)
+	}
+</div>

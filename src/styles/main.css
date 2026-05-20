@@ -2,8 +2,8 @@
 
 /* Import album styles */
 @import "./albums.css";
-/* Import anime tracking page styles */
-@import "./anime.css";
+/* Import movie tracking page styles */
+@import "./movie.css";
 /* Import animation styles */
 @import "./transition.css";
 @import "./animation-enhancements.css";

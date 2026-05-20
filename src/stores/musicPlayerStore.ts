@@ -3,8 +3,10 @@ import { i18n } from "@i18n/translation";
 
 import {
 	DEFAULT_SONG,
+	DEFAULT_SHUFFLE_LOCAL,
 	LOCAL_PLAYLIST,
 	SKIP_ERROR_DELAY,
+	STORAGE_KEY_SHUFFLE,
 	STORAGE_KEY_VOLUME,
 } from "@/components/widgets/music-player/constants";
 import type { RepeatMode, Song } from "@/components/widgets/music-player/types";
@@ -224,6 +226,34 @@ class MusicPlayerStore {
 		}
 	}
 
+	private loadShuffleFromStorage(): boolean {
+		if (typeof localStorage === "undefined") {
+			return DEFAULT_SHUFFLE_LOCAL;
+		}
+		const saved = localStorage.getItem(STORAGE_KEY_SHUFFLE);
+		if (saved === null) {
+			return DEFAULT_SHUFFLE_LOCAL;
+		}
+		return saved === "true";
+	}
+
+	private saveShuffleToStorage(enabled: boolean): void {
+		if (typeof localStorage !== "undefined") {
+			localStorage.setItem(STORAGE_KEY_SHUFFLE, String(enabled));
+		}
+	}
+
+	private pickRandomIndex(length: number, exclude = -1): number {
+		if (length <= 1) {
+			return 0;
+		}
+		let index = Math.floor(Math.random() * length);
+		while (index === exclude) {
+			index = Math.floor(Math.random() * length);
+		}
+		return index;
+	}
+
 	private registerInteractionHandler(): void {
 		const handler = () => {
 			if (this.state.autoplayFailed && this.audio) {
@@ -338,9 +368,15 @@ class MusicPlayerStore {
 		this.state.playlist = [...LOCAL_PLAYLIST];
 		if (this.state.playlist.length === 0) {
 			this.showError("Local playlist is empty");
-		} else {
-			this.loadSong(this.state.playlist[0], false);
+			return;
 		}
+
+		this.state.isShuffled = this.loadShuffleFromStorage();
+		const startIndex = this.state.isShuffled
+			? this.pickRandomIndex(this.state.playlist.length)
+			: 0;
+		this.state.currentIndex = startIndex;
+		this.loadSong(this.state.playlist[startIndex], false);
 	}
 
 	private loadSong(song: Song, autoPlay = true): void {
@@ -413,13 +449,9 @@ class MusicPlayerStore {
 
 		let newIndex: number;
 		if (this.state.isShuffled) {
-			do {
-				newIndex = Math.floor(
-					Math.random() * this.state.playlist.length,
-				);
-			} while (
-				newIndex === this.state.currentIndex &&
-				this.state.playlist.length > 1
+			newIndex = this.pickRandomIndex(
+				this.state.playlist.length,
+				this.state.currentIndex,
 			);
 		} else {
 			newIndex =
@@ -490,6 +522,7 @@ class MusicPlayerStore {
 		if (this.state.isShuffled) {
 			this.state.isRepeating = 0;
 		}
+		this.saveShuffleToStorage(this.state.isShuffled);
 		this.broadcastState();
 	}
 
@@ -498,6 +531,7 @@ class MusicPlayerStore {
 			3) as RepeatMode;
 		if (this.state.isRepeating !== 0) {
 			this.state.isShuffled = false;
+			this.saveShuffleToStorage(false);
 		}
 		this.broadcastState();
 	}
