@@ -1,13 +1,13 @@
 /**
- * toc-calculator - TOC 计算工具
- * 包含 TOC 生成、徽章计算等核心算法
+ * toc-calculator - TOC computation utilities
+ * TOC generation, badges, and related algorithms
  */
 
 import type { HeadingData, TOCItem } from "../types/toc";
 import { JAPANESE_KATAKANA } from "./japanese-katakana";
 
 /**
- * 计算最小标题级别
+ * Compute minimum heading level
  */
 export function getMinLevel(headings: HeadingData[]): number {
 	if (headings.length === 0) {
@@ -17,7 +17,7 @@ export function getMinLevel(headings: HeadingData[]): number {
 }
 
 /**
- * 获取 TOC 徽章文本
+ * Get TOC badge text
  */
 export function getBadgeText(
 	index: number,
@@ -36,7 +36,7 @@ export function getBadgeText(
 }
 
 /**
- * 生成 TOC 条目数组
+ * Build TOC entry array
  */
 export function generateTOCItems(
 	headings: HeadingData[],
@@ -76,7 +76,7 @@ export function generateTOCItems(
 }
 
 /**
- * 获取徽章样式类
+ * Badge style class
  */
 export function getBadgeClass(level: number, minLevel: number): string {
 	if (level === minLevel) {
@@ -89,7 +89,7 @@ export function getBadgeClass(level: number, minLevel: number): string {
 }
 
 /**
- * 获取缩进类
+ * Indent class
  */
 export function getIndentClass(depth: number): string {
 	if (depth === 0) {
@@ -102,7 +102,7 @@ export function getIndentClass(depth: number): string {
 }
 
 /**
- * 获取文本样式类
+ * Text style class
  */
 export function getTextClass(level: number, minLevel: number): string {
 	if (level <= minLevel + 1) {
@@ -112,7 +112,7 @@ export function getTextClass(level: number, minLevel: number): string {
 }
 
 /**
- * 检查值是否在范围内
+ * Whether value is in range
  */
 export function isInRange(value: number, min: number, max: number): boolean {
 	return min < value && value < max;

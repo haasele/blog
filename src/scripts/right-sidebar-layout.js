@@ -1,23 +1,23 @@
-// 右侧边栏布局管理器
-// 用于在网格模式下隐藏右侧边栏
+// Right sidebar layout manager
+// Hides the right sidebar in grid layout mode
 
 /**
- * 初始化页面布局
- * @param {string} pageType - 页面类型（projects, skills等）
+ * Initialize page layout
+ * @param {string} pageType - Page type (projects, skills, etc.)
  */
 function initPageLayout(pageType) {
-	// 获取布局配置
+	// Get layout configuration
 	const defaultPostListLayout =
 		localStorage.getItem("postListLayout") || "list";
 
-	// 如果默认布局是网格模式，则隐藏右侧边栏
+	// Hide right sidebar when default layout is grid mode
 	if (defaultPostListLayout === "grid") {
 		hideRightSidebar();
 	} else {
 		showRightSidebar();
 	}
 
-	// 监听布局切换事件
+	// Listen for layout change events
 	window.addEventListener("layoutChange", (event) => {
 		const layout = event.detail.layout;
 		if (layout === "grid") {
@@ -27,7 +27,7 @@ function initPageLayout(pageType) {
 		}
 	});
 
-	// 监听本地存储变化（用于跨标签页同步）
+	// Listen for localStorage changes (cross-tab sync)
 	window.addEventListener("storage", (event) => {
 		if (event.key === "postListLayout") {
 			if (event.newValue === "grid") {
@@ -38,7 +38,7 @@ function initPageLayout(pageType) {
 		}
 	});
 
-	// 监听页面导航事件
+	// Listen for page navigation events
 	document.addEventListener("astro:page-load", () => {
 		setTimeout(() => {
 			const currentLayout =
@@ -51,7 +51,7 @@ function initPageLayout(pageType) {
 		}, 100);
 	});
 
-	// 监听SWUP导航事件
+	// Listen for Swup navigation events
 	document.addEventListener("swup:contentReplaced", () => {
 		setTimeout(() => {
 			const currentLayout =
@@ -66,18 +66,18 @@ function initPageLayout(pageType) {
 }
 
 /**
- * 隐藏右侧边栏
+ * Hide the right sidebar
  */
 function hideRightSidebar() {
 	const rightSidebar = document.querySelector(".right-sidebar-container");
 	if (rightSidebar) {
-		// 添加隐藏类
+		// Add hide class
 		rightSidebar.classList.add("hidden-in-grid-mode");
 
-		// 设置显示为none以完全隐藏
+		// Set display to none for complete hiding
 		rightSidebar.style.display = "none";
 
-		// 调整主网格布局
+		// Adjust main grid layout
 		const mainGrid = document.getElementById("main-grid");
 		if (mainGrid) {
 			mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
@@ -87,18 +87,18 @@ function hideRightSidebar() {
 }
 
 /**
- * 显示右侧边栏
+ * Show the right sidebar
  */
 function showRightSidebar() {
 	const rightSidebar = document.querySelector(".right-sidebar-container");
 	if (rightSidebar) {
-		// 移除隐藏类
+		// Remove hide class
 		rightSidebar.classList.remove("hidden-in-grid-mode");
 
-		// 恢复显示
+		// Restore display
 		rightSidebar.style.display = "";
 
-		// 恢复主网格布局
+		// Restore main grid layout
 		const mainGrid = document.getElementById("main-grid");
 		if (mainGrid) {
 			mainGrid.style.gridTemplateColumns = "";
@@ -107,7 +107,7 @@ function showRightSidebar() {
 	}
 }
 
-// 页面加载完成后初始化
+// Initialize after page load
 function initialize() {
 	const pageType =
 		document.documentElement.getAttribute("data-page-type") || "projects";
@@ -120,7 +120,7 @@ if (document.readyState === "loading") {
 	initialize();
 }
 
-// 导出函数供其他脚本使用
+// Export functions for use by other scripts
 if (typeof module !== "undefined" && module.exports) {
 	module.exports = {
 		initPageLayout,
@@ -129,7 +129,7 @@ if (typeof module !== "undefined" && module.exports) {
 	};
 }
 
-// 同时也挂载到 window 对象，以便在浏览器环境中直接调用
+// Also attach to window for direct use in the browser
 if (typeof window !== "undefined") {
 	window.rightSidebarLayout = {
 		initPageLayout,

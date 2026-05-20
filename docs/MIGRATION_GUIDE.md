@@ -1,231 +1,209 @@
-# Mizuki 内容迁移指南
+# Mizuki Content Migration Guide
 
-本指南将帮助你将现有的 Mizuki 博客从单仓库模式迁移到代码内容分离模式。
+This guide helps you migrate an existing Mizuki blog from single-repository mode to code/content separation.
 
-> 💡 **提示**: 如果是新项目,建议先阅读 [内容分离完整指南](./CONTENT_SEPARATION.md)
+> 💡 **Tip**: For new projects, read the [Content Separation Guide](./CONTENT_SEPARATION.md) first.
 
-## 📋 迁移前准备
+## 📋 Pre-Migration Checklist
 
-### 检查清单
+- [ ] **Back up the entire project** (important!)
+- [ ] Ensure all changes are committed to Git
+- [ ] Decide which mode to use (Submodule recommended)
+- [ ] Create a new content repository on GitHub/GitLab
 
-- [ ] **备份整个项目** (重要!)
-- [ ] 确保所有更改已提交到 Git
-- [ ] 了解你要使用的模式 (推荐 Submodule)
-- [ ] 在 GitHub/GitLab 创建新的内容仓库
+## 🚀 Migration Steps
 
-## 🚀 迁移步骤
-
-### 步骤 1: 创建内容仓库
+### Step 1: Create Content Repository
 
 ```bash
-# 创建并进入新目录
+# Create and enter new directory
 mkdir Mizuki-Content
 cd Mizuki-Content
 
-# 初始化 Git 仓库
+# Initialize Git
 git init
 
-# 创建目录结构
+# Create directory structure
 mkdir -p posts spec data images/albums images/diary images/posts
 
-# 创建 README
+# Create README
 cat > README.md << 'EOF'
-# Mizuki 博客内容
+# Mizuki Blog Content
 
-这是 Mizuki 博客的内容仓库,包含所有文章、数据和图片。
+This repository holds all Mizuki blog content: posts, data, and images.
 
-## 目录结构
+## Directory Structure
 
-- `posts/` - 博客文章
-- `spec/` - 特殊页面 (关于、友链等)
-- `data/` - 数据文件 (番剧、项目、技能、时间线)
-- `images/` - 图片资源
+- `posts/` - Blog posts
+- `spec/` - Special pages (about, friends, etc.)
+- `data/` - Data files (anime, projects, skills, timeline)
+- `images/` - Image assets
 
-## 使用方法
+## Usage
 
-此仓库作为 Mizuki 代码仓库的内容源,通过 Git Submodule 或独立模式关联。
+This repository is linked to the Mizuki code repository via Git Submodule or standalone mode.
 
-详细说明请查看: https://github.com/matsuzaka-yuki/Mizuki
+See: https://github.com/matsuzaka-yuki/Mizuki
 EOF
 ```
 
-### 步骤 2: 从 Mizuki 项目复制内容
+### Step 2: Copy Content from Mizuki Project
 
 ```bash
-# 设置路径变量
+# Set path variables
 MIZUKI_PATH="/path/to/your/Mizuki"
 CONTENT_PATH="/path/to/Mizuki-Content"
 
-# 复制文章
+# Copy posts
 cp -r "$MIZUKI_PATH/src/content/posts/"* "$CONTENT_PATH/posts/"
 
-# 复制特殊页面
+# Copy special pages
 cp -r "$MIZUKI_PATH/src/content/spec/"* "$CONTENT_PATH/spec/"
 
-# 复制数据文件
+# Copy data files
 cp "$MIZUKI_PATH/src/data/anime.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "anime.ts not found"
 cp "$MIZUKI_PATH/src/data/projects.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "projects.ts not found"
 cp "$MIZUKI_PATH/src/data/skills.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "skills.ts not found"
 cp "$MIZUKI_PATH/src/data/timeline.ts" "$CONTENT_PATH/data/" 2>/dev/null || echo "timeline.ts not found"
 
-# 复制图片
+# Copy images
 cp -r "$MIZUKI_PATH/public/images/albums/"* "$CONTENT_PATH/images/albums/" 2>/dev/null || echo "albums not found"
 cp -r "$MIZUKI_PATH/public/images/diary/"* "$CONTENT_PATH/images/diary/" 2>/dev/null || echo "diary not found"
 
-echo "✅ 内容复制完成!"
+echo "✅ Content copy complete!"
 ```
 
-### 步骤 3: 提交内容仓库
+### Step 3: Commit Content Repository
 
 ```bash
 cd "$CONTENT_PATH"
 
-# 添加所有文件
 git add .
-
-# 提交
 git commit -m "Initial commit: Migrate content from Mizuki monorepo"
 
-# 添加远程仓库 (替换为你的仓库地址)
+# Add remote (replace with your repository URL)
 git remote add origin https://github.com/your-username/Mizuki-Content.git
 
-# 推送
 git branch -M master
 git push -u origin master
 
-echo "✅ 内容仓库已推送!"
+echo "✅ Content repository pushed!"
 ```
 
-### 步骤 4: 配置 Mizuki 代码仓库
+### Step 4: Configure Mizuki Code Repository
 
 ```bash
 cd "$MIZUKI_PATH"
 
-# 创建 .env 文件
 cp .env.example .env
 
-# 编辑 .env 文件,启用内容分离
 cat > .env << 'EOF'
-# 启用内容分离
+# Enable content separation
 ENABLE_CONTENT_SYNC=true
 
-# 内容仓库配置
+# Content repository configuration
 CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
 USE_SUBMODULE=true
 EOF
 
-# 运行同步脚本
 pnpm run sync-content
 
-# 提交更改
 git add .env.example
 git commit -m "Enable content separation"
 git push
 ```
 
-> 📖 更多配置选项请参考 [内容分离完整指南](./CONTENT_SEPARATION.md)
+> 📖 See [Content Separation Guide](./CONTENT_SEPARATION.md) for more configuration options.
 
-### 步骤 5: 清理原仓库中的内容 (可选)
+### Step 5: Clean Up Original Repository (Optional)
 
-⚠️ **警告**: 只有在确认内容已成功迁移后才执行此步骤!
+⚠️ **Warning**: Only after confirming migration succeeded!
 
 ```bash
 cd "$MIZUKI_PATH"
 
-# 备份原内容 (以防万一)
+# Backup original content
 mkdir -p ../mizuki-content-backup
 cp -r src/content/posts ../mizuki-content-backup/
 cp -r src/content/spec ../mizuki-content-backup/
 cp -r src/data ../mizuki-content-backup/
 cp -r public/images ../mizuki-content-backup/
 
-# 删除已迁移的内容 (保留目录结构)
+# Remove migrated content (keep directory structure)
 rm -rf src/content/posts/*
 rm -rf src/content/spec/*
 rm -f src/data/anime.ts src/data/projects.ts src/data/skills.ts src/data/timeline.ts
 rm -rf public/images/albums/* public/images/diary/*
 
-# 创建 .gitkeep 文件保留目录
 touch src/content/posts/.gitkeep
 touch src/content/spec/.gitkeep
 touch public/images/albums/.gitkeep
 touch public/images/diary/.gitkeep
 
-# 提交更改
 git add .
 git commit -m "Remove migrated content (now in separate repository)"
 git push
 ```
 
-## 🧪 测试迁移
+## 🧪 Test Migration
 
-### 本地测试
+### Local Test
 
 ```bash
 cd "$MIZUKI_PATH"
 
-# 同步内容
 pnpm run sync-content
-
-# 启动开发服务器
 pnpm dev
 
-# 访问 http://localhost:4321 检查:
-# - 文章是否正常显示
-# - 图片是否正确加载
-# - 特殊页面是否工作
-# - 数据页面是否正常 (番剧、项目等)
+# Visit http://localhost:4321 and verify:
+# - Posts display correctly
+# - Images load
+# - Special pages work
+# - Data pages work (anime, projects, etc.)
 ```
 
-### 构建测试
+### Build Test
 
 ```bash
-# 构建项目
 pnpm build
-
-# 预览构建结果
 pnpm preview
-
-# 检查所有功能是否正常
+# Verify all features
 ```
 
-## 🔄 日常工作流
+## 🔄 Daily Workflow
 
-### 更新内容
+### Update Content
 
 ```bash
-# 1. 在内容仓库中修改
+# 1. Edit in content repository
 cd "$CONTENT_PATH"
-# 编辑文件...
+# Edit files...
 git add .
 git commit -m "Update content"
 git push
 
-# 2. 在代码仓库中同步
+# 2. Sync in code repository
 cd "$MIZUKI_PATH"
 pnpm run sync-content
 ```
 
-### 使用 Submodule 时
+### Using Submodule
 
 ```bash
 cd "$MIZUKI_PATH"
 
-# 更新 submodule 到最新版本
 git submodule update --remote --merge
-
-# 或者使用同步脚本 (推荐)
+# Or (recommended)
 pnpm run sync-content
 
-# 提交 submodule 更新
 git add content
 git commit -m "Update content submodule"
 git push
 ```
 
-## 🚀 部署配置
+## 🚀 Deployment Configuration
 
-迁移完成后,需要在部署平台配置环境变量:
+After migration, configure environment variables on your deployment platform:
 
 ```bash
 ENABLE_CONTENT_SYNC=true
@@ -233,39 +211,39 @@ CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
 USE_SUBMODULE=true
 ```
 
-详细的部署配置(包括私有仓库、GitHub Actions、Vercel 等)请参考 [内容分离完整指南 - CI/CD 部署](./CONTENT_SEPARATION.md#-cicd-部署)
+For detailed deployment (private repos, GitHub Actions, Vercel, etc.), see [Content Separation Guide - CI/CD](./CONTENT_SEPARATION.md#-cicd-deployment).
 
-## ⚠️ 常见问题
+## ⚠️ FAQ
 
-### Q: 同步脚本失败怎么办?
+### Q: Sync script fails?
 
-A: 检查:
-1. 网络连接是否正常
-2. Git 凭据是否配置正确
-3. `ENABLE_CONTENT_SYNC=true` 是否已设置
-4. `CONTENT_REPO_URL` 是否正确
-5. 是否有足够的磁盘空间
+Check:
+1. Network connectivity
+2. Git credentials
+3. `ENABLE_CONTENT_SYNC=true` is set
+4. `CONTENT_REPO_URL` is correct
+5. Sufficient disk space
 
-运行 `pnpm run check-env` 检查配置。
+Run `pnpm run check-env` to verify configuration.
 
-### Q: 符号链接在 Windows 上不工作?
+### Q: Symlinks don't work on Windows?
 
-A: 需要以管理员身份运行,或者脚本会自动切换到复制模式。
+Run as administrator, or the script falls back to copy mode.
 
-### Q: 如何回滚到单仓库模式?
+### Q: How do I roll back to single-repo mode?
 
-A: 在 `.env` 中设置 `ENABLE_CONTENT_SYNC=false`,然后从备份或内容仓库复制内容回本地。
+Set `ENABLE_CONTENT_SYNC=false` in `.env`, then copy content back from backup or the content repository.
 
-### Q: 遇到私有仓库认证问题?
+### Q: Private repository authentication issues?
 
-A: 参考 [内容分离完整指南 - 私有仓库配置](./CONTENT_SEPARATION.md#-私有仓库配置)
+See [Content Separation Guide - Private Repository](./CONTENT_SEPARATION.md#-private-repository-configuration).
 
-## 📚 参考文档
+## 📚 References
 
-- [内容分离完整指南](./CONTENT_SEPARATION.md) - 详细配置说明
-- [内容仓库结构说明](./CONTENT_REPOSITORY.md) - 推荐的仓库结构
-- [Git Submodule 文档](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97)
+- [Content Separation Guide](./CONTENT_SEPARATION.md)
+- [Content Repository Structure](./CONTENT_REPOSITORY.md)
+- [Git Submodule Documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 
 ---
 
-💡 **提示**: 迁移前建议先在测试环境中验证整个流程!
+💡 **Tip**: Validate the full workflow in a test environment before production migration!

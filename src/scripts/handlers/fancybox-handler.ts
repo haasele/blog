@@ -1,6 +1,6 @@
 /**
- * Fancybox 处理器
- * 管理图片灯箱的初始化和清理
+ * Fancybox handler
+ * Manages image lightbox initialization and cleanup
  */
 
 import {
@@ -8,12 +8,12 @@ import {
 	getDefaultFancyboxConfig,
 } from "../core/swup-config";
 
-// Fancybox 模块类型
+// Fancybox module type
 type FancyboxType = any;
 
 /**
- * Fancybox 处理器类
- * 负责图片灯箱的按需加载和管理
+ * Fancybox handler class
+ * Handles on-demand loading and management of image lightbox
  */
 export class FancyboxHandler {
 	private Fancybox: FancyboxType | null = null;
@@ -21,8 +21,8 @@ export class FancyboxHandler {
 	private initialized = false;
 
 	/**
-	 * 初始化 Fancybox
-	 * 按需加载 Fancybox 模块和样式
+	 * Initialize Fancybox
+	 * Loads Fancybox module and styles on demand
 	 */
 	async init(): Promise<void> {
 		const hasImages = this.checkForImages();
@@ -31,12 +31,12 @@ export class FancyboxHandler {
 			return;
 		}
 
-		// 按需加载 Fancybox 模块
+		// Load Fancybox module on demand
 		if (!this.Fancybox) {
 			await this.loadFancybox();
 		}
 
-		// 避免重复初始化
+		// Avoid duplicate initialization
 		if (this.boundSelectors.length > 0) {
 			return;
 		}
@@ -46,7 +46,7 @@ export class FancyboxHandler {
 	}
 
 	/**
-	 * 检查页面是否有需要 Fancybox 的图片
+	 * Check if page has images that need Fancybox
 	 */
 	private checkForImages(): boolean {
 		return (
@@ -57,7 +57,7 @@ export class FancyboxHandler {
 	}
 
 	/**
-	 * 加载 Fancybox 模块和样式
+	 * Load Fancybox module and styles
 	 */
 	private async loadFancybox(): Promise<void> {
 		const mod = await import("@fancyapps/ui");
@@ -66,7 +66,7 @@ export class FancyboxHandler {
 	}
 
 	/**
-	 * 绑定图片选择器
+	 * Bind image selectors
 	 */
 	private bindImageSelectors(): void {
 		if (!this.Fancybox) {
@@ -75,7 +75,7 @@ export class FancyboxHandler {
 
 		const commonConfig = getDefaultFancyboxConfig();
 
-		// 绑定相册/文章图片
+		// Bind album/post images
 		this.Fancybox.bind(FANCYBOX_SELECTORS.albumImages, {
 			...commonConfig,
 			groupAll: true,
@@ -86,7 +86,7 @@ export class FancyboxHandler {
 		});
 		this.boundSelectors.push(FANCYBOX_SELECTORS.albumImages);
 
-		// 绑定相册链接
+		// Bind album links
 		this.Fancybox.bind(FANCYBOX_SELECTORS.albumLinks, {
 			...commonConfig,
 			source: (el: any) => {
@@ -95,14 +95,14 @@ export class FancyboxHandler {
 		});
 		this.boundSelectors.push(FANCYBOX_SELECTORS.albumLinks);
 
-		// 绑定单独的 fancybox 图片
+		// Bind standalone fancybox images
 		this.Fancybox.bind(FANCYBOX_SELECTORS.singleFancybox, commonConfig);
 		this.boundSelectors.push(FANCYBOX_SELECTORS.singleFancybox);
 	}
 
 	/**
-	 * 清理 Fancybox 绑定
-	 * 在页面切换前调用
+	 * Clean up Fancybox bindings
+	 * Call before page transition
 	 */
 	cleanup(): void {
 		if (!this.Fancybox) {
@@ -116,7 +116,7 @@ export class FancyboxHandler {
 	}
 
 	/**
-	 * 完全销毁 Fancybox
+	 * Fully destroy Fancybox
 	 */
 	destroy(): void {
 		this.cleanup();
@@ -125,25 +125,25 @@ export class FancyboxHandler {
 	}
 
 	/**
-	 * 获取初始化状态
+	 * Get initialization status
 	 */
 	isInitialized(): boolean {
 		return this.initialized;
 	}
 
 	/**
-	 * 获取已绑定的选择器列表
+	 * Get list of bound selectors
 	 */
 	getBoundSelectors(): string[] {
 		return [...this.boundSelectors];
 	}
 }
 
-// 创建全局实例
+// Create global instance
 let globalFancyboxHandler: FancyboxHandler | null = null;
 
 /**
- * 获取全局 Fancybox 处理器实例
+ * Get global Fancybox handler instance
  */
 export function getFancyboxHandler(): FancyboxHandler {
 	if (!globalFancyboxHandler) {
@@ -153,7 +153,7 @@ export function getFancyboxHandler(): FancyboxHandler {
 }
 
 /**
- * 初始化 Fancybox（便捷函数）
+ * Initialize Fancybox (convenience function)
  */
 export async function initFancybox(): Promise<void> {
 	const handler = getFancyboxHandler();
@@ -161,7 +161,7 @@ export async function initFancybox(): Promise<void> {
 }
 
 /**
- * 清理 Fancybox（便捷函数）
+ * Clean up Fancybox (convenience function)
  */
 export function cleanupFancybox(): void {
 	if (globalFancyboxHandler) {

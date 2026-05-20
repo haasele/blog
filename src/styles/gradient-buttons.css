@@ -1,6 +1,6 @@
-/* 渐变色按钮样式 */
+/* Gradient button styles */
 
-/* 基础渐变按钮样式 */
+/* Base gradient button styles */
 .btn-gradient {
   display: inline-flex;
   align-items: center;
@@ -17,14 +17,14 @@
   white-space: nowrap;
 }
 
-/* 主题色渐变按钮 */
+/* Theme color gradient button */
 .btn-gradient-primary {
   background: linear-gradient(135deg, oklch(from var(--primary) l c h) 0%, oklch(from var(--primary) calc(l + 0.1) c calc(h + 30)) 100%);
   color: white;
   box-shadow: 0 2px 4px oklch(from var(--primary) l c h / 0.3);
 }
 
-/* 夜间模式下主题色渐变按钮更暗 */
+/* Darker theme color gradient button in dark mode */
 .dark .btn-gradient-primary {
   background: linear-gradient(135deg, oklch(from var(--primary) calc(l - 0.1) c h) 0%, oklch(from var(--primary) l c calc(h + 30)) 100%);
   box-shadow: 0 2px 4px oklch(from var(--primary) calc(l - 0.1) c h / 0.4);
@@ -36,7 +36,7 @@
   transform: translateY(-2px);
 }
 
-/* 夜间模式下悬停效果 */
+/* Hover effect in dark mode */
 .dark .btn-gradient-primary:hover {
   background: linear-gradient(135deg, oklch(from var(--primary) l c h) 0%, oklch(from var(--primary) calc(l + 0.1) c calc(h + 30)) 100%);
   box-shadow: 0 4px 8px oklch(from var(--primary) l c h / 0.5);
@@ -47,12 +47,12 @@
   box-shadow: 0 2px 4px oklch(from var(--primary) l c h / 0.3);
 }
 
-/* 夜间模式下激活效果 */
+/* Active effect in dark mode */
 .dark .btn-gradient-primary:active {
   box-shadow: 0 2px 4px oklch(from var(--primary) calc(l - 0.1) c h / 0.4);
 }
 
-/* GitHub按钮样式 */
+/* GitHub button styles */
 .btn-github {
   background: linear-gradient(135deg, #24292e, #040d21);
   color: white;
@@ -70,32 +70,32 @@
   box-shadow: 0 2px 4px rgba(36, 41, 46, 0.3);
 }
 
-/* 小尺寸按钮 */
+/* Small button */
 .btn-gradient-sm {
   padding: 0.25rem 0.75rem;
   font-size: 0.75rem;
 }
 
-/* 中等尺寸按钮 */
+/* Medium button */
 .btn-gradient-md {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
 }
 
-/* 大尺寸按钮 */
+/* Large button */
 .btn-gradient-lg {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
 }
 
-/* 按钮图标样式 */
+/* Button icon styles */
 .btn-gradient iconify-icon {
   width: 1rem;
   height: 1rem;
   flex-shrink: 0;
 }
 
-/* 响应式设计 */
+/* Responsive design */
 @media (max-width: 768px) {
   .btn-gradient {
     padding: 0.4rem 0.8rem;
@@ -112,7 +112,7 @@
     font-size: 0.75rem;
   }
 
-  /* 在小屏幕上堆叠按钮 */
+  /* Stack buttons on small screens */
   .btn-stack-mobile {
     flex-direction: column;
     align-items: stretch;
@@ -125,7 +125,7 @@
   }
 }
 
-/* 为移动端堆叠按钮添加类 */
+/* Class for stacked buttons on mobile */
 @media (max-width: 768px) {
   .md\:btn-stack-mobile {
     flex-direction: column;

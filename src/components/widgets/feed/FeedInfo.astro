@@ -183,7 +183,7 @@ const t = (key: string) => i18n(key as I18nKey);
 							this.style.backgroundColor = "";
 						}, 2000);
 					} catch (err) {
-						console.error("复制失败:", err);
+						console.error("Copy failed:", err);
 						const originalText = this.textContent || "Copy Link";
 						this.textContent =
 							"Copy failed, please copy the link manually";

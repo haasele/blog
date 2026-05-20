@@ -56,7 +56,7 @@ async function getAnimeModeFromConfig() {
 	}
 }
 
-// 模拟延迟防止 API 限制
+// Delay to avoid API rate limits
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function fetchSubjectDetail(subjectId) {

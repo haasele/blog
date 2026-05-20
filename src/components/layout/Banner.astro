@@ -1,8 +1,8 @@
 ---
 /**
- * Banner 组件
- * 支持单图模式和轮播图模式，包含文字覆盖层和水波纹效果
- * 轮播模式使用 Ken Burns + Crossfade 动画（参考 Firefly 实现）
+ * Banner component
+ * Supports single-image and carousel modes, with text overlay and wave effects
+ * Carousel mode uses Ken Burns + Crossfade animation (see Firefly implementation)
  */
 
 import TypewriterText from "@components/atoms/typewriter-text/TypewriterText.astro";
@@ -12,22 +12,22 @@ import { siteConfig } from "../../config";
 import { BANNER_HEIGHT_EXTEND } from "../../constants/constants";
 
 interface Props {
-	// Banner 配置
+	// Banner config
 	bannerImages: {
 		desktop: string | string[];
 		mobile: string | string[];
 	};
 
-	// 响应式
+	// Responsive
 	mobileNonHomeBannerClass?: string;
 
-	// 文字覆盖层
+	// Text overlay
 	showTextOverlay?: boolean;
 	overlayTitle?: string;
 	overlaySubtitle?: string | string[];
 	typewriter?: boolean;
 
-	// 水波纹效果
+	// Wave effect
 	showWave?: boolean;
 }
 
@@ -41,7 +41,7 @@ const {
 	showWave = siteConfig.banner.waves?.enable ?? true,
 } = Astro.props;
 
-// 标准化图片数组
+// Normalize image arrays
 const normalizeToArray = (images: string | string[]): string[] =>
 	Array.isArray(images) ? images : [images];
 
@@ -52,16 +52,16 @@ const isCarouselEnabled =
 	siteConfig.banner.carousel?.enable &&
 	(desktopImages.length > 1 || mobileImages.length > 1);
 
-// 轮播间隔最小 1.5 秒，防止 setInterval 卡顿
+// Carousel interval minimum 1.5s to avoid setInterval stutter
 const carouselIntervalMs = Math.max(
 	(siteConfig.banner.carousel?.interval || 6) * 1000,
 	1500,
 );
 
-// 淡入淡出时间：间隔的 40%，范围 500ms ~ 1500ms
+// Fade duration: 40% of interval, clamped to 500ms–1500ms
 const fadeMs = Math.min(Math.max(Math.round(carouselIntervalMs * 0.4), 500), 1500);
 
-// Ken Burns 动画时长 = 间隔 + 淡入，确保旧图在 crossfade 期间仍在运动，消除停顿感
+// Ken Burns duration = interval + fade so the old image keeps moving during crossfade
 const kbDurationMs = carouselIntervalMs + fadeMs;
 
 const hasBannerCredit = siteConfig.banner.credit.enable;
@@ -74,7 +74,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 	style={`top: -${BANNER_HEIGHT_EXTEND}vh`}
 >
 	{isCarouselEnabled ? (
-		/* 轮播图模式：Ken Burns + Crossfade */
+		/* Carousel mode: Ken Burns + Crossfade */
 		<div
 			id="banner-carousel"
 			class="relative h-full w-full"
@@ -83,7 +83,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 			data-carousel-interval={carouselIntervalMs}
 			data-fade-ms={fadeMs}
 		>
-			{/* 移动端：第一张图直接渲染，其余放入 template 延迟加载 */}
+			{/* Mobile: render first image directly; defer the rest in templates */}
 			{mobileImages.length > 0 && (
 				<div class="banner-image-slot-mobile absolute inset-0 block md:hidden">
 					<Image
@@ -113,7 +113,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 				</template>
 			))}
 
-			{/* 桌面端：第一张图直接渲染，其余放入 template 延迟加载 */}
+			{/* Desktop: render first image directly; defer the rest in templates */}
 			{desktopImages.length > 0 && (
 				<div class="banner-image-slot-desktop absolute inset-0 hidden md:block">
 					<Image
@@ -145,7 +145,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 			))}
 		</div>
 	) : (
-		/* 单图模式 */
+		/* Single-image mode */
 		<div id="banner-single-container" class="relative h-full w-full">
 			<script
 				is:inline
@@ -176,7 +176,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 
 					const container = document.getElementById("banner-single-container");
 
-					// 检查容器是否已有图片，避免在页面切换或缩放时重复创建
+					// Skip if container already has an image (page transition or resize)
 					if (container.querySelector("img")) {
 						return;
 					}
@@ -213,7 +213,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 		</div>
 	)}
 
-	<!-- Ken Burns 动画样式（放在 body 中，不受 Swup head 替换影响） -->
+	<!-- Ken Burns styles (in body, unaffected by Swup head replacement) -->
 	{isCarouselEnabled && (
 		<Fragment set:html={`<style>
 			@keyframes bannerKenBurns {
@@ -226,7 +226,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 		</style>`} />
 	)}
 
-	<!-- 轮播脚本：随机起始 + 帧收集 + Ken Burns + Crossfade + 触摸/鼠标事件 -->
+	<!-- Carousel script: random start, frame collection, Ken Burns, crossfade, touch/mouse -->
 	{isCarouselEnabled && (
 		<script is:inline data-swup-ignore-script>
 			(function initBannerCarousel() {
@@ -240,13 +240,13 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 
 				if (mobileCount <= 1 && desktopCount <= 1) return;
 
-				// 清理上一次 Swup 导航遗留的监听器和定时器
+				// Clean up listeners and timers from the previous Swup navigation
 				if (window.__bannerCarouselCleanup) {
 					window.__bannerCarouselCleanup();
 					window.__bannerCarouselCleanup = null;
 				}
 
-				// 保存初始帧 HTML，供帧收集使用
+				// Save initial frame HTML for frame collection
 				if (typeof window.__bannerInitialFrameHtml === 'undefined') {
 					window.__bannerInitialFrameHtml = {};
 				}
@@ -262,7 +262,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 				rememberInitialFrame('banner-image-slot-mobile');
 				rememberInitialFrame('banner-image-slot-desktop');
 
-				// 随机起始索引（Swup 导航间保留，F5 刷新重置）
+				// Random start index (persists across Swup navigations; resets on F5)
 				if (typeof window.__bannerRandomIndex === 'undefined') {
 					window.__bannerRandomIndex = {
 						mobile: mobileCount > 1 ? Math.floor(Math.random() * mobileCount) : 0,
@@ -270,7 +270,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					};
 				}
 
-				// 从 template 替换默认图片
+				// Replace default image from template
 				function applyRandom(slotClass, tplClass, randomIndex) {
 					if (randomIndex === 0) return;
 					var slot = container.querySelector('.' + slotClass);
@@ -285,7 +285,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 				applyRandom('banner-image-slot-mobile', 'banner-tpl-mobile', window.__bannerRandomIndex.mobile);
 				applyRandom('banner-image-slot-desktop', 'banner-tpl-desktop', window.__bannerRandomIndex.desktop);
 
-				// 收集所有帧 HTML 字符串（仅首次）
+				// Collect all frame HTML strings (first time only)
 				if (!window.__bannerCarouselFrames) window.__bannerCarouselFrames = {};
 
 				function collectFrames(slotClass, tplClass) {
@@ -315,7 +315,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					};
 				}
 
-				// 断点检测（md = 768px）
+				// Breakpoint check (md = 768px)
 				function isSlotHiddenByBreakpoint(slot) {
 					var cl = slot.classList;
 					var isMd = window.matchMedia('(min-width: 768px)').matches;
@@ -324,7 +324,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					return false;
 				}
 
-				// 给首张图启动 Ken Burns
+				// Start Ken Burns on the first image
 				function applyInitialKB(slotClass) {
 					var slot = container.querySelector('.' + slotClass);
 					if (!slot || isSlotHiddenByBreakpoint(slot)) return;
@@ -333,7 +333,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					slot.classList.add('banner-kb');
 				}
 
-				// 暂停 Ken Burns 动画（保持当前进度）
+				// Pause Ken Burns (keep current progress)
 				function pauseKenBurns() {
 					var slots = container.querySelectorAll('.banner-kb');
 					for (var i = 0; i < slots.length; i++) {
@@ -341,7 +341,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					}
 				}
 
-				// 恢复 Ken Burns 动画（从暂停位置继续）
+				// Resume Ken Burns from paused position
 				function resumeKenBurns() {
 					var slots = container.querySelectorAll('.banner-kb');
 					for (var i = 0; i < slots.length; i++) {
@@ -349,10 +349,10 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					}
 				}
 
-				// Crossfade 防重入锁（每种 slot 类型独立）
+				// Crossfade re-entry lock (per slot type)
 				var isCrossfading = { mobile: false, desktop: false };
 
-				// 清理 orphaned 中间层（快速滑动时可能残留）
+				// Remove orphaned intermediate layers (left over from fast swipes)
 				function cleanupOrphanedLayers(slotClass, currentSlot) {
 					var allSlots = container.querySelectorAll('.' + slotClass);
 					for (var i = 0; i < allSlots.length; i++) {
@@ -362,7 +362,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					}
 				}
 
-				// Crossfade：创建新层叠在旧层上方，淡入后移除旧层
+				// Crossfade: stack new layer above old, fade in, then remove old layer
 				function crossfadeToIndex(slotClass, totalCount, type, targetIndex) {
 					if (totalCount <= 1) return;
 					if (isCrossfading[type]) return;
@@ -377,7 +377,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					isCrossfading[type] = true;
 					window.__bannerCarouselIndex[type] = targetIndex;
 
-					// 清理快速交互可能残留的中间层
+					// Clean intermediate layers left from rapid interaction
 					cleanupOrphanedLayers(slotClass, oldSlot);
 
 					var newSlot = document.createElement('div');
@@ -388,7 +388,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					newSlot.innerHTML = frames[targetIndex];
 					oldSlot.parentNode.insertBefore(newSlot, oldSlot.nextSibling);
 
-					// 双 rAF：确保 opacity:0 已绘制，然后同时触发淡入 + Ken Burns
+					// Double rAF: ensure opacity:0 is painted, then fade in + Ken Burns
 					requestAnimationFrame(function() {
 						requestAnimationFrame(function() {
 							newSlot.style.opacity = '1';
@@ -396,7 +396,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 						});
 					});
 
-					// 淡入完成后：移除旧层，清理 transition，释放锁
+					// After fade-in: remove old layer, clear transition, release lock
 					setTimeout(function() {
 						if (oldSlot.parentNode) oldSlot.parentNode.removeChild(oldSlot);
 						newSlot.style.transition = '';
@@ -404,7 +404,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					}, FADE_MS + 50);
 				}
 
-				// 自动轮播用的 crossfade（前进到下一张）
+				// Crossfade for auto-advance (next slide)
 				function crossfade(slotClass, totalCount, type) {
 					var frames = window.__bannerCarouselFrames[slotClass];
 					if (!frames || frames.length === 0) return;
@@ -419,7 +419,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 				var remainingTime = 0;
 				var resumeTimerId = null;
 
-				// 触摸手势状态
+				// Touch gesture state
 				var touchStartX = 0;
 				var touchStartY = 0;
 				var isSwiping = false;
@@ -456,7 +456,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					}
 				}
 
-				// 页面可见性：后台标签页暂停轮播
+				// Page visibility: pause carousel in background tabs
 				var visibilityHandler = function() {
 					if (document.hidden) {
 						stopCarousel();
@@ -477,7 +477,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 				};
 				document.addEventListener('visibilitychange', visibilityHandler);
 
-				// 事件处理函数引用（用于清理）
+				// Event handler refs (for cleanup)
 				var onTouchStart = function(e) {
 					touchStartX = e.touches[0].clientX;
 					touchStartY = e.touches[0].clientY;
@@ -561,20 +561,20 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 					}
 				};
 
-				// 移动端触摸事件
+				// Mobile touch events
 				if ('ontouchstart' in window) {
 					container.addEventListener('touchstart', onTouchStart, { passive: true });
 					container.addEventListener('touchmove', onTouchMove, { passive: false });
 					container.addEventListener('touchend', onTouchEnd, { passive: true });
 				}
 
-				// 鼠标悬停暂停（桌面端）
+				// Pause on hover (desktop)
 				container.addEventListener('mouseenter', onMouseEnter);
 				container.addEventListener('mouseleave', onMouseLeave);
 
 				startCarousel();
 
-				// 注册清理函数，供下次 Swup 导航或销毁时调用
+				// Register cleanup for next Swup navigation or teardown
 				window.__bannerCarouselCleanup = function() {
 					stopCarousel();
 					remainingTime = 0;
@@ -593,7 +593,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 		</script>
 	)}
 
-	<!-- 首页文字覆盖层 -->
+	<!-- Home page text overlay -->
 	{siteConfig.banner.homeText?.enable && (
 		<div class={`banner-text-overlay absolute inset-0 z-20 flex items-center justify-center ${!showTextOverlay ? "hidden" : ""}`}>
 			<div class="w-4/5 lg:w-3/4 text-center mb-0">
@@ -626,7 +626,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 		</div>
 	)}
 
-	<!-- 水波纹效果 -->
+	<!-- Wave effect -->
 	{showWave && (
 		<div
 			class="waves absolute -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full md:h-[15vh]"
@@ -683,7 +683,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 		</div>
 	)}
 
-	<!-- Banner 图片来源标注 -->
+	<!-- Banner image credit -->
 	{hasBannerCredit && (
 		<a
 			href={siteConfig.banner.credit.url}
@@ -714,7 +714,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 </div>
 
 <style>
-	/* Banner 文本样式 */
+	/* Banner text styles */
 	.banner-title {
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 		animation: fadeInUp 1s ease-out;

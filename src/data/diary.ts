@@ -1,5 +1,5 @@
-// 日记数据配置
-// 用于管理日记页面的数据
+// Diary data configuration
+// Data for the diary page
 
 export interface DiaryItem {
 	id: number;
@@ -11,7 +11,7 @@ export interface DiaryItem {
 	tags?: string[];
 }
 
-// 示例日记数据
+// Sample diary entries
 const diaryData: DiaryItem[] = [
 	{
 		id: 1,
@@ -22,7 +22,7 @@ const diaryData: DiaryItem[] = [
 	},
 ];
 
-// 获取日记列表（按时间倒序）
+// Get diary list (newest first)
 export const getDiaryList = (limit?: number) => {
 	const sortedData = [...diaryData].sort(
 		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
@@ -35,7 +35,7 @@ export const getDiaryList = (limit?: number) => {
 	return sortedData;
 };
 
-// 获取所有标签
+// Get all tags
 export const getAllTags = () => {
 	const tags = new Set<string>();
 	diaryData.forEach((item) => {

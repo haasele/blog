@@ -1,202 +1,202 @@
-# Mizuki 内容分离完整指南
+# Mizuki Content Separation Guide
 
-本指南详细说明如何在 Mizuki 中使用内容分离功能,包括基础配置、私有仓库、CI/CD 部署等所有场景。
+This guide explains how to use content separation in Mizuki: basic setup, private repositories, CI/CD deployment, and more.
 
-## 📖 目录
+## 📖 Table of Contents
 
-- [快速开始](#-快速开始)
-- [ENABLE_CONTENT_SYNC 控制开关](#-enable_content_sync-控制开关)
-- [配置方式](#-配置方式)
-- [私有仓库](#-私有仓库配置)
-- [CI/CD 部署](#-cicd-部署)
-- [常用命令](#-常用命令)
-- [故障排查](#-故障排查)
+- [Quick Start](#-quick-start)
+- [ENABLE_CONTENT_SYNC Toggle](#-enable_content_sync-toggle)
+- [Configuration](#-configuration)
+- [Private Repository](#-private-repository-configuration)
+- [CI/CD Deployment](#-cicd-deployment)
+- [Common Commands](#-common-commands)
+- [Troubleshooting](#-troubleshooting)
 
 ---
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 新手推荐: 本地模式 (最简单)
+### Recommended for Beginners: Local Mode (Simplest)
 
-**不需要任何配置**,直接开始使用:
+**No configuration required** — start immediately:
 
 ```bash
-# 克隆项目
+# Clone the project
 git clone https://github.com/LyraVoid/Mizuki.git
 cd Mizuki
 
-# 安装依赖
+# Install dependencies
 pnpm install
 
-# 直接开发
+# Start development
 pnpm dev
 ```
 
-内容存放在 `src/content/` 和 `public/images/` 目录,与代码一起管理。
+Content lives in `src/content/` and `public/images/` alongside code.
 
-### 进阶: 启用内容分离
+### Advanced: Enable Content Separation
 
-如果需要将内容独立管理(多人协作、私有内容、独立版本控制),按以下步骤配置:
+To manage content independently (team collaboration, private content, separate version control):
 
 ```bash
-# 1. 创建 .env 文件
+# 1. Create .env file
 cp .env.example .env
 
-# 2. 编辑 .env,启用内容分离
+# 2. Edit .env to enable content separation
 ENABLE_CONTENT_SYNC=true
 CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
 
-# 3. 同步内容
+# 3. Sync content
 pnpm run sync-content
 
-# 4. 启动开发
+# 4. Start development
 pnpm dev
 ```
 
 ---
 
-## 🎛️ ENABLE_CONTENT_SYNC 控制开关
+## 🎛️ ENABLE_CONTENT_SYNC Toggle
 
-### 功能说明
+### Overview
 
-`ENABLE_CONTENT_SYNC` 是一个一键开关,控制是否启用内容分离功能。
+`ENABLE_CONTENT_SYNC` is a single switch that controls content separation.
 
-| 值 | 说明 | 适用场景 |
+| Value | Description | Use Case |
 |---|---|---|
-| `false` 或未设置 | **禁用内容分离** (默认) | 新手、个人博客、内容较少 |
-| `true` | **启用内容分离** | 团队协作、私有内容、大量文章 |
+| `false` or unset | **Disable separation** (default) | Beginners, personal blogs, small sites |
+| `true` | **Enable separation** | Teams, private content, many posts |
 
-### 配置位置
+### Configuration Location
 
-在项目根目录的 `.env` 文件中:
+In `.env` at the project root:
 
 ```bash
-# 禁用内容分离 (使用本地内容)
+# Disable separation (use local content)
 ENABLE_CONTENT_SYNC=false
 
-# 或启用内容分离 (从远程仓库同步)
+# Or enable separation (sync from remote)
 ENABLE_CONTENT_SYNC=true
 ```
 
-### 使用场景对比
+### Mode Comparison
 
-#### 场景 1: 本地模式 (推荐新手)
+#### Scenario 1: Local Mode (Recommended for Beginners)
 
-**特点**:
-- ✅ 无需额外配置
-- ✅ 内容和代码一起管理
-- ✅ 适合个人博客、小型项目
+**Characteristics**:
+- ✅ No extra configuration
+- ✅ Content and code in one repo
+- ✅ Good for personal blogs and small projects
 
-**配置**:
+**Configuration**:
 ```bash
-# .env (或不创建 .env 文件)
+# .env (or omit .env entirely)
 ENABLE_CONTENT_SYNC=false
 ```
 
-**工作流程**:
+**Workflow**:
 ```bash
-# 直接编辑 src/content/ 下的文章
+# Edit posts under src/content/
 pnpm dev
 
-# 提交时一起提交代码和内容
+# Commit code and content together
 git add .
 git commit -m "Update content"
 git push
 ```
 
-#### 场景 2: 独立仓库（分离）模式
+#### Scenario 2: Separate Repository Mode
 
-**特点**:
-- ✅ 内容独立仓库管理
-- ✅ 支持私有内容仓库
-- ✅ 多人协作方便
-- ✅ 独立的内容版本控制
+**Characteristics**:
+- ✅ Content in its own repository
+- ✅ Private content repository support
+- ✅ Easier team collaboration
+- ✅ Independent content versioning
 
-**配置**:
+**Configuration**:
 ```bash
 # .env
 ENABLE_CONTENT_SYNC=true
 CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
 ```
 
-**工作流程**:
+**Workflow**:
 ```bash
-# 自动同步内容后启动
+# Auto-sync before dev
 pnpm dev
 
-# 内容在独立仓库编辑
+# Edit content in the separate repository
 cd /path/to/Mizuki-Content
-# 编辑文章
+# Edit posts...
 git add .
 git commit -m "Update article"
 git push
 ```
 
-### 模式切换
+### Switching Modes
 
-#### 从本地切换到独立仓库
+#### Local → Separate Repository
 
-1. 创建内容仓库 (参考 [CONTENT_MIGRATION.md](./CONTENT_MIGRATION.md))
-2. 编辑 `.env`:
+1. Create a content repository (see [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md))
+2. Edit `.env`:
    ```bash
    ENABLE_CONTENT_SYNC=true
    CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
    ```
-3. 同步内容: `pnpm run sync-content`
+3. Sync: `pnpm run sync-content`
 
-#### 从独立仓库切换回本地
+#### Separate Repository → Local
 
-1. 编辑 `.env`:
+1. Edit `.env`:
    ```bash
    ENABLE_CONTENT_SYNC=false
    ```
-2. 直接开发: `pnpm dev`
+2. Develop: `pnpm dev`
 
 ---
 
-## ⚙️ 配置方式
+## ⚙️ Configuration
 
-### 环境变量说明
+### Environment Variables
 
-在 `.env` 文件中配置:
+Configure in `.env`:
 
 ```bash
 # ============================================
-# 功能开关
+# Feature toggle
 # ============================================
 
-# 是否启用内容分离功能
-# false = 使用本地内容 (推荐新手)
-# true = 从远程仓库同步内容
+# Enable content separation
+# false = local content (recommended for beginners)
+# true = sync from remote repository
 ENABLE_CONTENT_SYNC=false
 
 # ============================================
-# 内容仓库配置 (仅当 ENABLE_CONTENT_SYNC=true 时需要)
+# Content repository (required when ENABLE_CONTENT_SYNC=true)
 # ============================================
 
-# 内容仓库地址
-# 支持 HTTPS 和 SSH 方式
-# 公开仓库: https://github.com/username/repo.git
-# 私有仓库 (SSH): git@github.com:username/repo.git
-# 私有仓库 (Token): https://TOKEN@github.com/username/repo.git
+# Content repository URL
+# HTTPS or SSH
+# Public: https://github.com/username/repo.git
+# Private (SSH): git@github.com:username/repo.git
+# Private (Token): https://TOKEN@github.com/username/repo.git
 CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
 
-# 内容目录路径 (默认 ./content 一般无需改动)
+# Content directory (default ./content — usually unchanged)
 CONTENT_DIR=./content
 ```
 
-### 配置示例
+### Examples
 
-#### 示例 1: 完全本地 (最简单)
+#### Example 1: Fully Local (Simplest)
 
 ```bash
 # .env
 ENABLE_CONTENT_SYNC=false
 ```
 
-或者**不创建 `.env` 文件**,直接使用本地内容。
+Or **omit `.env`** and use local content.
 
-#### 示例 2: 公开仓库 (HTTPS)
+#### Example 2: Public Repository (HTTPS)
 
 ```bash
 # .env
@@ -204,7 +204,7 @@ ENABLE_CONTENT_SYNC=true
 CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
 ```
 
-#### 示例 3: 私有仓库 (SSH)
+#### Example 3: Private Repository (SSH)
 
 ```bash
 # .env
@@ -214,312 +214,238 @@ CONTENT_REPO_URL=git@github.com:your-username/Mizuki-Content-Private.git
 
 ---
 
-## 🔄 自动构建触发 (内容更新时)
+## 🔄 Auto-Build Trigger (On Content Updates)
 
-### 问题
+### Problem
 
-启用内容分离后，默认只有代码仓库更新会触发部署，内容仓库更新**不会**自动触发。
+With content separation, only code repository updates trigger deployment by default; content repository updates **do not**.
 
-### 解决方案
+### Solution
 
-**推荐使用 Repository Dispatch**，5 步快速配置，适用所有部署平台。
+**Repository Dispatch** is recommended — 5-step setup, works on all platforms.
 
-详细步骤请查看:
-- **[自动构建触发快速参考](./AUTO_BUILD_TRIGGER.md)** - 最简洁的配置指南 ⭐
-- **[部署文档 - 完整说明](./DEPLOYMENT.md#内容仓库更新触发构建)** - 包含多种方案
-- **[内容仓库配置指南](../Mizuki-Content/.github/workflows/README.md)** - 工作流详细说明
+See:
+- **[Auto-Build Trigger Quick Reference](./AUTO_BUILD_TRIGGER.md)** ⭐
+- **[Deployment Guide - Full Details](./DEPLOYMENT.md#content-repository-update-triggers-build)**
+- **[Content Repository Workflow Guide](../Mizuki-Content/.github/workflows/README.md)**
 
 ---
 
-## 🔐 私有仓库配置
+## 🔐 Private Repository Configuration
 
-完全支持私有内容仓库! 推荐使用 SSH 方式,安全且方便。
+Private content repositories are fully supported. SSH is recommended.
 
-### 方案 A: SSH 密钥 (推荐)
+### Option A: SSH Keys (Recommended)
 
-#### 1. 生成 SSH 密钥
+#### 1. Generate SSH Key
 
 ```bash
-# 推荐使用 Ed25519
+# Ed25519 recommended
 ssh-keygen -t ed25519 -C "your_email@example.com"
 
-# 或使用 RSA
+# Or RSA
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
-按提示操作,默认保存到 `~/.ssh/id_ed25519`。
+Default location: `~/.ssh/id_ed25519`.
 
-#### 2. 添加公钥到 Git 平台
+#### 2. Add Public Key to Git Host
 
 ```bash
-# 查看公钥
 cat ~/.ssh/id_ed25519.pub
 
 # Windows PowerShell
 Get-Content ~/.ssh/id_ed25519.pub
 ```
 
-**GitHub**: 
-- Settings → SSH and GPG keys → New SSH key
-- 粘贴公钥内容
+**GitHub**: Settings → SSH and GPG keys → New SSH key  
+**GitLab**: Preferences → SSH Keys → Add new key  
+**Gitee**: Settings → SSH public keys → Add key
 
-**GitLab**: 
-- Preferences → SSH Keys → Add new key
+#### 3. Configure Mizuki
 
-**Gitee**: 
-- 设置 → SSH 公钥 → 添加公钥
-
-#### 3. 配置 Mizuki
-
-在 `.env` 文件中使用 SSH URL:
+Use SSH URL in `.env`:
 
 ```bash
 ENABLE_CONTENT_SYNC=true
 CONTENT_REPO_URL=git@github.com:your-username/Mizuki-Content-Private.git
 ```
 
-#### 4. 测试连接
+#### 4. Test Connection
 
 ```bash
-# 测试 GitHub 连接
 ssh -T git@github.com
-
-# 测试 GitLab 连接
 ssh -T git@gitlab.com
-
-# 同步内容
 pnpm run sync-content
 ```
 
-### 方案 B: HTTPS + Personal Access Token
+### Option B: HTTPS + Personal Access Token
 
-#### 1. 生成 Token
+#### 1. Generate Token
 
-**GitHub**:
-- Settings → Developer settings → Personal access tokens → Generate new token
-- 权限: 勾选 `repo` (完整访问)
+**GitHub**: Settings → Developer settings → Personal access tokens → Generate new token — scope: `repo`  
+**GitLab**: Preferences → Access Tokens — scope: `read_repository`  
+**Gitee**: Settings → Private tokens — scope: `projects` (read)
 
-**GitLab**:
-- Preferences → Access Tokens
-- Scopes: `read_repository`
-
-**Gitee**:
-- 设置 → 私人令牌 → 生成新令牌
-- 权限: `projects` (读取)
-
-#### 2. 配置 .env
+#### 2. Configure .env
 
 ```bash
 ENABLE_CONTENT_SYNC=true
 CONTENT_REPO_URL=https://YOUR_TOKEN@github.com/your-username/Mizuki-Content-Private.git
 ```
 
-⚠️ **安全提示**:
-- **不要将 `.env` 提交到 Git!** (已在 `.gitignore` 中)
-- Token 具有完整权限,请妥善保管
+⚠️ **Security**:
+- **Do not commit `.env` to Git!** (listed in `.gitignore`)
+- Keep tokens secure; they grant repository access
 
 ---
 
-## 🌐 CI/CD 部署
+## 🌐 CI/CD Deployment
 
-### 快速配置
+### Quick Setup
 
-所有部署平台都使用相同的自动同步机制:
-- ✅ `pnpm build` 执行前自动运行 `prebuild` 钩子
-- ✅ 根据 `ENABLE_CONTENT_SYNC` 决定是否同步内容
-- ✅ 同步失败不会中断构建,回退到本地内容
+All platforms use the same sync mechanism:
+- ✅ `prebuild` runs before `pnpm build`
+- ✅ Sync runs when `ENABLE_CONTENT_SYNC=true`
+- ✅ Sync failure does not abort build; falls back to local content
 
-**只需配置环境变量,无需修改构建命令!**
+**Configure environment variables only — no build command changes!**
 
-### 环境变量配置
+### Environment Variables
 
-在部署平台添加以下环境变量:
-
-| 变量名 | 值 | 说明 |
+| Variable | Value | Description |
 |-------|---|------|
-| `ENABLE_CONTENT_SYNC` | `true` | 启用内容分离 |
-| `CONTENT_REPO_URL` | 仓库地址 | 内容仓库的 URL |
+| `ENABLE_CONTENT_SYNC` | `true` | Enable content separation |
+| `CONTENT_REPO_URL` | Repository URL | Content repository URL |
 
-### 支持的平台
+### Supported Platforms
 
-- ✅ **GitHub Pages** - 使用 GitHub Actions
-- ✅ **Vercel** - 环境变量配置
-- ✅ **Netlify** - 环境变量配置
-- ✅ **Cloudflare Pages** - 环境变量配置
+- ✅ **GitHub Pages** — GitHub Actions
+- ✅ **Vercel** — environment variables
+- ✅ **Netlify** — environment variables
+- ✅ **Cloudflare Pages** — environment variables
 
-### 详细配置指南
+### Detailed Guides
 
-不同平台的具体配置步骤、私有仓库认证、故障排查等详细信息，请查看：
-
-📖 **[部署指南](./DEPLOYMENT.md)** - 完整的部署文档，包含：
-- GitHub Pages 自动部署配置
-- Vercel 部署详细步骤
-- Netlify 部署配置
-- Cloudflare Pages 部署
-- 私有仓库认证配置
-- 常见问题故障排查
+See **[Deployment Guide](./DEPLOYMENT.md)** for:
+- GitHub Pages auto-deploy
+- Vercel, Netlify, Cloudflare Pages
+- Private repository authentication
+- Troubleshooting
 
 ---
 
-## 📋 常用命令
+## 📋 Common Commands
 
-| 命令 | 说明 |
+| Command | Description |
 |------|------|
-| `pnpm run init-content` | 运行交互式初始化向导 |
-| `pnpm run sync-content` | 手动同步内容仓库 |
-| `pnpm run check-env` | 检查环境变量配置 |
-| `pnpm dev` | 启动开发服务器 (自动同步) |
-| `pnpm build` | 构建项目 (自动同步) |
+| `pnpm run init-content` | Interactive initialization wizard |
+| `pnpm run sync-content` | Manually sync content repository |
+| `pnpm run check-env` | Verify environment configuration |
+| `pnpm dev` | Start dev server (auto-sync) |
+| `pnpm build` | Build project (auto-sync) |
 
-### 自动同步时机
+### Auto-Sync Timing
 
-当 `ENABLE_CONTENT_SYNC=true` 时,以下命令会自动同步内容:
+When `ENABLE_CONTENT_SYNC=true`, these commands sync automatically:
 
-- `pnpm dev` - 开发前自动同步
-- `pnpm build` - 构建前自动同步
+- `pnpm dev` — before development
+- `pnpm build` — before build
 
-同步失败不会中断开发,会显示警告并继续。
+Sync failure shows a warning and continues.
 
 ---
 
-## 🔍 故障排查
+## 🔍 Troubleshooting
 
-### 问题 1: 提示 "未启用内容分离功能"
+### Issue 1: "Content separation not enabled"
 
-**原因**: `ENABLE_CONTENT_SYNC` 未设置或设置为 `false`。
+**Cause**: `ENABLE_CONTENT_SYNC` unset or `false`.
 
-**解决**:
+**Fix**:
 ```bash
-# 检查 .env 文件
 cat .env
-
-# 确认有以下配置
+# Ensure:
 ENABLE_CONTENT_SYNC=true
 ```
 
-### 问题 2: 提示 "未设置 CONTENT_REPO_URL"
+### Issue 2: "CONTENT_REPO_URL not set"
 
-**原因**: 启用了内容分离但未配置仓库地址。
+**Cause**: Separation enabled but no repository URL.
 
-**解决**:
+**Fix**:
 ```bash
-# 在 .env 中添加
 CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
 ```
 
-### 问题 3: 私有仓库认证失败
+### Issue 3: Private repository authentication failed
 
-**SSH 方式**:
+**SSH**:
 ```bash
-# 测试 SSH 连接
 ssh -T git@github.com
-
-# 应该看到: Hi username! You've successfully authenticated...
+# Expected: Hi username! You've successfully authenticated...
 ```
 
-如果失败,检查:
-- SSH 密钥是否生成: `ls ~/.ssh/`
-- 公钥是否添加到 GitHub
-- SSH agent 是否运行: `ssh-add -l`
+If it fails, check SSH key, public key on GitHub, and `ssh-add -l`.
 
-**HTTPS + Token 方式**:
-- 检查 Token 是否有效
-- 检查 Token 权限是否正确 (`repo` 权限)
-- 确认 URL 格式: `https://TOKEN@github.com/user/repo.git`
+**HTTPS + Token**: Verify token, `repo` scope, and URL format `https://TOKEN@github.com/user/repo.git`.
 
-### 问题 4: .env 文件不生效
+### Issue 4: .env not applied
 
-**检查清单**:
+1. File at project root: `ls -la .env`
+2. Format: `ENABLE_CONTENT_SYNC=true` (no spaces around `=`)
+3. Permissions: `chmod 644 .env`
+4. Run `pnpm run check-env`
 
-1. 文件位置正确 (项目根目录)
-   ```bash
-   ls -la .env  # Linux/Mac
-   dir .env     # Windows
-   ```
-
-2. 文件格式正确
-   ```bash
-   # ✅ 正确
-   ENABLE_CONTENT_SYNC=true
-   
-   # ❌ 错误 (多余空格)
-   ENABLE_CONTENT_SYNC = true
-   
-   # ❌ 错误 (不需要引号,除非值中有空格)
-   ENABLE_CONTENT_SYNC="true"
-   ```
-
-3. 文件权限可读
-   ```bash
-   chmod 644 .env  # Linux/Mac
-   ```
-
-4. 运行检查命令
-   ```bash
-   pnpm run check-env
-   ```
-
-### 问题 5: 内容同步失败
+### Issue 5: Content sync failed
 
 ```bash
-# 手动同步内容
 pnpm run sync-content
-
-# 检查内容目录
 ls -la content/
-
-# 手动克隆内容仓库
 git clone https://github.com/your-username/Mizuki-Content.git content
 ```
 
-### 问题 6: 部署时内容未同步
+### Issue 6: Content not synced on deploy
 
-**Vercel/Netlify**:
-- 确认环境变量已添加
-- 检查构建日志,查看同步步骤是否执行
-- 确认 Token 在部署环境有效
-
-**GitHub Actions**:
-- 检查工作流配置
-- 查看 Actions 运行日志
-- 确认 Secrets 已正确添加
+**Vercel/Netlify**: Verify env vars, build logs, token validity.  
+**GitHub Actions**: Check workflow, Actions logs, Secrets.
 
 ---
 
-## 💡 最佳实践
+## 💡 Best Practices
 
-### 新手建议
+### Beginners
 
-1. **从本地模式开始** - 不需要额外配置,立即可用
-2. **内容稳定后再分离** - 等内容积累到一定程度
-3. **使用 SSH 方式** - 比 Token 更安全方便
+1. **Start with local mode** — no extra setup
+2. **Separate when content stabilizes**
+3. **Prefer SSH** over tokens for local dev
 
-### 进阶用户
+### Advanced
 
-1. **使用独立仓库模式** - 清晰的版本控制
-2. **内容仓库添加 CI** - 自动检查文章格式、图片优化等
-3. **分支管理** - main 分支用于生产,develop 用于预览
+1. **Standalone repository mode** for clear versioning
+2. **CI on content repo** — format checks, image optimization
+3. **Branch strategy** — `main` for production, `develop` for preview
 
-### 团队协作
+### Teams
 
-1. **统一环境变量** - 团队成员使用相同的配置
-2. **权限控制** - 内容仓库设置为私有,精细控制访问权限
-3. **Git Hooks** - 提交前检查文章格式、图片大小等
-
----
-
-## 📚 相关文档
-
-- [内容迁移指南](./CONTENT_MIGRATION.md) - 如何从单仓库迁移到分离模式
-- [内容仓库结构](./CONTENT_REPOSITORY.md) - 内容仓库的推荐结构
-- [主 README](../README.zh.md) - 项目总体说明
+1. **Shared env configuration**
+2. **Private content repo** with access control
+3. **Git hooks** — pre-commit checks for format and image size
 
 ---
 
-## 🤝 需要帮助?
+## 📚 Related Documentation
 
-- 查看 [GitHub Issues](https://github.com/LyraVoid/Mizuki/issues)
-- 阅读 [完整文档](../README.zh.md)
-- 运行 `pnpm run check-env` 检查配置
+- [Migration Guide](./MIGRATION_GUIDE.md)
+- [Content Repository Structure](./CONTENT_REPOSITORY.md)
+- [Main README](../README.md)
 
-祝你使用愉快! 🎉
+---
+
+## 🤝 Need Help?
+
+- [GitHub Issues](https://github.com/LyraVoid/Mizuki/issues)
+- [Full documentation](../README.md)
+- Run `pnpm run check-env`
+
+Happy blogging! 🎉

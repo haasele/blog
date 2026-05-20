@@ -1,10 +1,10 @@
 /**
- * useTocHighlight - TOC 高亮计算 hook
- * 处理活动标题高亮计算逻辑
+ * useTocHighlight - TOC highlight hook
+ * Active heading highlight logic
  */
 
 /**
- * 查找当前活动标题索引（基于滚动位置）
+ * Active heading index from scroll
  */
 export function findActiveHeadingIndex(
 	headings: HTMLElement[],
@@ -29,7 +29,7 @@ export function findActiveHeadingIndex(
 }
 
 /**
- * 查找活动标题（基于 IntersectionObserver）
+ * Active heading via IntersectionObserver
  */
 export function findActiveHeadingByObserver(
 	entries: IntersectionObserverEntry[],
@@ -43,7 +43,7 @@ export function findActiveHeadingByObserver(
 }
 
 /**
- * 计算活动标题范围（用于 SidebarTOC 的多级高亮）
+ * Active heading range for SidebarTOC multi-level highlight
  */
 export function calculateActiveHeadingRange(activeStates: boolean[]): {
 	min: number;
@@ -63,7 +63,7 @@ export function calculateActiveHeadingRange(activeStates: boolean[]): {
 }
 
 /**
- * 创建 IntersectionObserver 用于跟踪标题可见性
+ * IntersectionObserver for heading visibility
  */
 export function createHeadingVisibilityObserver(
 	onVisibilityChange: (id: string | null, isVisible: boolean) => void,
@@ -86,14 +86,14 @@ export function createHeadingVisibilityObserver(
 }
 
 /**
- * 判断值是否在范围内
+ * Whether value is in range
  */
 export function isInRange(value: number, min: number, max: number): boolean {
 	return min < value && value < max;
 }
 
 /**
- * 判断元素是否在视口中
+ * Whether element is in viewport
  */
 export function isElementInViewport(
 	element: HTMLElement,
@@ -108,7 +108,7 @@ export function isElementInViewport(
 }
 
 /**
- * 计算 fallback 高亮（当 IntersectionObserver 不工作时）
+ * Fallback highlight when IntersectionObserver fails
  */
 export function calculateFallbackActiveHeading(
 	sections: HTMLElement[],

@@ -1,14 +1,14 @@
 /**
- * TOC 组件共享工具函数
+ * Shared TOC utilities
  */
 
 import type { HeadingData, TOCConfig, TOCItem } from "../types/toc";
 import { getKatakanaBadge } from "./japanese-katakana";
 
 /**
- * 从 DOM 中提取标题数据
- * @param containerSelector - 容器选择器
- * @returns 标题数据数组
+ * Extract heading data from DOM
+ * @param containerSelector - Container selector
+ * @returns Heading data array
  */
 export function extractHeadings(
 	containerSelector = "#post-container",
@@ -29,9 +29,9 @@ export function extractHeadings(
 }
 
 /**
- * 计算最小标题级别
- * @param headings - 标题数据数组
- * @returns 最小级别
+ * Compute minimum heading level
+ * @param headings - Heading data array
+ * @returns Minimum level
  */
 export function getMinLevel(headings: HeadingData[]): number {
 	if (headings.length === 0) {
@@ -41,10 +41,10 @@ export function getMinLevel(headings: HeadingData[]): number {
 }
 
 /**
- * 过滤并转换标题为 TOC 条目
- * @param headings - 标题数据数组
- * @param config - TOC 配置
- * @returns TOC 条目数组
+ * Filter headings and build TOC entries
+ * @param headings - Heading data array
+ * @param config - TOC config
+ * @returns TOC entry array
  */
 export function generateTOCItems(
 	headings: HeadingData[],
@@ -81,9 +81,9 @@ export function generateTOCItems(
 }
 
 /**
- * 滚动到指定标题
- * @param id - 标题 ID
- * @param offset - 顶部偏移量（用于导航栏）
+ * Scroll to heading
+ * @param id - Heading id
+ * @param offset - Top offset (navbar)
  */
 export function scrollToHeading(id: string, offset = 80): void {
 	const element = document.getElementById(id);
@@ -100,10 +100,10 @@ export function scrollToHeading(id: string, offset = 80): void {
 }
 
 /**
- * 创建标题可见性观察器
- * @param onActiveChange - 活动标题变更回调
- * @param options - 观察器选项
- * @returns IntersectionObserver 实例
+ * Create heading visibility observer
+ * @param onActiveChange - Active heading callback
+ * @param options - Observer options
+ * @returns IntersectionObserver instance
  */
 export function createHeadingObserver(
 	onActiveChange: (id: string) => void,
@@ -124,8 +124,8 @@ export function createHeadingObserver(
 }
 
 /**
- * 从全局配置获取 TOC 配置
- * @returns TOC 配置
+ * Get TOC config from global settings
+ * @returns TOC config
  */
 export function getTOCConfig(): TOCConfig {
 	const siteConfig = window.siteConfig || {};
@@ -138,8 +138,8 @@ export function getTOCConfig(): TOCConfig {
 }
 
 /**
- * 计算阅读进度
- * @returns 进度值（0-1）
+ * Compute reading progress
+ * @returns Progress 0–1
  */
 export function calculateReadingProgress(): number {
 	const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -150,10 +150,10 @@ export function calculateReadingProgress(): number {
 }
 
 /**
- * 防抖函数
- * @param fn - 要防抖的函数
- * @param delay - 延迟时间（毫秒）
- * @returns 防抖后的函数
+ * Debounce
+ * @param fn - Function to debounce
+ * @param delay - Delay in ms
+ * @returns Debounced function
  */
 export function debounce<T extends (...args: any[]) => any>(
 	fn: T,

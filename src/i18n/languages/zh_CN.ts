@@ -8,7 +8,7 @@ export const zh_CN: Translation = {
 	[Key.search]: "搜索",
 	[Key.other]: "其他",
 
-	// 导航栏标题
+	// Navigation bar titles
 	[Key.navLinks]: "链接",
 	[Key.navMy]: "我的",
 	[Key.navAbout]: "关于",
@@ -21,7 +21,7 @@ export const zh_CN: Translation = {
 	[Key.tableOfContents]: "目录",
 	[Key.tocEmpty]: "当前页面没有目录",
 
-	// 公告栏
+	// Announcement
 	[Key.announcement]: "公告",
 	[Key.announcementClose]: "关闭",
 
@@ -60,7 +60,7 @@ export const zh_CN: Translation = {
 	[Key.anime]: "追番",
 	[Key.diary]: "日记",
 
-	// 番剧页面
+	// Anime Page
 	[Key.animeTitle]: "我的追番记录",
 	[Key.animeSubtitle]: "记录我的二次元之旅",
 	[Key.animeStatusWatching]: "在看",
@@ -80,7 +80,7 @@ export const zh_CN: Translation = {
 	[Key.animeConfigBangumi]:
 		"请在 src/config.ts 文件中设置您的 Bangumi userId",
 
-	// 短文页面
+	// Diary Page
 	[Key.diarySubtitle]: "随时随地，分享生活",
 	[Key.diaryNoResults]: "没有匹配的日记",
 	[Key.diaryCount]: "条日记",
@@ -90,13 +90,13 @@ export const zh_CN: Translation = {
 	[Key.diaryHoursAgo]: "小时前",
 	[Key.diaryDaysAgo]: "天前",
 
-	// 404页面
+	// 404 Page
 	[Key.notFound]: "404",
 	[Key.notFoundTitle]: "页面未找到",
 	[Key.notFoundDescription]: "抱歉，您访问的页面不存在或已被移动。",
 	[Key.backToHome]: "返回首页",
 
-	// 音乐播放器
+	// Music Player
 	[Key.musicPlayer]: "音乐播放器",
 	[Key.musicPlayerShow]: "显示音乐播放器",
 	[Key.musicPlayerHide]: "隐藏播放器",
@@ -120,7 +120,7 @@ export const zh_CN: Translation = {
 	[Key.unknownSong]: "未知歌曲",
 	[Key.unknownArtist]: "未知艺术家",
 
-	// 相册页面
+	// Albums Page
 	[Key.albums]: "相册",
 	[Key.albumsSubtitle]: "记录生活中的美好瞬间",
 	[Key.albumsEmpty]: "暂无内容",
@@ -131,12 +131,12 @@ export const zh_CN: Translation = {
 	[Key.albumsFilterAll]: "全部",
 	[Key.albumsNoResults]: "没有匹配的相册",
 
-	// 设备页面
+	// Devices Page
 	[Key.devices]: "我的设备",
 	[Key.devicesSubtitle]: "这里展示了我日常使用的各类设备",
 	[Key.devicesViewDetails]: "查看详情",
 
-	// 项目展示页面
+	// Projects Page
 	[Key.projects]: "项目展示",
 	[Key.projectsSubtitle]: "我的开发项目作品集",
 	[Key.projectsAll]: "全部",
@@ -163,7 +163,7 @@ export const zh_CN: Translation = {
 	[Key.projectsVisit]: "前往",
 	[Key.projectsGitHub]: "GitHub",
 
-	// 技能展示页面
+	// Skills Page
 	[Key.skills]: "技能展示",
 	[Key.skillsSubtitle]: "我的技术技能和专业知识",
 	[Key.skillsFrontend]: "前端开发",
@@ -191,7 +191,7 @@ export const zh_CN: Translation = {
 	[Key.skillsByCategory]: "按分类分布",
 	[Key.noData]: "暂无数据",
 
-	// 时间线页面
+	// Timeline Page
 	[Key.timeline]: "时间线",
 	[Key.timelineSubtitle]: "我的成长历程和重要里程碑",
 	[Key.timelineEducation]: "教育经历",
@@ -212,7 +212,7 @@ export const zh_CN: Translation = {
 	[Key.timelineStartDate]: "开始日期",
 	[Key.timelineDuration]: "持续时间",
 
-	// 密码保护
+	// Password Protection
 	[Key.passwordProtected]: "密码保护",
 	[Key.passwordProtectedTitle]: "此内容受密码保护",
 	[Key.passwordProtectedDescription]: "请输入密码以查看受保护的内容",
@@ -234,7 +234,7 @@ export const zh_CN: Translation = {
 	[Key.decryptionError]: "解密过程中发生错误:",
 	[Key.passwordHint]: "提示",
 
-	//最后编辑时间卡片
+	// Last Modified Time Card
 	[Key.lastModifiedPrefix]: "距离上次编辑: ",
 	[Key.lastModifiedOutdated]: "部分信息可能已经过时",
 	[Key.year]: "年",
@@ -244,7 +244,7 @@ export const zh_CN: Translation = {
 	[Key.minute]: "分",
 	[Key.second]: "秒",
 
-	// RSS 页面
+	// RSS Page
 	[Key.rss]: "RSS 订阅",
 	[Key.rssDescription]: "订阅获取最新更新",
 	[Key.rssSubtitle]: "通过 RSS 订阅，第一时间获取最新文章和动态",
@@ -264,7 +264,7 @@ export const zh_CN: Translation = {
 	[Key.rssCopied]: "RSS 链接已复制到剪贴板！",
 	[Key.rssCopyFailed]: "复制失败，请手动复制链接",
 
-	// Atom 页面
+	// Atom Page
 	[Key.atom]: "Atom 订阅",
 	[Key.atomDescription]: "订阅获取最新更新",
 	[Key.atomSubtitle]: "通过 Atom 订阅，第一时间获取最新文章和动态",
@@ -284,12 +284,12 @@ export const zh_CN: Translation = {
 	[Key.atomCopied]: "Atom 链接已复制到剪贴板！",
 	[Key.atomCopyFailed]: "复制失败，请手动复制链接",
 
-	// 壁纸模式
+	// Wallpaper mode
 	[Key.wallpaperBanner]: "横幅模式",
 	[Key.wallpaperFullscreen]: "全屏模式",
 	[Key.wallpaperNone]: "隐藏壁纸",
 
-	// 站点统计
+	// Site Stats
 	[Key.siteStats]: "站点统计",
 	[Key.siteStatsPostCount]: "文章",
 	[Key.siteStatsCategoryCount]: "分类",
@@ -300,7 +300,7 @@ export const zh_CN: Translation = {
 	[Key.siteStatsDaysAgo]: "{days} 天前",
 	[Key.siteStatsDays]: "{days} 天",
 
-	// 日历组件
+	// Calendar Component
 	[Key.calendarSunday]: "日",
 	[Key.calendarMonday]: "一",
 	[Key.calendarTuesday]: "二",
@@ -321,7 +321,7 @@ export const zh_CN: Translation = {
 	[Key.calendarNovember]: "11月",
 	[Key.calendarDecember]: "12月",
 
-	// 分享功能
+	// Share Functionality
 	[Key.shareArticle]: "分享",
 	[Key.generatingPoster]: "正在生成海报...",
 	[Key.copied]: "已复制",
@@ -332,21 +332,21 @@ export const zh_CN: Translation = {
 	[Key.shareOnSocialDescription]:
 		"如果这篇文章对你有帮助，欢迎分享给更多人！",
 
-	// 个人资料
+	// Profile Stats
 	[Key.profileStatsLoading]: "统计加载中...",
 	[Key.profileStatsPageViews]: "浏览量",
 	[Key.profileStatsVisits]: "访问次数",
 	[Key.profileStatsUnavailable]: "统计不可用",
 
-	// 页面访问量统计
+	// Page Views Stats
 	[Key.pageViewsLoading]: "统计加载中...",
 	[Key.pageViewsUnavailable]: "统计不可用",
 
-	// 布局切换按钮
+	// Layout Switch Button
 	[Key.switchToGridMode]: "切换到网格模式",
 	[Key.switchToListMode]: "切换到列表模式",
 
-	// 相关文章与随机文章
+	// Related Posts & Random Posts
 	[Key.relatedPosts]: "相关文章",
 	[Key.randomPosts]: "随机文章",
 	[Key.smartRecommend]: "智能推荐",

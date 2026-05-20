@@ -1,66 +1,66 @@
 /**
- * 日语片假名字符集
- * 用于 TOC 徽章显示
+ * Japanese katakana character set
+ * Used for TOC badge display
  */
 
 /**
- * 完整的日语片假名字符集（46 个字符）
- * 按五十音图顺序排列
+ * Complete Japanese katakana set (46 characters)
+ * Ordered by gojuon rows
  */
 export const JAPANESE_KATAKANA = [
-	// あ行
+	// A-row
 	"ア",
 	"イ",
 	"ウ",
 	"エ",
 	"オ",
-	// か行
+	// Ka-row
 	"カ",
 	"キ",
 	"ク",
 	"ケ",
 	"コ",
-	// さ行
+	// Sa-row
 	"サ",
 	"シ",
 	"ス",
 	"セ",
 	"ソ",
-	// た行
+	// Ta-row
 	"タ",
 	"チ",
 	"ツ",
 	"テ",
 	"ト",
-	// な行
+	// Na-row
 	"ナ",
 	"ニ",
 	"ヌ",
 	"ネ",
 	"ノ",
-	// は行
+	// Ha-row
 	"ハ",
 	"ヒ",
 	"フ",
 	"ヘ",
 	"ホ",
-	// ま行
+	// Ma-row
 	"マ",
 	"ミ",
 	"ム",
 	"メ",
 	"モ",
-	// や行
+	// Ya-row
 	"ヤ",
 	"ユ",
 	"ヨ",
-	// ら行
+	// Ra-row
 	"ラ",
 	"リ",
 	"ル",
 	"レ",
 	"ロ",
-	// わ行
+	// Wa-row
 	"ワ",
 	"ヲ",
 	"ン",
@@ -69,10 +69,10 @@ export const JAPANESE_KATAKANA = [
 export type JapaneseKatakanaChar = (typeof JAPANESE_KATAKANA)[number];
 
 /**
- * 获取 TOC 徽章文本
- * @param index - 索引（从 0 开始）
- * @param useJapanese - 是否使用日语字符
- * @returns 徽章文本
+ * Get TOC badge text
+ * @param index - Index (0-based)
+ * @param useJapanese - Whether to use Japanese characters
+ * @returns Badge text
  */
 export function getKatakanaBadge(index: number, useJapanese: boolean): string {
 	if (useJapanese && index < JAPANESE_KATAKANA.length) {
@@ -82,6 +82,6 @@ export function getKatakanaBadge(index: number, useJapanese: boolean): string {
 }
 
 /**
- * 获取可用的日语字符数量
+ * Number of available Japanese characters
  */
 export const KATAKANA_COUNT = JAPANESE_KATAKANA.length;

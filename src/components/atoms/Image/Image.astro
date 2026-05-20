@@ -63,9 +63,9 @@ if (isLocal) {
 const imageClass = "w-full h-full object-cover";
 const imageStyle = `object-position: ${position}`;
 
-// 检查是否是 Bilibili 图片
+// Whether image is from Bilibili
 const isBilibiliImage = !isLocal && src.includes("hdslb.com");
-// 对于外部图片（特别是 Bilibili），需要设置 referrerpolicy 避免 403 错误
+// External images (esp. Bilibili) need referrerpolicy to avoid 403
 const referrerPolicy = !isLocal && isBilibiliImage ? "no-referrer" : undefined;
 ---
 

@@ -1,12 +1,12 @@
 /**
- * 导航工具函数
- * 提供统一的页面导航功能，支持 Swup 无刷新跳转
+ * Navigation utilities
+ * Provides unified page navigation with Swup client-side transitions
  */
 
 /**
- * 导航到指定页面
- * @param url 目标页面URL
- * @param options 导航选项
+ * Navigate to a page
+ * @param url Target page URL
+ * @param options Navigation options
  */
 export function navigateToPage(
 	url: string,
@@ -15,13 +15,13 @@ export function navigateToPage(
 		force?: boolean;
 	},
 ): void {
-	// 检查 URL 是否有效
+	// Validate URL
 	if (!url || typeof url !== "string") {
 		console.warn("navigateToPage: Invalid URL provided");
 		return;
 	}
 
-	// 如果是外部链接，直接跳转
+	// External links open in a new tab
 	if (
 		url.startsWith("http://") ||
 		url.startsWith("https://") ||
@@ -31,7 +31,7 @@ export function navigateToPage(
 		return;
 	}
 
-	// 如果是锚点链接，滚动到对应位置
+	// Anchor links scroll to the target element
 	if (url.startsWith("#")) {
 		const element = document.getElementById(url.slice(1));
 		if (element) {
@@ -40,10 +40,10 @@ export function navigateToPage(
 		return;
 	}
 
-	// 检查 Swup 是否可用
+	// Use Swup when available
 	if (typeof window !== "undefined" && (window as any).swup) {
 		try {
-			// 使用 Swup 进行无刷新跳转
+			// Client-side navigation via Swup
 			if (options?.replace) {
 				(window as any).swup.navigate(url, { history: false });
 			} else {
@@ -51,18 +51,18 @@ export function navigateToPage(
 			}
 		} catch (error) {
 			console.error("Swup navigation failed:", error);
-			// 降级到普通跳转
+			// Fall back to full page navigation
 			fallbackNavigation(url, options);
 		}
 	} else {
-		// Swup 不可用时的降级处理
+		// Fallback when Swup is unavailable
 		fallbackNavigation(url, options);
 	}
 }
 
 /**
- * 降级导航函数
- * 当 Swup 不可用时使用普通的页面跳转
+ * Fallback navigation
+ * Uses a full page load when Swup is unavailable
  */
 function fallbackNavigation(
 	url: string,
@@ -79,15 +79,15 @@ function fallbackNavigation(
 }
 
 /**
- * 检查 Swup 是否已准备就绪
+ * Check whether Swup is ready
  */
 export function isSwupReady(): boolean {
 	return typeof window !== "undefined" && !!(window as any).swup;
 }
 
 /**
- * 等待 Swup 准备就绪
- * @param timeout 超时时间（毫秒）
+ * Wait for Swup to become ready
+ * @param timeout Timeout in milliseconds
  */
 export function waitForSwup(timeout = 5000): Promise<boolean> {
 	return new Promise((resolve) => {
@@ -106,10 +106,10 @@ export function waitForSwup(timeout = 5000): Promise<boolean> {
 			}
 		};
 
-		// 监听 Swup 启用事件
+		// Listen for Swup enable event
 		document.addEventListener("swup:enable", checkSwup);
 
-		// 设置超时
+		// Apply timeout
 		timeoutId = setTimeout(() => {
 			document.removeEventListener("swup:enable", checkSwup);
 			resolve(false);
@@ -118,15 +118,15 @@ export function waitForSwup(timeout = 5000): Promise<boolean> {
 }
 
 /**
- * 预加载页面
- * @param url 要预加载的页面URL
+ * Preload a page
+ * @param url Page URL to preload
  */
 export function preloadPage(url: string): void {
 	if (!url || typeof url !== "string") {
 		return;
 	}
 
-	// 如果 Swup 可用，使用其预加载功能
+	// Use Swup preload when available
 	if (isSwupReady() && (window as any).swup.preload) {
 		try {
 			(window as any).swup.preload(url);
@@ -137,7 +137,7 @@ export function preloadPage(url: string): void {
 }
 
 /**
- * 检查是否为同源链接
+ * Check whether a link is same-origin
  */
 function isSameOrigin(url: string): boolean {
 	try {
@@ -149,7 +149,7 @@ function isSameOrigin(url: string): boolean {
 }
 
 /**
- * 检查网络状态是否为慢速连接
+ * Check whether the connection is slow
  */
 function isSlowConnection(): boolean {
 	const conn = (navigator as any).connection;
@@ -160,21 +160,21 @@ function isSlowConnection(): boolean {
 }
 
 /**
- * 初始化链接预加载功能
- * 使用 IntersectionObserver 观察视口内的链接，在进入视野时预加载
+ * Initialize link preloading
+ * Uses IntersectionObserver to preload links as they enter the viewport
  */
 export function initLinkPreloading(): void {
-	// 如果 Swup 不可用或用户偏好减少动画，不进行预加载
+	// Skip preloading when Swup is unavailable or the connection is slow
 	if (!isSwupReady() || isSlowConnection()) {
 		return;
 	}
 
-	// 检查用户是否偏好减少动画
+	// Respect reduced-motion preference
 	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 		return;
 	}
 
-	// 已预加载的 URL 集合，避免重复预加载
+	// Track preloaded URLs to avoid duplicates
 	const preloadedUrls = new Set<string>();
 
 	const observer = new IntersectionObserver(
@@ -184,7 +184,7 @@ export function initLinkPreloading(): void {
 					const link = entry.target as HTMLAnchorElement;
 					const href = link.href;
 
-					// 检查是否有效、是否同源、是否已预加载、是否当前页面
+					// Validate link, same-origin, not already preloaded, and not current page
 					if (
 						href &&
 						isSameOrigin(href) &&
@@ -194,7 +194,7 @@ export function initLinkPreloading(): void {
 					) {
 						preloadedUrls.add(href);
 
-						// 使用 requestIdleCallback 在空闲时预加载
+						// Preload during idle time
 						if ("requestIdleCallback" in window) {
 							requestIdleCallback(() => preloadPage(href), {
 								timeout: 2000,
@@ -211,7 +211,7 @@ export function initLinkPreloading(): void {
 		},
 	);
 
-	// 观察所有内部链接
+	// Observe all internal links
 	const observeLinks = () => {
 		document
 			.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"]')
@@ -220,10 +220,10 @@ export function initLinkPreloading(): void {
 			});
 	};
 
-	// 初始观察
+	// Initial observation
 	observeLinks();
 
-	// 页面切换后重新观察（Swup 会替换 main 容器内容）
+	// Re-observe after page transitions (Swup replaces main content)
 	const mainContainer = document.querySelector("main");
 	if (mainContainer) {
 		const mutationObserver = new MutationObserver(() => {
@@ -237,14 +237,14 @@ export function initLinkPreloading(): void {
 }
 
 /**
- * 获取当前页面路径
+ * Get the current page path
  */
 export function getCurrentPath(): string {
 	return typeof window !== "undefined" ? window.location.pathname : "";
 }
 
 /**
- * 检查是否为首页
+ * Check whether the current page is the home page
  */
 export function isHomePage(): boolean {
 	const path = getCurrentPath();
@@ -252,7 +252,7 @@ export function isHomePage(): boolean {
 }
 
 /**
- * 检查是否为文章页面
+ * Check whether the current page is a post page
  */
 export function isPostPage(): boolean {
 	const path = getCurrentPath();
@@ -260,10 +260,10 @@ export function isPostPage(): boolean {
 }
 
 /**
- * 检查两个路径是否相等
+ * Check whether two paths are equal
  */
 export function pathsEqual(path1: string, path2: string): boolean {
-	// 标准化路径（移除末尾斜杠）
+	// Normalize paths (remove trailing slash)
 	const normalize = (path: string) => {
 		return path.endsWith("/") && path.length > 1 ? path.slice(0, -1) : path;
 	};

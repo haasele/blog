@@ -12,7 +12,7 @@ const sortedPostsList = await getSortedPostsList();
 
 const showCategoryBar = siteConfig.postListLayout.categoryBar?.enable ?? false;
 
-// 1. 修复类型兼容性：将 category 的 null 转换为 undefined
+// 1. Map category null to undefined for types
 const posts = sortedPostsList.map((post) => ({
 	id: post.id,
 	url: post.url,
@@ -26,10 +26,10 @@ const posts = sortedPostsList.map((post) => ({
 	},
 }));
 
-// 2. 提取所有标签 (去重)
+// 2. Unique tags
 const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
 
-// 3. 提取所有分类 (去重且过滤掉 undefined)
+// 3. Unique categories (drop undefined)
 const categories = [
 	...new Set(
 		posts
@@ -41,12 +41,12 @@ const categories = [
 
 <MainGridLayout title={i18n(I18nKey.archive)}>
 	{showCategoryBar && <CategoryBar />}
-	<!-- 引入右侧边栏布局管理器 -->
+	<!-- Right sidebar layout manager -->
 	<script>
 		import("../scripts/right-sidebar-layout.js");
 	</script>
 
-	<!-- 修复：补全缺失的 tags 和 categories 属性 -->
+	<!-- Pass tags and categories props -->
 	<ArchivePanel
 		sortedPosts={posts}
 		tags={tags}

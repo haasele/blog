@@ -1,7 +1,7 @@
-// Atoms - 原子组件
+// Atoms
 export * from "./atoms";
 
-// Features - 功能性组件
+// Features
 export * from "./features/pio";
 export * from "./features/posts";
 export * from "./features/projects";
@@ -11,11 +11,11 @@ export * from "./features/stats";
 export * from "./features/timeline";
 export * from "./features/toc";
 
-// Organisms - 有机体组件
+// Organisms
 export * from "./organisms/footer";
 export * from "./organisms/navigation";
 
-// Widgets - 侧边栏小部件
+// Widgets - sidebar widgets
 export * from "./widgets/announcement";
 export * from "./widgets/calendar";
 export * from "./widgets/card-toc";

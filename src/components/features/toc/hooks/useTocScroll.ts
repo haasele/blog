@@ -1,10 +1,10 @@
 /**
- * useTocScroll - TOC 滚动同步 hook
- * 处理滚动监听、进度计算等
+ * useTocScroll - TOC scroll sync hook
+ * Scroll listeners, progress, etc.
  */
 
 /**
- * 计算阅读进度（0-1）
+ * Reading progress (0-1)
  */
 export function calculateReadingProgress(): number {
 	const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -15,7 +15,7 @@ export function calculateReadingProgress(): number {
 }
 
 /**
- * 更新进度环的 stroke-dashoffset
+ * Update progress ring stroke-dashoffset
  */
 export function updateProgressRing(
 	circle: SVGCircleElement,
@@ -31,7 +31,7 @@ export function updateProgressRing(
 }
 
 /**
- * 创建滚动事件处理器（带 passive 选项）
+ * Scroll handler with passive option
  */
 export function createScrollHandler(
 	callback: () => void,
@@ -52,7 +52,7 @@ export function createScrollHandler(
 }
 
 /**
- * 滚动到 TOC 容器内的活动元素
+ * Scroll active item into TOC container view
  */
 export function scrollActiveIntoView(
 	container: HTMLElement,
@@ -81,7 +81,7 @@ export function scrollActiveIntoView(
 }
 
 /**
- * 计算活动指示器的位置
+ * Active indicator position
  */
 export function calculateActiveIndicatorPosition(
 	container: HTMLElement,
@@ -99,7 +99,7 @@ export function calculateActiveIndicatorPosition(
 }
 
 /**
- * 防抖函数
+ * Debounce
  */
 export function debounce<T extends (...args: unknown[]) => unknown>(
 	fn: T,
@@ -113,7 +113,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
 }
 
 /**
- * 节流函数
+ * Throttle
  */
 export function throttle<T extends (...args: unknown[]) => unknown>(
 	fn: T,

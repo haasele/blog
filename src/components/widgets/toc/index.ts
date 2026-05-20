@@ -1,10 +1,10 @@
 /**
- * @deprecated TOC 组件包装器
+ * @deprecated TOC component wrapper
  *
- * 请使用 @components/features/toc 替代：
+ * Use @components/features/toc instead:
  * - import { SidebarTOC } from "@components/features/toc"
  * - import { FloatingTOC } from "@components/features/toc"
  *
- * 此包装器将在下一个主要版本中删除。
+ * This wrapper will be removed in the next major version.
  */
 export { default as TOC } from "./TOC.astro";

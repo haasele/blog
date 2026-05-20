@@ -14,14 +14,14 @@
 
 	interface Post {
 		id: string;
-		url?: string; // 预计算的文章 URL
+		url?: string; // Precomputed post URL
 		data: {
 			title: string;
 			tags: string[];
 			category?: string;
 			published: Date;
 			alias?: string;
-			permalink?: string; // 自定义固定链接
+			permalink?: string; // Custom permalink
 		};
 	}
 
@@ -65,7 +65,7 @@
 			filteredPosts = filteredPosts.filter((post) => !post.data.category);
 		}
 
-		// 按发布时间倒序排序，确保不受置顶影响
+		// Sort by publish date; ignore pin
 		filteredPosts = filteredPosts
 			.slice()
 			.sort(

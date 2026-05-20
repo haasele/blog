@@ -19,7 +19,7 @@
     }
   }
 
-  /* --- 链接 --- */
+  /* --- Links --- */
   a:not(.no-styling) {
     @apply relative bg-none font-medium text-(--primary)
         underline decoration-(--link-underline) decoration-1 decoration-dashed underline-offset-4;
@@ -35,7 +35,7 @@
     }
   }
 
-  /* --- 代码块 --- */
+  /* --- Code blocks --- */
   code {
     @apply bg-(--inline-code-bg) text-(--inline-code-color) px-1 py-0.5 rounded-md overflow-hidden;
 
@@ -61,7 +61,7 @@
     }
   }
 
-  /* --- 列表 --- */
+  /* --- Lists --- */
   ul,
   ol {
     li::marker {
@@ -69,7 +69,7 @@
     }
   }
 
-  /* --- 引用块 --- */
+  /* --- Blockquotes --- */
   blockquote {
     @apply not-italic border-transparent relative;
     font-weight: inherit;
@@ -84,12 +84,12 @@
     }
   }
 
-  /* --- 表格样式 --- */
+  /* --- Table styles --- */
   .table-wrapper {
     @apply w-full overflow-x-auto m-0 rounded-(--radius-large);
     -webkit-overflow-scrolling: touch;
 
-    /* --- 滚动条样式 --- */
+    /* --- Scrollbar styles --- */
     &::-webkit-scrollbar {
       height: 6px;
       width: 6px;
@@ -151,7 +151,7 @@
     transition: none;
   }
 
-  /* --- 数学公式样式 --- */
+  /* --- Math formula styles --- */
   .katex-display {
     @apply w-full overflow-x-auto overflow-y-hidden box-border my-4;
     padding-bottom: 6px;
@@ -190,7 +190,7 @@
   }
 }
 
-/* 外部覆盖样式 */
+/* External override styles */
 .custom-md .expressive-code :is(ul, ol) li::marker {
   @apply text-inherit;
 }

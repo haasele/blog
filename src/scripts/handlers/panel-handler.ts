@@ -1,10 +1,10 @@
 /**
- * 面板处理器
- * 管理面板的点击外部关闭功能
+ * Panel handler
+ * Manages click-outside-to-close behavior for panels
  */
 
 /**
- * 面板配置接口
+ * Panel configuration interface
  */
 interface PanelConfig {
 	id: string;
@@ -12,8 +12,8 @@ interface PanelConfig {
 }
 
 /**
- * 面板处理器类
- * 负责初始化面板的点击外部关闭功能
+ * Panel handler class
+ * Initializes click-outside-to-close for panels
  */
 export class PanelHandler {
 	private panels: PanelConfig[] = [
@@ -43,29 +43,29 @@ export class PanelHandler {
 	private boundClickHandlers = new Map<string, (event: MouseEvent) => void>();
 
 	/**
-	 * 初始化面板处理器
+	 * Initialize panel handler
 	 */
 	async init(): Promise<void> {
 		try {
-			// 动态导入面板管理器
+			// Dynamically import panel manager
 			const module = await import("../../utils/panel-manager.js");
 			this.panelManager = module.panelManager;
 
-			// 设置所有面板的点击外部关闭功能
+			// Set up click-outside-to-close for all panels
 			this.panels.forEach((panel) => {
 				this.setupClickOutsideToClose(panel);
 			});
 
-			console.log("PanelHandler: 初始化完成");
+			console.log("PanelHandler: initialized");
 			return Promise.resolve();
 		} catch (error) {
-			console.error("PanelHandler: 初始化失败", error);
+			console.error("PanelHandler: initialization failed", error);
 			return Promise.reject(error);
 		}
 	}
 
 	/**
-	 * 设置点击外部关闭面板
+	 * Set up click-outside-to-close for a panel
 	 */
 	private setupClickOutsideToClose(panel: PanelConfig): void {
 		const clickHandler = async (event: MouseEvent) => {
@@ -74,7 +74,7 @@ export class PanelHandler {
 				return;
 			}
 
-			// 检查是否点击了忽略的元素
+			// Check if an ignored element was clicked
 			for (const ignoreId of panel.ignoreElements) {
 				const ignoreElement = document.getElementById(ignoreId);
 				if (
@@ -85,19 +85,19 @@ export class PanelHandler {
 				}
 			}
 
-			// 关闭面板
+			// Close panel
 			if (this.panelManager) {
 				await this.panelManager.closePanel(panel.id);
 			}
 		};
 
-		// 存储绑定的处理器以便后续清理
+		// Store bound handler for later cleanup
 		this.boundClickHandlers.set(panel.id, clickHandler);
 		document.addEventListener("click", clickHandler);
 	}
 
 	/**
-	 * 添加自定义面板配置
+	 * Add custom panel configuration
 	 */
 	addPanel(panel: PanelConfig): void {
 		this.panels.push(panel);
@@ -107,25 +107,25 @@ export class PanelHandler {
 	}
 
 	/**
-	 * 移除面板配置
+	 * Remove panel configuration
 	 */
 	removePanel(panelId: string): void {
-		// 移除事件监听
+		// Remove event listener
 		const handler = this.boundClickHandlers.get(panelId);
 		if (handler) {
 			document.removeEventListener("click", handler);
 			this.boundClickHandlers.delete(panelId);
 		}
 
-		// 从配置中移除
+		// Remove from configuration
 		this.panels = this.panels.filter((p) => p.id !== panelId);
 	}
 
 	/**
-	 * 销毁处理器
+	 * Destroy handler
 	 */
 	destroy(): void {
-		// 移除所有事件监听
+		// Remove all event listeners
 		this.boundClickHandlers.forEach((handler) => {
 			document.removeEventListener("click", handler);
 		});
@@ -134,18 +134,18 @@ export class PanelHandler {
 	}
 
 	/**
-	 * 获取面板管理器实例
+	 * Get panel manager instance
 	 */
 	getPanelManager(): any {
 		return this.panelManager;
 	}
 }
 
-// 创建全局实例
+// Create global instance
 let globalPanelHandler: PanelHandler | null = null;
 
 /**
- * 获取全局面板处理器实例
+ * Get global panel handler instance
  */
 export function getPanelHandler(): PanelHandler {
 	if (!globalPanelHandler) {
@@ -155,7 +155,7 @@ export function getPanelHandler(): PanelHandler {
 }
 
 /**
- * 初始化面板处理器（便捷函数）
+ * Initialize panel handler (convenience function)
  */
 export async function initPanelHandler(): Promise<void> {
 	const handler = getPanelHandler();

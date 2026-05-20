@@ -10,6 +10,7 @@ hideHomeContent: true
 alias: "encrypted-example"
 tags: ["Test", "Encryption"]
 category: "Technology"
+draft: true
 ---
 
 This blog template is built with [Astro](https://astro.build/). For the things that are not mentioned in this guide, you may find the answers in the [Astro Docs](https://docs.astro.build/).
@@ -125,7 +126,7 @@ hideHomeContent: true
 | `encrypted`    | Yes      | Set to `true` to enable password protection              |
 | `password`     | Yes      | The password to unlock the post                          |
 | `passwordHint` | No       | A hint displayed below the password input to help users |
-| `hideHomeContent` | No   | Hide public summaries as `该文章已加密`. Defaults to `true` when `password` is set. Set to `false` to show the normal summary. |
+| `hideHomeContent` | No   | Hide public summaries as `This post is encrypted`. Defaults to `true` when `password` is set. Set to `false` to show the normal summary. |
 
 ### How the Unlock Box Looks
 

@@ -1,65 +1,65 @@
-# Mizuki 内容仓库结构说明
+# Mizuki Content Repository Structure
 
-本文档说明如何创建和组织 Mizuki 博客的内容仓库。
+This document explains how to create and organize a Mizuki blog content repository.
 
-## 📁 推荐的目录结构
+## 📁 Recommended Directory Structure
 
 ```
 Mizuki-Content/
-├── posts/              # 博客文章
+├── posts/              # Blog posts
 │   ├── post-1.md
 │   ├── post-2.md
 │   └── my-article/
 │       ├── index.md
 │       └── cover.jpg
-├── spec/               # 特殊页面
+├── spec/               # Special pages
 │   ├── about.md
 │   └── friends.md
-├── data/               # 数据文件
+├── data/               # Data files
 │   ├── anime.ts
 │   ├── projects.ts
 │   ├── skills.ts
 │   └── timeline.ts
-├── images/             # 图片资源
-│   ├── albums/         # 相册图片
-│   ├── diary/          # 日记图片
-│   └── posts/          # 文章图片
+├── images/             # Image assets
+│   ├── albums/         # Album images
+│   ├── diary/          # Diary images
+│   └── posts/          # Post images
 └── README.md
 ```
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 1. 创建新的内容仓库
+### 1. Create a New Content Repository
 
 ```bash
-# 创建新仓库
+# Create new repository
 mkdir Mizuki-Content
 cd Mizuki-Content
 git init
 
-# 创建基本目录结构
+# Create basic directory structure
 mkdir -p posts spec data images/albums images/diary images/posts
 
-# 创建 README
-echo "# Mizuki 博客内容" > README.md
+# Create README
+echo "# Mizuki Blog Content" > README.md
 ```
 
-### 2. 从现有 Mizuki 项目迁移内容
+### 2. Migrate Content from an Existing Mizuki Project
 
-如果你已经有一个 Mizuki 项目,可以将内容迁移到新仓库:
+If you already have a Mizuki project, migrate content to the new repository:
 
 ```bash
-# 在 Mizuki 项目根目录执行
+# Run from Mizuki project root
 cd /path/to/Mizuki
 
-# 复制内容到新仓库
+# Copy content to new repository
 cp -r src/content/posts/* /path/to/Mizuki-Content/posts/
 cp -r src/content/spec/* /path/to/Mizuki-Content/spec/
 cp -r src/data/* /path/to/Mizuki-Content/data/
 cp -r public/images/* /path/to/Mizuki-Content/images/
 ```
 
-### 3. 提交到 Git
+### 3. Commit to Git
 
 ```bash
 cd /path/to/Mizuki-Content
@@ -67,40 +67,40 @@ cd /path/to/Mizuki-Content
 git add .
 git commit -m "Initial commit: Add blog content"
 
-# 添加远程仓库并推送
+# Add remote and push
 git remote add origin https://github.com/your-username/Mizuki-Content.git
 git branch -M main
 git push -u origin main
 ```
 
-## 🔗 连接到 Mizuki 代码仓库
+## 🔗 Connect to the Mizuki Code Repository
 
-### 方式一: Git Submodule (推荐)
+### Option 1: Git Submodule (Recommended)
 
-在 Mizuki 代码仓库中:
+In the Mizuki code repository:
 
 ```bash
 cd /path/to/Mizuki
 
-# 添加内容仓库作为 submodule
+# Add content repository as submodule
 git submodule add https://github.com/your-username/Mizuki-Content.git content
 
-# 提交 submodule 配置
+# Commit submodule configuration
 git add .gitmodules content
 git commit -m "Add content repository as submodule"
 git push
 ```
 
-配置环境变量 `.env`:
+Configure `.env`:
 
 ```bash
 CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
 USE_SUBMODULE=true
 ```
 
-### 方式二: 独立仓库模式
+### Option 2: Standalone Repository Mode
 
-配置环境变量 `.env`:
+Configure `.env`:
 
 ```bash
 CONTENT_REPO_URL=https://github.com/your-username/Mizuki-Content.git
@@ -108,73 +108,73 @@ CONTENT_DIR=./content
 USE_SUBMODULE=false
 ```
 
-然后运行同步:
+Then run sync:
 
 ```bash
 pnpm run sync-content
 ```
 
-## 📝 内容编写指南
+## 📝 Content Writing Guide
 
-### 文章前言 (Frontmatter)
+### Post Frontmatter
 
-每篇文章都应该包含以下前言:
+Every post should include:
 
 ```yaml
 ---
-title: 文章标题
+title: Post Title
 published: 2024-01-01
-description: 文章描述
+description: Post description
 image: ./cover.jpg
-tags: [标签1, 标签2]
-category: 分类
+tags: [tag1, tag2]
+category: Category
 draft: false
 pinned: false
-lang: zh-CN
+lang: en
 ---
 ```
 
-### 目录组织
+### Directory Organization
 
-- **单文件文章**: 直接在 `posts/` 目录下创建 `.md` 文件
-- **包含图片的文章**: 创建文件夹,将 `index.md` 和图片放在一起
+- **Single-file posts**: Create `.md` files directly under `posts/`
+- **Posts with images**: Create a folder with `index.md` and images together
 
-示例:
+Example:
 ```
 posts/
-├── simple-post.md                    # 简单文章
-└── complex-post/                     # 复杂文章
-    ├── index.md                      # 文章内容
-    ├── cover.jpg                     # 封面图
-    └── diagram.png                   # 文章中的图片
+├── simple-post.md                    # Simple post
+└── complex-post/                     # Post with assets
+    ├── index.md                      # Post content
+    ├── cover.jpg                     # Cover image
+    └── diagram.png                   # Inline image
 ```
 
-## 🔄 更新工作流
+## 🔄 Update Workflow
 
-### 本地开发
+### Local Development
 
-1. 修改内容仓库中的文件
-2. 提交并推送更改
-3. 在代码仓库中同步内容:
+1. Edit files in the content repository
+2. Commit and push changes
+3. Sync in the code repository:
    ```bash
    cd /path/to/Mizuki
    pnpm run sync-content
    ```
 
-### 使用 Submodule 时
+### Using Submodule
 
 ```bash
-# 更新 submodule
+# Update submodule
 cd /path/to/Mizuki
 git submodule update --remote --merge
 
-# 或者使用同步脚本
+# Or use sync script
 pnpm run sync-content
 ```
 
-### 部署时自动同步
+### Auto-Sync on Deploy
 
-在 CI/CD 配置中添加:
+Add to CI/CD configuration:
 
 ```yaml
 - name: Sync Content
@@ -184,72 +184,70 @@ pnpm run sync-content
     USE_SUBMODULE: true
 ```
 
-## 📦 数据文件说明
+## 📦 Data File Reference
 
 ### anime.ts
-番剧数据配置,包含你观看的动画列表。
+Anime tracking data — list of shows you watch.
 
 ### projects.ts
-项目展示数据,展示你的作品集。
+Project showcase data.
 
 ### skills.ts
-技能数据,展示你的技术栈。
+Skills / tech stack data.
 
 ### timeline.ts
-时间线数据,记录重要事件。
+Timeline of important events.
 
-## 🎨 图片管理
+## 🎨 Image Management
 
-### 目录说明
+### Directories
 
-- `images/albums/`: 相册页面的图片
-- `images/diary/`: 日记页面的图片  
-- `images/posts/`: 文章中引用的公共图片
+- `images/albums/`: Album page images
+- `images/diary/`: Diary page images  
+- `images/posts/`: Shared images referenced in posts
 
-### 图片引用
-
-在文章中引用图片:
+### Image References in Posts
 
 ```markdown
-<!-- 相对路径 (推荐) -->
-![描述](./image.jpg)
+<!-- Relative path (recommended) -->
+![Description](./image.jpg)
 
-<!-- 公共图片目录 -->
-![描述](/images/posts/image.jpg)
+<!-- Public images directory -->
+![Description](/images/posts/image.jpg)
 ```
 
-## ⚠️ 注意事项
+## ⚠️ Notes
 
-1. **不要**在内容仓库中包含代码文件
-2. **保持**目录结构与主仓库一致
-3. **定期**备份重要内容
-4. **使用** Git LFS 管理大型图片文件(可选)
+1. **Do not** include code files in the content repository
+2. **Keep** directory structure aligned with the main repository
+3. **Back up** important content regularly
+4. **Use** Git LFS for large images (optional)
 
-## 🔐 私有内容仓库
+## 🔐 Private Content Repository
 
-如果你的内容仓库是私有的，需要配置访问权限。详细的配置方法请参考：
+For private content repositories, configure access permissions. See:
 
-- [内容分离完整指南 - 私有仓库配置](./CONTENT_SEPARATION.md#-私有仓库配置)
-- [部署指南](./DEPLOYMENT.md) - 各平台的私有仓库部署配置
+- [Content Separation Guide - Private Repository](./CONTENT_SEPARATION.md#-private-repository-configuration)
+- [Deployment Guide](./DEPLOYMENT.md) — private repo deployment per platform
 
-### 快速参考
+### Quick Reference
 
-**本地开发**: 推荐使用 SSH 密钥
+**Local development**: SSH keys recommended
 ```bash
 CONTENT_REPO_URL=git@github.com:your-username/Mizuki-Content-Private.git
 USE_SUBMODULE=true
 ```
 
-**CI/CD 部署**: 根据平台选择
-- GitHub Actions: 使用 `GITHUB_TOKEN` (同账号) 或 SSH 密钥
-- Vercel/Netlify: 授权访问或使用 Token
+**CI/CD deployment**: Platform-specific
+- GitHub Actions: `GITHUB_TOKEN` (same account) or SSH key
+- Vercel/Netlify: Authorize access or use a token
 
-## 📚 参考资源
+## 📚 References
 
-- [Git Submodule 文档](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97)
-- [Mizuki 文档](https://docs.mizuki.mysqil.com/)
-- [Astro Content Collections](https://docs.astro.build/zh-cn/guides/content-collections/)
+- [Git Submodule Documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+- [Mizuki Documentation](https://docs.mizuki.mysqil.com/)
+- [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 
 ---
 
-💡 **提示**: 建议先在本地测试内容同步流程,确保一切正常后再配置自动化部署。
+💡 **Tip**: Test content sync locally before configuring automated deployment.

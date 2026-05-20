@@ -1,67 +1,67 @@
-# 性能监控指南
+# Performance Monitoring Guide
 
-本文档介绍如何在项目中配置和使用性能监控工具。
+This document explains how to configure and use performance monitoring tools in the project.
 
-## 目录
+## Table of Contents
 
-- [概述](#概述)
-- [快速开始](#快速开始)
-- [Lighthouse CI 配置](#lighthouse-ci-配置)
-- [性能基准管理](#性能基准管理)
-- [GitHub Actions 集成](#github-actions-集成)
-- [常见问题](#常见问题)
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Lighthouse CI Configuration](#lighthouse-ci-configuration)
+- [Performance Baseline Management](#performance-baseline-management)
+- [GitHub Actions Integration](#github-actions-integration)
+- [FAQ](#faq)
 
 ---
 
-## 概述
+## Overview
 
-项目集成了以下性能监控工具：
+The project integrates the following performance monitoring tools:
 
-| 工具 | 用途 |
+| Tool | Purpose |
 |------|------|
-| Lighthouse CI | 自动化性能测试 |
-| Web Vitals | 运行时性能监控 |
-| Performance Observer | 自定义指标收集 |
+| Lighthouse CI | Automated performance testing |
+| Web Vitals | Runtime performance monitoring |
+| Performance Observer | Custom metric collection |
 
-### 性能指标目标
+### Performance Targets
 
-| 指标 | 目标值 | 说明 |
+| Metric | Target | Description |
 |------|--------|------|
-| Performance Score | ≥ 0.85 | Lighthouse 性能分数 |
-| FCP | ≤ 2000ms | 首次内容绘制 |
-| LCP | ≤ 4000ms | 最大内容绘制 |
-| TTI | ≤ 5000ms | 可交互时间 |
-| CLS | ≤ 0.1 | 累积布局偏移 |
+| Performance Score | ≥ 0.85 | Lighthouse performance score |
+| FCP | ≤ 2000ms | First Contentful Paint |
+| LCP | ≤ 4000ms | Largest Contentful Paint |
+| TTI | ≤ 5000ms | Time to Interactive |
+| CLS | ≤ 0.1 | Cumulative Layout Shift |
 
 ---
 
-## 快速开始
+## Quick Start
 
-### 1. 运行性能测试
+### 1. Run Performance Tests
 
 ```bash
-# 构建项目
+# Build the project
 pnpm build
 
-# 运行 Lighthouse CI（自动启动 preview server）
+# Run Lighthouse CI (starts preview server automatically)
 pnpm lhci autorun
 ```
 
-### 2. 查看性能报告
+### 2. View Performance Reports
 
-测试结果保存在 `.lighthouseci/` 目录：
+Results are saved in `.lighthouseci/`:
 
 ```bash
-# 查看 JSON 格式的详细报告
+# View detailed JSON reports
 cat .lighthouseci/lhr-*.json
 
-# 查看当前性能指标
+# View current performance metrics
 node scripts/performance-baseline.js
 ```
 
-### 3. 更新性能基准
+### 3. Update Performance Baseline
 
-首次使用时，需要建立性能基准：
+On first use, establish a performance baseline:
 
 ```bash
 node scripts/performance-baseline.js --update
@@ -69,11 +69,11 @@ node scripts/performance-baseline.js --update
 
 ---
 
-## Lighthouse CI 配置
+## Lighthouse CI Configuration
 
-### 配置文件
+### Configuration File
 
-主配置文件：`lighthouserc.json`
+Main config: `lighthouserc.json`
 
 ```json
 {
@@ -96,22 +96,22 @@ node scripts/performance-baseline.js --update
 }
 ```
 
-### 配置说明
+### Configuration Options
 
-| 选项 | 说明 |
+| Option | Description |
 |------|------|
-| `numberOfRuns` | 运行次数，结果取平均值 |
-| `url` | 要测试的页面 URL |
-| `minScore` | 最小分数阈值 |
-| `maxNumericValue` | 最大数值阈值（毫秒） |
+| `numberOfRuns` | Number of runs; results are averaged |
+| `url` | Page URLs to test |
+| `minScore` | Minimum score threshold |
+| `maxNumericValue` | Maximum numeric threshold (milliseconds) |
 
 ---
 
-## 性能基准管理
+## Performance Baseline Management
 
-### 基准文件
+### Baseline File
 
-性能基准保存在 `performance-baseline.json`：
+Baseline is stored in `performance-baseline.json`:
 
 ```json
 {
@@ -131,22 +131,22 @@ node scripts/performance-baseline.js --update
 }
 ```
 
-### 管理命令
+### Management Commands
 
 ```bash
-# 查看当前性能指标（不更新基准）
+# View current metrics (without updating baseline)
 node scripts/performance-baseline.js
 
-# 更新性能基准
+# Update performance baseline
 node scripts/performance-baseline.js --update
 
-# 检查性能回归
+# Check for performance regression
 node scripts/performance-check.js
 ```
 
-### 回归检测
+### Regression Detection
 
-当性能指标下降超过 10% 时会报警：
+An alert is raised when metrics drop more than 10%:
 
 ```
 ⚠️  Performance regressions detected!
@@ -158,11 +158,11 @@ node scripts/performance-check.js
 
 ---
 
-## GitHub Actions 集成
+## GitHub Actions Integration
 
-### 自动运行
+### Automatic Runs
 
-推送代码后会自动运行 Lighthouse CI 检查：
+Lighthouse CI runs automatically on push:
 
 ```yaml
 # .github/workflows/lighthouse.yml
@@ -182,76 +182,76 @@ jobs:
           temporaryPublicStorage: true
 ```
 
-### 检查结果
+### Check Results
 
-CI 检查包括：
+CI includes:
 
-- ✅ Astro Check（类型检查）
-- ✅ ESLint（代码规范）
-- ✅ Build（构建测试）
-- ⚠️ Lighthouse（性能测试）
+- ✅ Astro Check (type checking)
+- ✅ ESLint (code style)
+- ✅ Build (build test)
+- ⚠️ Lighthouse (performance test)
 
 ---
 
-## 常见问题
+## FAQ
 
-### Q: Lighthouse 测试失败怎么办？
+### Q: What if Lighthouse tests fail?
 
-1. 检查网络连接是否正常
-2. 确认端口 4321 未被占用
-3. 查看详细错误信息：
+1. Check network connectivity
+2. Confirm port 4321 is not in use
+3. View detailed errors:
 
 ```bash
 npx lhci autorun --verbose
 ```
 
-### Q: 如何排除某些检查？
+### Q: How do I exclude certain checks?
 
-编辑 `lighthouserc.json`，将不想检查的指标设为 `"off"`：
+Edit `lighthouserc.json` and set unwanted metrics to `"off"`:
 
 ```json
 "uses-optimized-images": "off",
 "uses-webp-images": "off"
 ```
 
-### Q: 如何添加新的测试页面？
+### Q: How do I add new test pages?
 
-编辑 `lighthouserc.json`，在 `url` 数组中添加：
+Edit `lighthouserc.json` and add URLs to the `url` array:
 
 ```json
 "url": [
   "http://localhost:4321/",
   "http://localhost:4321/about/",
   "http://localhost:4321/anime/",
-  "http://localhost:4321/new-page/"  // 新页面
+  "http://localhost:4321/new-page/"  // New page
 ]
 ```
 
-### Q: 性能波动大怎么办？
+### Q: What if performance varies a lot?
 
-1. 增加运行次数：
+1. Increase run count:
 
 ```json
 "numberOfRuns": 5
 ```
 
-2. 使用中位数而非平均值
-3. 设置更宽松的阈值
+2. Use median instead of average
+3. Set looser thresholds
 
-### Q: LHCI Server 未配置会怎样？
+### Q: What if LHCI Server is not configured?
 
-本地运行时，报告会保存到 `.lighthouseci/` 目录，不会影响测试。但 GitHub Actions 中会报错：
+Locally, reports are saved to `.lighthouseci/` and tests still run. In GitHub Actions you may see:
 
 ```
 Error: Must provide token for LHCI target
 ```
 
-如需完整功能，请配置 [LHCI Server](https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/server.md)。
+For full features, configure [LHCI Server](https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/server.md).
 
 ---
 
-## 相关资源
+## Related Resources
 
-- [Lighthouse CI 文档](https://github.com/GoogleChrome/lighthouse-ci)
+- [Lighthouse CI Documentation](https://github.com/GoogleChrome/lighthouse-ci)
 - [Web Vitals](https://web.dev/vitals/)
-- [Lighthouse 性能评分](https://developer.chrome.com/docs/lighthouse/performance/performance-scoring/)
+- [Lighthouse Performance Scoring](https://developer.chrome.com/docs/lighthouse/performance/performance-scoring/)

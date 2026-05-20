@@ -12,10 +12,10 @@
 		musicPlayerStore.toggleExpanded();
 	}
 
-	$: currentSongTitle = state.currentSong?.title || "音乐控制中心";
+	$: currentSongTitle = state.currentSong?.title || "Music control center";
 	$: ariaLabel = state.isExpanded
-		? `收起音乐控制中心：${currentSongTitle}`
-		: `打开音乐控制中心：${currentSongTitle}`;
+		? `Close music control center: ${currentSongTitle}`
+		: `Open music control center: ${currentSongTitle}`;
 	$: statusIcon = state.isLoading
 		? "svg-spinners:90-ring-with-bg"
 		: "material-symbols:music-note-rounded";

@@ -16,7 +16,7 @@ const className = Astro.props.class;
 const style = Astro.props.style;
 ---
 
-<!-- 组件显示现在由sidebarLayoutConfig统一控制，无需检查config.enable -->
+<!-- Visibility controlled by sidebarLayoutConfig; no need to check config.enable -->
 <WidgetLayout
 	name={config.title || i18n(I18nKey.announcement)}
 	id="announcement"
@@ -24,14 +24,14 @@ const style = Astro.props.style;
 	style={style}
 >
 	<div>
-		<!-- 公告栏内容 -->
+		<!-- Announcement content -->
 		<div
 			class="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-3"
 		>
 			{config.content}
 		</div>
 
-		<!-- 可选链接和关闭按钮 -->
+		<!-- Optional link and close button -->
 		<div class="flex items-center justify-between gap-3">
 			<div>
 				{
@@ -69,21 +69,21 @@ const style = Astro.props.style;
 
 <script>
 	function closeAnnouncement() {
-		// 通过data-id属性找到整个widget-layout元素
+		// Find widget-layout via data-id
 		const widgetLayouts = document.querySelectorAll(
 			'widget-layout[data-id="announcement"]',
 		);
 		if (widgetLayouts.length > 0) {
 			widgetLayouts.forEach((widget) => {
-				// 隐藏整个widget-layout元素
+				// Hide entire widget-layout
 				(widget as HTMLElement).style.display = "none";
 			});
-			// 保存关闭状态到localStorage
+			// Persist dismissed state in localStorage
 			localStorage.setItem("announcementClosed", "true");
 		}
 	}
 
-	// 页面加载时检查是否已关闭
+	// Check dismissed state on load
 	document.addEventListener("DOMContentLoaded", function () {
 		const widgetLayouts = document.querySelectorAll(
 			'widget-layout[data-id="announcement"]',
@@ -99,6 +99,6 @@ const style = Astro.props.style;
 		}
 	});
 
-	// 使公告栏函数全局可用
+	// Expose announcement helpers globally
 	window.closeAnnouncement = closeAnnouncement;
 </script>

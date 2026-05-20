@@ -1,15 +1,15 @@
 ---
-// 动画测试组件
+// Animation test component
 ---
 
 <div class="animation-test-container">
 	<div class="test-content transition-slide-in" id="test-content">
-		<h3>动画测试区域</h3>
-		<p>这个区域展示了参考yukina主题实现的滑入滑出动画效果</p>
+		<h3>Animation test area</h3>
+		<p>This area demonstrates slide-in and slide-out animations inspired by the Yukina theme.</p>
 		<div class="test-buttons">
-			<button class="test-btn" onclick="testSlideIn()">滑入动画</button>
-			<button class="test-btn" onclick="testSlideOut()">滑出动画</button>
-			<button class="test-btn" onclick="resetAnimation()">重置</button>
+			<button class="test-btn" onclick="testSlideIn()">Slide in</button>
+			<button class="test-btn" onclick="testSlideOut()">Slide out</button>
+			<button class="test-btn" onclick="resetAnimation()">Reset</button>
 		</div>
 	</div>
 </div>
@@ -59,7 +59,7 @@
 </style>
 
 <script is:inline>
-	// 动画测试函数
+	// Animation test helpers
 	function testSlideIn() {
 		const content = document.getElementById("test-content");
 		if (!content) {
@@ -67,7 +67,7 @@
 		}
 
 		content.className = "test-content transition-slide-in";
-		content.offsetHeight; // 强制重排
+		content.offsetHeight; // Force reflow
 
 		setTimeout(() => {
 			content.classList.add("is-active");
@@ -96,12 +96,12 @@
 		content.className = "test-content transition-slide-in is-active";
 	}
 
-	// 暴露函数给全局作用域以便HTML中的onclick可以调用
+	// Expose for inline onclick handlers
 	window.testSlideIn = testSlideIn;
 	window.testSlideOut = testSlideOut;
 	window.resetAnimation = resetAnimation;
 
-	// 页面加载时自动触发滑入动画
+	// Auto slide-in on load
 	document.addEventListener("DOMContentLoaded", () => {
 		setTimeout(testSlideIn, 300);
 	});

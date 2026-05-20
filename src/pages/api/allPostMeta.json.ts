@@ -13,7 +13,7 @@ export async function GET() {
 			category: post.data.category || "",
 			password: !!post.data.password,
 		}))
-		// 按发布日期降序排列
+		// Sort by publish date descending
 		.sort((a, b) => b.published - a.published);
 
 	return new Response(JSON.stringify(allPostsData), {

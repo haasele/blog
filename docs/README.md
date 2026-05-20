@@ -1,110 +1,104 @@
-# Mizuki 文档索引
+# Mizuki Documentation Index
 
-欢迎查阅 Mizuki 的详细文档！
+Welcome to the Mizuki documentation!
 
-## 📚 文档列表
+## 📚 Documentation List
 
-### 核心文档
+### Core Documentation
 
-- **[../README.zh.md](../README.zh.md)** - 项目主文档 (简体中文)
-  - 快速开始
-  - 功能特性
-  - 基础配置
-  - 常见问题
+- **[../README.md](../README.md)** - Main project documentation
+  - Quick start
+  - Features
+  - Basic configuration
+  - FAQ
 
-### 多语言文档
+### Content Separation
 
-- **[../README.md](../README.md)** - English
-- **[../README.ja.md](../README.ja.md)** - 日本語  
-- **[../README.tw.md](../README.tw.md)** - 繁體中文
+- **[CONTENT_SEPARATION.md](./CONTENT_SEPARATION.md)** - Complete content separation guide ⭐
+  - ENABLE_CONTENT_SYNC toggle
+  - Environment variable configuration
+  - Private repository setup
+  - Mode switching guide
+  - Troubleshooting
 
-### 内容分离相关
+- **[CONTENT_REPOSITORY.md](./CONTENT_REPOSITORY.md)** - Content repository structure guide
+  - Recommended directory structure
+  - File organization
+  - Content writing conventions
+  - Image management tips
 
-- **[CONTENT_SEPARATION.md](./CONTENT_SEPARATION.md)** - 内容分离完整指南 ⭐
-  - ENABLE_CONTENT_SYNC 控制开关
-  - 环境变量配置详解
-  - 私有仓库配置方法
-  - 模式切换指南
-  - 故障排查
+- **[MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)** - Content migration guide
+  - Migrating from single repo to separation mode
+  - Detailed migration steps
+  - Testing and verification
 
-- **[CONTENT_REPOSITORY.md](./CONTENT_REPOSITORY.md)** - 内容仓库结构指南
-  - 推荐的目录结构
-  - 文件组织方式
-  - 内容编写规范
-  - 图片管理建议
+### Deployment
 
-- **[MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)** - 内容迁移指南
-  - 从单仓库迁移到分离模式
-  - 详细迁移步骤
-  - 测试验证方法
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide ⭐
+  - Platform deployment (GitHub Pages / Vercel / Netlify / Cloudflare Pages)
+  - Auto-build triggers when content repo updates
+  - Private repository authentication
+  - Troubleshooting
 
-### 部署相关
+- **[AUTO_BUILD_TRIGGER.md](./AUTO_BUILD_TRIGGER.md)** - Auto-build trigger quick reference 🆕
+  - 5-step quick setup to fix content updates not triggering deployment
 
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - 部署完整指南 ⭐
-  - 各平台部署配置 (GitHub Pages / Vercel / Netlify / Cloudflare Pages)
-  - 内容仓库更新自动触发构建
-  - 私有仓库认证
-  - 故障排查
+## 🚀 Quick Lookup
 
-- **[AUTO_BUILD_TRIGGER.md](./AUTO_BUILD_TRIGGER.md)** - 自动构建触发快速参考 🆕
-  - 5 步快速配置，解决内容更新不触发部署的问题
+### I'm new and want to get started quickly
+→ Read the [main README](../README.md)
 
-## 🚀 快速查找
+### I want to deploy my blog
+→ Read the [deployment guide](./DEPLOYMENT.md)
 
-### 我是新手，想快速开始
-→ 阅读 [主 README](../README.zh.md)
+### I want to use content separation
+→ Read the [content separation guide](./CONTENT_SEPARATION.md)
 
-### 我想部署博客
-→ 阅读 [部署指南](./DEPLOYMENT.md)
+### I want to migrate from single repo to separation mode
+→ Read the [migration guide](./MIGRATION_GUIDE.md)
 
-### 我想使用内容分离功能
-→ 阅读 [内容分离完整指南](./CONTENT_SEPARATION.md)
+### I want to configure a private content repository
+→ Read [content separation guide - private repository setup](./CONTENT_SEPARATION.md#-private-repository-configuration)
 
-### 我想从单仓库迁移到分离模式
-→ 阅读 [内容迁移指南](./MIGRATION_GUIDE.md)
+### I'm having deployment issues
+→ Read [deployment guide - troubleshooting](./DEPLOYMENT.md#-troubleshooting)
 
-### 我想配置私有内容仓库
-→ 阅读 [内容分离指南 - 私有仓库配置](./CONTENT_SEPARATION.md#-私有仓库配置)
+### I'm getting content sync errors
+→ Read [content separation guide - troubleshooting](./CONTENT_SEPARATION.md#-troubleshooting)
 
-### 我的部署遇到问题
-→ 阅读 [部署指南 - 故障排查](./DEPLOYMENT.md#-故障排查)
+### Content repo updates don't trigger site redeployment 🆕
+→ Read [auto-build trigger quick reference](./AUTO_BUILD_TRIGGER.md)
 
-### 我遇到了内容同步错误
-→ 阅读 [内容分离指南 - 故障排查](./CONTENT_SEPARATION.md#-故障排查)
-
-### 内容仓库更新后站点没有自动重新部署 🆕
-→ 阅读 [自动构建触发快速参考](./AUTO_BUILD_TRIGGER.md)
-
-## 📖 文档架构
+## 📖 Documentation Structure
 
 ```
 docs/
-├── README.md                    # 本文档 - 索引导航
-├── CONTENT_SEPARATION.md        # 内容分离核心指南
-├── CONTENT_REPOSITORY.md        # 内容仓库结构
-├── MIGRATION_GUIDE.md           # 迁移指南
-├── DEPLOYMENT.md                # 部署完整指南
-├── AUTO_BUILD_TRIGGER.md        # 自动构建触发快速参考
-└── image/                       # 文档图片资源
+├── README.md                    # This file - index and navigation
+├── CONTENT_SEPARATION.md        # Content separation core guide
+├── CONTENT_REPOSITORY.md        # Content repository structure
+├── MIGRATION_GUIDE.md           # Migration guide
+├── DEPLOYMENT.md                # Complete deployment guide
+├── AUTO_BUILD_TRIGGER.md        # Auto-build trigger quick reference
+└── image/                       # Documentation images
 ```
 
-## 🎯 文档使用建议
+## 🎯 Recommended Reading Order
 
-### 新用户推荐阅读顺序
+### New Users
 
-1. [主 README](../README.zh.md) - 了解项目基本情况
-2. [部署指南](./DEPLOYMENT.md) - 选择平台并部署
-3. (可选) [内容分离指南](./CONTENT_SEPARATION.md) - 高级功能
+1. [Main README](../README.md) - Learn the basics
+2. [Deployment guide](./DEPLOYMENT.md) - Choose a platform and deploy
+3. (Optional) [Content separation guide](./CONTENT_SEPARATION.md) - Advanced feature
 
-### 高级用户推荐
+### Advanced Users
 
-- 直接查阅具体主题的文档
-- 使用快速查找定位问题解决方案
+- Go directly to the topic you need
+- Use quick lookup to find solutions
 
-## 🤝 需要帮助？
+## 🤝 Need Help?
 
-- 查看 [GitHub Issues](https://github.com/LyraVoid/Mizuki/issues)
-- 阅读相关文档的故障排查章节
-- 运行 `pnpm run check-env` 检查配置
+- Check [GitHub Issues](https://github.com/LyraVoid/Mizuki/issues)
+- Read troubleshooting sections in the relevant docs
+- Run `pnpm run check-env` to verify configuration
 
-祝你使用愉快！🎉
+Happy blogging! 🎉

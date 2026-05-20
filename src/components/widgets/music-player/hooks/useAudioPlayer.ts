@@ -59,7 +59,7 @@ export function handleLoadSuccess(
 		const playPromise = audio?.play();
 		if (playPromise !== undefined) {
 			playPromise.catch((error) => {
-				console.warn("自动播放被拦截，等待用户交互:", error);
+				console.warn("Autoplay was blocked; waiting for user interaction:", error);
 				state.autoplayFailed = true;
 				state.isPlaying = false;
 			});

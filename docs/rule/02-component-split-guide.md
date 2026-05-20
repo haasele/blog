@@ -1,48 +1,48 @@
-# 组件拆分指南
+# Component Split Guide
 
-## 概述
+## Overview
 
-本文档提供详细的组件拆分方法和最佳实践，帮助你识别需要拆分的组件，并进行有效的重构。
+This document provides detailed component splitting methods and best practices to help you identify components that need splitting and refactor them effectively.
 
-## 识别需要拆分的组件
+## Identifying Components That Need Splitting
 
-### 拆分信号清单
+### Split Signal Checklist
 
-当一个组件出现以下信号时，应该考虑拆分：
+Consider splitting when a component shows the following signals:
 
-#### 1. 代码量过大
+#### 1. Excessive code size
 
-- ❌ 组件总行数 > 500 行
-- ❌ 样式代码 > 200 行
-- ❌ 脚本代码 > 150 行
+- ❌ Total component lines > 500
+- ❌ Style code > 200 lines
+- ❌ Script code > 150 lines
 
-**示例**：
+**Example**:
 ```
-MusicPlayer.svelte - 934 行 ❌ 必须拆分
-Calendar.astro - 527 行 ❌ 需要拆分
-Navbar.astro - 294 行 ⚠️ 可以考虑拆分
-Footer.astro - 159 行 ✅ 良好
+MusicPlayer.svelte - 934 lines ❌ Must split
+Calendar.astro - 527 lines ❌ Needs splitting
+Navbar.astro - 294 lines ⚠️ Consider splitting
+Footer.astro - 159 lines ✅ Good
 ```
 
-#### 2. 职责过多
+#### 2. Too many responsibilities
 
-组件承担了多个不相关的功能：
+The component handles multiple unrelated features:
 
-**❌ 错误示例**：
+**❌ Incorrect example**:
 ```astro
 ---
-// ❌ 一个组件同时负责：
-// 1. 搜索功能
-// 2. 导航菜单
-// 3. 主题切换
-// 4. 侧边栏
-// 5. 用户认证
+// ❌ One component responsible for:
+// 1. Search
+// 2. Navigation menu
+// 3. Theme switching
+// 4. Sidebar
+// 5. User authentication
 ---
 
 <SearchAndNavAndThemeAndSidebarAndAuth.astro />
 ```
 
-**✅ 正确示例**：
+**✅ Correct example**:
 ```astro
 <SearchModule.astro />
 <NavbarMenu.astro />
@@ -51,15 +51,15 @@ Footer.astro - 159 行 ✅ 良好
 <AuthModule.astro />
 ```
 
-#### 3. 状态复杂度高
+#### 3. High state complexity
 
-- 状态变量数量 > 10 个
-- 状态嵌套层级 > 3 层
-- 状态更新逻辑分散
+- More than 10 state variables
+- State nesting deeper than 3 levels
+- State update logic scattered across the component
 
-**❌ 错误示例**：
+**❌ Incorrect example**:
 ```typescript
-// ❌ 15+ 个响应式变量，难以维护
+// ❌ 15+ reactive variables, hard to maintain
 let isPlaying = $state(false)
 let currentSong = $state(null)
 let playlist = $state([])
@@ -76,29 +76,29 @@ let audioRef = $state(null)
 // ...
 ```
 
-#### 4. DOM 操作过多
+#### 4. Excessive DOM manipulation
 
-- 大量 `document.getElementById` 或 `querySelector`
-- 复杂的事件监听器绑定
-- 动态创建/删除元素
+- Many `document.getElementById` or `querySelector` calls
+- Complex event listener binding
+- Dynamic element creation/removal
 
-**❌ 错误示例**：
+**❌ Incorrect example**:
 ```javascript
-// ❌ 20+ 个 DOM 操作
+// ❌ 20+ DOM operations
 const button1 = document.getElementById('btn1')
 const button2 = document.getElementById('btn2')
-// ... 20 个类似的操作
+// ... 20 similar operations
 ```
 
-#### 5. 依赖过多
+#### 5. Too many dependencies
 
-- 导入了 10+ 个外部依赖
-- 导入了多个大型第三方库
+- Imports 10+ external dependencies
+- Imports multiple large third-party libraries
 
-**❌ 错误示例**：
+**❌ Incorrect example**:
 ```astro
 ---
-// ❌ 导入 12 个依赖
+// ❌ Imports 12 dependencies
 import QRCode from 'qrcode'
 import PDF from 'pdf-lib'
 import XLSX from 'xlsx'
@@ -106,99 +106,99 @@ import Chart from 'chart.js'
 // ...
 ```
 
-### 拆分评估工具
+### Split Evaluation Tool
 
-使用以下评估矩阵判断是否需要拆分：
+Use the following evaluation matrix to decide whether to split:
 
-| 评估项 | 权重 | 评分 (1-5) | 加权得分 |
+| Criterion | Weight | Score (1-5) | Weighted score |
 |--------|------|-----------|----------|
-| 代码行数 | 25% | | |
-| 职责数量 | 30% | | |
-| 状态复杂度 | 20% | | |
-| DOM 操作数量 | 15% | | |
-| 依赖数量 | 10% | | |
-| **总分** | **100%** | | |
+| Line count | 25% | | |
+| Number of responsibilities | 30% | | |
+| State complexity | 20% | | |
+| DOM operation count | 15% | | |
+| Dependency count | 10% | | |
+| **Total** | **100%** | | |
 
-**拆分决策**：
-- 总分 > 3.5：必须拆分
-- 总分 2.5-3.5：建议拆分
-- 总分 < 2.5：暂不拆分
+**Split decision**:
+- Total score > 3.5: Must split
+- Total score 2.5–3.5: Split recommended
+- Total score < 2.5: No split for now
 
-## 拆分原则
+## Split Principles
 
-### 1. 单一职责原则（SRP）
+### 1. Single Responsibility Principle (SRP)
 
-拆分后的每个组件应该只有一个明确的职责。
+Each component after splitting should have one clear responsibility.
 
-**示例：MusicPlayer 拆分前**
+**Example: MusicPlayer before splitting**
 
 ```svelte
-// ❌ MusicPlayer.svelte (934 行)
-// 职责：
-// 1. 音频播放控制
-// 2. 播放列表管理
-// 3. 进度条显示和控制
-// 4. 音量控制
-// 5. 迷你播放器UI
-// 6. 展开播放器UI
-// 7. 播放列表UI
+// ❌ MusicPlayer.svelte (934 lines)
+// Responsibilities:
+// 1. Audio playback control
+// 2. Playlist management
+// 3. Progress bar display and control
+// 4. Volume control
+// 5. Mini player UI
+// 6. Expanded player UI
+// 7. Playlist UI
 ```
 
-**拆分后**
+**After splitting**
 
 ```
 MusicPlayer/
-├── MusicPlayer.svelte           # 职责：组合层，协调各子组件
-├── MiniPlayer.svelte          # 职责：迷你播放器UI
-├── ExpandedPlayer.svelte      # 职责：展开播放器UI
-├── PlaylistPanel.svelte        # 职责：播放列表UI
+├── MusicPlayer.svelte           # Responsibility: composition layer, coordinates subcomponents
+├── MiniPlayer.svelte          # Responsibility: mini player UI
+├── ExpandedPlayer.svelte      # Responsibility: expanded player UI
+├── PlaylistPanel.svelte        # Responsibility: playlist UI
 ├── controls/
-│   ├── PlayControls.svelte    # 职责：播放控制按钮
-│   ├── ProgressBar.svelte     # 职责：进度条
-│   └── VolumeControl.svelte  # 职责：音量控制
+│   ├── PlayControls.svelte    # Responsibility: playback control buttons
+│   ├── ProgressBar.svelte     # Responsibility: progress bar
+│   └── VolumeControl.svelte  # Responsibility: volume control
 └── hooks/
-    ├── useAudio.ts           # 职责：音频播放逻辑
-    ├── usePlaylist.ts        # 职责：播放列表管理
-    └── useVolume.ts         # 职责：音量控制逻辑
+    ├── useAudio.ts           # Responsibility: audio playback logic
+    ├── usePlaylist.ts        # Responsibility: playlist management
+    └── useVolume.ts         # Responsibility: volume control logic
 ```
 
-### 2. 接口隔离原则（ISP）
+### 2. Interface Segregation Principle (ISP)
 
-组件应该只依赖于它需要的接口，而不是被迫依赖不相关的接口。
+Components should depend only on the interfaces they need, not on unrelated interfaces.
 
-**示例：Calendar 组件**
+**Example: Calendar component**
 
 ```astro
 ---
-// ❌ 错误：Calendar 组件直接依赖所有功能
+// ❌ Wrong: Calendar depends directly on all features
 import { getAllPosts } from '../utils/blog'
 import { calculateDates } from '../utils/calendar'
 import { formatTime } from '../utils/date'
 import { handleNav } from '../utils/navigation'
 import { handleDrag } from '../utils/drag'
-// ... 10+ 个依赖
+// ... 10+ dependencies
 ---
 
-// ✅ 正确：提取 Hook
+// ✅ Correct: extract a hook
 import { useCalendar } from '../hooks/useCalendar'
 
 const { dates, currentMonth, handleMonthChange } = useCalendar()
 ```
 
-### 3. 依赖倒置原则（DIP）
+### 3. Dependency Inversion Principle (DIP)
 
-高层模块不应该依赖低层模块，两者都应该依赖抽象。
+High-level modules should not depend on low-level modules; both should depend on abstractions.
 
-**示例：**
+**Example:**
 
 ```typescript
-// ❌ 错误：直接依赖具体实现
+// ❌ Wrong: depends on concrete implementation
 function renderPosts() {
   const posts = await getPostsFromDB()
   // ...
 }
 
-// ✅ 正确：依赖抽象
+// ✅ Correct: depends on abstraction
 interface PostRepository {
   getAll(): Promise<Post[]>
 }
@@ -209,41 +209,41 @@ function renderPosts(repository: PostRepository) {
 }
 ```
 
-## 拆分方法
+## Split Methods
 
-### 方法 1：按功能拆分
+### Method 1: Split by feature
 
-适用于职责明确的组件。
+Suitable for components with clear responsibilities.
 
-**步骤**：
+**Steps**:
 
-1. **识别功能模块**
+1. **Identify feature modules**
    ```
-   MusicPlayer 功能模块：
-   - 播放控制（play/pause/prev/next）
-   - 进度管理（current time/duration/seek）
-   - 音量管理（volume/mute）
-   - 播放列表管理（add/remove/reorder）
-   - UI状态管理（mini/expanded/playlist）
+   MusicPlayer feature modules:
+   - Playback control (play/pause/prev/next)
+   - Progress management (current time/duration/seek)
+   - Volume management (volume/mute)
+   - Playlist management (add/remove/reorder)
+   - UI state management (mini/expanded/playlist)
    ```
 
-2. **为每个功能创建子组件**
+2. **Create a subcomponent for each feature**
    ```
    controls/PlayControls.svelte
    controls/ProgressBar.svelte
    controls/VolumeControl.svelte
    ```
 
-3. **提取业务逻辑到 Hooks**
+3. **Extract business logic into hooks**
    ```
    hooks/useAudio.ts
    hooks/usePlaylist.ts
    hooks/useVolume.ts
    ```
 
-4. **创建组合层组件**
+4. **Create a composition-layer component**
    ```astro
-   // MusicPlayer.astro（组合层）
+   // MusicPlayer.astro (composition layer)
    ---
    import PlayControls from './controls/PlayControls.svelte'
    import ProgressBar from './controls/ProgressBar.svelte'
@@ -257,17 +257,17 @@ function renderPosts(repository: PostRepository) {
    </div>
    ```
 
-**实例：MusicPlayer 拆分**
+**Example: MusicPlayer split**
 
-**拆分前**：
+**Before splitting**:
 ```svelte
 <script lang="ts">
-// ❌ 934 行，所有逻辑混在一起
+// ❌ 934 lines, all logic mixed together
 let isPlaying = $state(false)
 let currentSong = $state(null)
 let playlist = $state([])
 let volume = $state(0.8)
-// ... 更多状态和逻辑
+// ... more state and logic
 
 function togglePlay() {
   isPlaying = !isPlaying
@@ -289,22 +289,22 @@ function handleVolumeChange(vol: number) {
   audioRef.volume = vol
 }
 
-// ... 更多函数
+// ... more functions
 </script>
 
 <div class="music-player">
   <button on:click={togglePlay}>{isPlaying ? 'Pause' : 'Play'}</button>
   <input type="range" bind:value={currentTime} />
   <input type="range" bind:value={volume} />
-  <!-- 更多 UI -->
+  <!-- More UI -->
 </div>
 
 <style>
-  /* 200+ 行样式 */
+  /* 200+ lines of styles */
 </style>
 ```
 
-**拆分后**：
+**After splitting**:
 
 1. **hooks/useAudio.ts**
 ```typescript
@@ -395,7 +395,7 @@ export function useAudio() {
 </style>
 ```
 
-4. **MusicPlayer.astro（组合层）**
+4. **MusicPlayer.astro (composition layer)**
 ```astro
 ---
 import PlayControls from './controls/PlayControls.svelte'
@@ -420,50 +420,50 @@ const audio = useAudio()
 </div>
 ```
 
-### 方法 2：按 UI 层级拆分
+### Method 2: Split by UI hierarchy
 
-适用于有清晰 UI 层级的组件。
+Suitable for components with a clear UI hierarchy.
 
-**实例：Calendar 拆分**
+**Example: Calendar split**
 
-**拆分前**：
+**Before splitting**:
 ```astro
 ---
-// ❌ Calendar.astro (527 行)
-// 包含：
-// - 头部导航（月份/年份选择器）
-// - 日历网格（日期渲染）
-// - 文章列表（选中日期的文章）
+// ❌ Calendar.astro (527 lines)
+// Includes:
+// - Header navigation (month/year selectors)
+// - Calendar grid (date rendering)
+// - Post list (posts for selected date)
 ---
 
 <div class="calendar">
   <header>
     <button>←</button>
     <select>2025</select>
-    <select>3月</select>
+    <select>March</select>
     <button>→</button>
   </header>
 
   <div class="grid">
-    <!-- 日历网格 -->
+    <!-- Calendar grid -->
   </div>
 
   <div class="posts">
-    <!-- 文章列表 -->
+    <!-- Post list -->
   </div>
 </div>
 ```
 
-**拆分后**：
+**After splitting**:
 
 ```
 Calendar/
-├── Calendar.astro              # 组合层（< 50 行）
-├── CalendarHeader.svelte      # 头部导航
-├── CalendarGrid.svelte       # 日历网格
-├── PostList.astro           # 文章列表
+├── Calendar.astro              # Composition layer (< 50 lines)
+├── CalendarHeader.svelte      # Header navigation
+├── CalendarGrid.svelte       # Calendar grid
+├── PostList.astro           # Post list
 ├── utils/
-│   └── calendarUtils.ts     # 日期计算逻辑
+│   └── calendarUtils.ts     # Date calculation logic
 └── types.ts
 ```
 
@@ -480,7 +480,7 @@ Calendar/
   <button on:click={onPrevMonth}>
     <Icon name="material-symbols:chevron-left" />
   </button>
-  <div class="title">{year}年{month + 1}月</div>
+  <div class="title">{year} / {month + 1}</div>
   <button on:click={onNextMonth}>
     <Icon name="material-symbols:chevron-right" />
   </button>
@@ -508,7 +508,7 @@ Calendar/
 </div>
 ```
 
-3. **Calendar.astro（组合层）**
+3. **Calendar.astro (composition layer)**
 ```astro
 ---
 import CalendarHeader from './CalendarHeader.svelte'
@@ -535,65 +535,65 @@ const calendar = useCalendar()
 </div>
 ```
 
-### 方法 3：按关注点拆分
+### Method 3: Split by concern
 
-适用于逻辑复杂的组件。
+Suitable for components with complex logic.
 
-**关注点**：
-- 数据获取
-- 数据处理
-- UI 渲染
-- 事件处理
-- 样式
+**Concerns**:
+- Data fetching
+- Data processing
+- UI rendering
+- Event handling
+- Styling
 
-**实例：PasswordProtection 拆分**
+**Example: PasswordProtection split**
 
-**拆分前**：
+**Before splitting**:
 ```astro
 ---
-// ❌ PasswordProtection.astro (648 行)
-// 关注点混杂：
-// - 加密/解密逻辑
-// - UI 表单
-// - 脚本动态执行
-// - 错误处理
+// ❌ PasswordProtection.astro (648 lines)
+// Mixed concerns:
+// - Encryption/decryption logic
+// - UI form
+// - Dynamic script execution
+// - Error handling
 ---
 
 <script>
-  // 加密逻辑
+  // Encryption logic
   function encrypt(text: string, key: string): string {
-    // 100+ 行加密代码
+    // 100+ lines of encryption code
   }
 
-  // 解密逻辑
+  // Decryption logic
   function decrypt(encrypted: string, key: string): string {
-    // 100+ 行解密代码
+    // 100+ lines of decryption code
   }
 
-  // UI 逻辑
+  // UI logic
   let password = ''
   let error = ''
-  // ... 更多 UI 状态
+  // ... more UI state
 </script>
 
 <form>
   <input type="password" bind:value={password} />
-  <button on:click={handleSubmit}>解锁</button>
+  <button on:click={handleSubmit}>Unlock</button>
 </form>
 
 <style>
-  /* 表单样式 */
+  /* Form styles */
 </style>
 ```
 
-**拆分后**：
+**After splitting**:
 
 ```
 features/protection/
-├── PasswordProtection.astro  # UI层（< 200 行）
-├── PasswordForm.astro       # 表单组件（< 100 行）
-├── EncryptionService.ts      # 加密/解密服务（< 200 行）
-└── types.ts                # 类型定义
+├── PasswordProtection.astro  # UI layer (< 200 lines)
+├── PasswordForm.astro       # Form component (< 100 lines)
+├── EncryptionService.ts      # Encryption/decryption service (< 200 lines)
+└── types.ts                # Type definitions
 ```
 
 1. **EncryptionService.ts**
@@ -639,7 +639,7 @@ export class EncryptionService {
     )
   }
 
-  // ... 更多辅助方法
+  // ... more helper methods
 }
 ```
 
@@ -662,7 +662,7 @@ const { error = '', loading = false, onSubmit } = Astro.props
   <Input
     type="password"
     name="password"
-    placeholder="请输入密码"
+    placeholder="Enter password"
     disabled={loading}
   />
   {error && <p class="error">{error}</p>}
@@ -671,7 +671,7 @@ const { error = '', loading = false, onSubmit } = Astro.props
     disabled={loading}
     type="submit"
   >
-    {loading ? '解锁中...' : '解锁'}
+    {loading ? 'Unlocking...' : 'Unlock'}
   </Button>
 </form>
 
@@ -693,7 +693,7 @@ const { error = '', loading = false, onSubmit } = Astro.props
 </style>
 ```
 
-3. **PasswordProtection.astro（UI层）**
+3. **PasswordProtection.astro (UI layer)**
 ```astro
 ---
 import PasswordForm from './PasswordForm.astro'
@@ -707,9 +707,9 @@ async function handleSubmit(password: string) {
   loading = true
   try {
     const decrypted = await encryptionService.decrypt(encryptedContent, password)
-    // 处理解密后的内容
+    // Handle decrypted content
   } catch (e) {
-    error = '密码错误'
+    error = 'Incorrect password'
   } finally {
     loading = false
   }
@@ -723,13 +723,13 @@ async function handleSubmit(password: string) {
 />
 ```
 
-### 方法 4：提取通用组件
+### Method 4: Extract shared components
 
-适用于有相似模式的组件。
+Suitable for components with similar patterns.
 
-**实例：Widget 组件提取**
+**Example: Widget component extraction**
 
-**拆分前**：
+**Before splitting**:
 ```astro
 ---
 // widget/Profile.astro
@@ -738,10 +738,10 @@ async function handleSubmit(password: string) {
 <div class="widget card-base">
   <div class="widget-header">
     <Icon name="material-symbols:person" />
-    <h3>个人资料</h3>
+    <h3>Profile</h3>
   </div>
   <div class="widget-content">
-    <!-- 内容 -->
+    <!-- Content -->
   </div>
 </div>
 
@@ -753,15 +753,15 @@ async function handleSubmit(password: string) {
 <div class="widget card-base">
   <div class="widget-header">
     <Icon name="material-symbols:category" />
-    <h3>分类</h3>
+    <h3>Categories</h3>
   </div>
   <div class="widget-content">
-    <!-- 内容 -->
+    <!-- Content -->
   </div>
 </div>
 ```
 
-**拆分后**：
+**After splitting**:
 
 1. **widgets/common/WidgetLayout.astro**
 ```astro
@@ -818,11 +818,11 @@ import WidgetLayout from './common/WidgetLayout.astro'
 import Avatar from '../../atoms/Avatar.astro'
 ---
 
-<WidgetLayout name="个人资料" icon="material-symbols:person">
+<WidgetLayout name="Profile" icon="material-symbols:person">
   <Avatar src="/avatar.png" size="lg" />
   <div class="profile-info">
     <h4>Mizuki</h4>
-    <p>前端开发者</p>
+    <p>Frontend developer</p>
   </div>
 </WidgetLayout>
 ```
@@ -836,79 +836,79 @@ import ChipCloud from '../../molecules/ChipCloud.astro'
 const categories = await getCategories()
 ---
 
-<WidgetLayout name="分类" icon="material-symbols:category">
+<WidgetLayout name="Categories" icon="material-symbols:category">
   <ChipCloud items={categories} hrefPrefix="/category/" />
 </WidgetLayout>
 ```
 
-## 拆分步骤
+## Split Steps
 
-### 完整拆分流程
+### Complete split workflow
 
-#### 步骤 1：分析和规划
+#### Step 1: Analysis and planning
 
-1. **评估组件**
+1. **Evaluate the component**
    ```bash
-   # 查看组件行数
+   # View component line count
    wc -l src/components/ComplexComponent.astro
 
-   # 查看组件依赖
+   # View component dependencies
    grep -r "import" src/components/ComplexComponent.astro
    ```
 
-2. **识别功能模块**
-   - 列出所有功能点
-   - 识别重复模式
-   - 标记独立的功能模块
+2. **Identify feature modules**
+   - List all feature points
+   - Identify repeated patterns
+   - Mark independent feature modules
 
-3. **创建拆分计划**
+3. **Create a split plan**
    ```markdown
-   ## 组件拆分计划：ComplexComponent
+   ## Component split plan: ComplexComponent
 
-   ### 目标
-   - 拆分为 5 个子组件
-   - 减少主组件到 < 100 行
-   - 提取 3 个 Hooks
+   ### Goals
+   - Split into 5 subcomponents
+   - Reduce main component to < 100 lines
+   - Extract 3 hooks
 
-   ### 子组件列表
-   1. SubComponent1.astro - 功能描述（预计行数）
-   2. SubComponent2.svelte - 功能描述（预计行数）
+   ### Subcomponent list
+   1. SubComponent1.astro - Feature description (estimated lines)
+   2. SubComponent2.svelte - Feature description (estimated lines)
    3. ...
 
-   ### Hooks 列表
-   1. useFeature1.ts - 功能描述
-   2. useFeature2.ts - 功能描述
+   ### Hook list
+   1. useFeature1.ts - Feature description
+   2. useFeature2.ts - Feature description
    ```
 
-#### 步骤 2：创建目录结构
+#### Step 2: Create directory structure
 
 ```bash
-# 创建子组件目录
+# Create subcomponent directories
 mkdir -p src/components/ComplexComponent/controls
 mkdir -p src/components/ComplexComponent/hooks
 mkdir -p src/components/ComplexComponent/utils
 ```
 
-#### 步骤 3：提取逻辑到 Hooks
+#### Step 3: Extract logic into hooks
 
 ```typescript
-// 提取状态管理和业务逻辑
+// Extract state management and business logic
 export function useFeature() {
   const state = $state(initialValue)
 
   const action = () => {
-    // 逻辑
+    // Logic
   }
 
   return { state, action }
 }
 ```
 
-#### 步骤 4：创建子组件
+#### Step 4: Create subcomponents
 
 ```astro
 ---
-// 子组件专注于 UI 渲染
+// Subcomponents focus on UI rendering
 export let value: string
 export let onChange: (value: string) => void
 ---
@@ -916,7 +916,7 @@ export let onChange: (value: string) => void
 <input type="text" bind:value={value} on:input={(e) => onChange(e.target.value)} />
 ```
 
-#### 步骤 5：更新主组件
+#### Step 5: Update the main component
 
 ```astro
 ---
@@ -936,52 +936,52 @@ const feature = useFeature()
 </div>
 ```
 
-#### 步骤 6：更新导入路径
+#### Step 6: Update import paths
 
 ```bash
-# 查找所有使用原组件的文件
+# Find all files using the original component
 grep -r "ComplexComponent" src/pages src/layouts
 
-# 批量更新导入路径
+# Batch-update import paths
 sed -i 's|import ComplexComponent from.*|import ComplexComponent from "@components/organisms/ComplexComponent/ComplexComponent.astro"|g' src/pages/*.astro
 ```
 
-#### 步骤 7：测试和验证
+#### Step 7: Test and verify
 
 ```bash
-# 运行构建检查错误
+# Run build to check for errors
 pnpm run build
 
-# 运行开发服务器测试
+# Run dev server for manual testing
 pnpm run dev
 
-# 检查 Lint
+# Run lint
 pnpm run lint
 
-# 检查类型
+# Run type check
 pnpm run typecheck
 ```
 
-#### 步骤 8：清理和优化
+#### Step 8: Cleanup and optimization
 
 ```bash
-# 删除旧文件
+# Remove old files
 rm src/components/ComplexComponent.astro.backup
 
-# 更新文档
-# 添加组件拆分说明到 CHANGELOG
+# Update documentation
+# Add component split notes to CHANGELOG
 ```
 
-## 避免拆分的陷阱
+## Pitfalls to Avoid When Splitting
 
-### 陷阱 1：过度拆分
+### Pitfall 1: Over-splitting
 
-**问题**：将组件拆分得太细，增加管理成本。
+**Problem**: Splitting too finely increases management cost.
 
-**示例**：
+**Example**:
 ```astro
 ---
-// ❌ 过度拆分：每个按钮都是一个独立组件
+// ❌ Over-split: each button is its own component
 import PlayButton from './PlayButton.astro'
 import PauseButton from './PauseButton.astro'
 import PrevButton from './PrevButton.astro'
@@ -996,10 +996,10 @@ import NextButton from './NextButton.astro'
 </div>
 ```
 
-**修正**：
+**Fix**:
 ```svelte
 ---
-// ✅ 合理拆分：使用一个组件处理播放控制
+// ✅ Reasonable split: one component handles playback controls
 interface Props {
   isPlaying: boolean
   onTogglePlay: () => void
@@ -1017,251 +1017,251 @@ interface Props {
 </div>
 ```
 
-### 陷阱 2：循环依赖
+### Pitfall 2: Circular dependencies
 
-**问题**：组件 A 依赖 B，B 又依赖 A。
+**Problem**: Component A depends on B, and B depends on A.
 
-**示例**：
+**Example**:
 ```typescript
-// ❌ 组件 A 依赖 B
+// ❌ Component A depends on B
 import ComponentB from './ComponentB.astro'
 
-// 组件 B 又依赖 A
+// Component B depends on A
 import ComponentA from './ComponentA.astro'
 ```
 
-**解决方案**：
+**Solution**:
 ```typescript
-// ✅ 提取共享状态到 Store
+// ✅ Extract shared state to a store
 import { sharedStore } from '../stores/shared'
 
-// 组件 A 使用 Store
+// Component A uses the store
 const { value } = sharedStore
 
-// 组件 B 也使用 Store
+// Component B also uses the store
 const { value } = sharedStore
 ```
 
-### 陷阱 3：Props drilling
+### Pitfall 3: Props drilling
 
-**问题**：Props 逐层传递，中间组件不需要使用这些 Props。
+**Problem**: Props are passed through layers; intermediate components do not need them.
 
-**示例**：
+**Example**:
 ```astro
 ---
-// ❌ 祖先组件
+// ❌ Ancestor component
 <ComponentA value={value} />
 
-// 中间组件（不需要 value）
+// Intermediate component (does not need value)
 <ComponentB value={value} />
 
-// 孙组件使用 value
+// Grandchild uses value
 <ComponentC value={value} />
 ```
 
-**解决方案**：
+**Solution**:
 ```typescript
-// ✅ 使用 Context 或 Store
+// ✅ Use Context or a store
 import { createContext } from './context'
 
-// 在祖先组件提供 Context
+// Provide context in ancestor
 <Context.Provider value={{ value }}>
   <ComponentA />
 </Context.Provider>
 
-// 在孙组件消费 Context
+// Consume context in grandchild
 const { value } = useContext(Context)
 ```
 
-### 陷阱 4：过早优化
+### Pitfall 4: Premature optimization
 
-**问题**：在不确定需求的情况下提前拆分。
+**Problem**: Splitting before requirements are clear.
 
-**解决方案**：遵循 YAGNI 原则（You Aren't Gonna Need It）
+**Solution**: Follow YAGNI (You Aren't Gonna Need It)
 
-- 只在真正需要时才拆分
-- 先实现功能，再重构
-- 保持简单，避免过度设计
+- Split only when truly needed
+- Implement features first, then refactor
+- Keep it simple; avoid over-engineering
 
-## 实战案例
+## Practical Cases
 
-### 案例 1：MusicPlayer 完整拆分
+### Case 1: Complete MusicPlayer split
 
-**背景**：
-- MusicPlayer.svelte 934 行
-- 职责过多：音频控制、UI 渲染、播放列表管理
-- 状态复杂：15+ 个响应式变量
+**Background**:
+- MusicPlayer.svelte: 934 lines
+- Too many responsibilities: audio control, UI rendering, playlist management
+- Complex state: 15+ reactive variables
 
-**拆分策略**：
-1. 按 UI 层级拆分（MiniPlayer、ExpandedPlayer、PlaylistPanel）
-2. 按功能拆分（播放控制、进度条、音量控制）
-3. 提取业务逻辑到 Hooks（useAudio、usePlaylist、useVolume）
+**Split strategy**:
+1. Split by UI hierarchy (MiniPlayer, ExpandedPlayer, PlaylistPanel)
+2. Split by feature (playback controls, progress bar, volume control)
+3. Extract business logic into hooks (useAudio, usePlaylist, useVolume)
 
-**拆分结果**：
+**Split result**:
 ```
-MusicPlayer.svelte: 50 行（组合层）
-├── MiniPlayer.svelte: 150 行
-├── ExpandedPlayer.svelte: 200 行
-├── PlaylistPanel.svelte: 120 行
+MusicPlayer.svelte: 50 lines (composition layer)
+├── MiniPlayer.svelte: 150 lines
+├── ExpandedPlayer.svelte: 200 lines
+├── PlaylistPanel.svelte: 120 lines
 ├── controls/
-│   ├── PlayControls.svelte: 80 行
-│   ├── ProgressBar.svelte: 100 行
-│   └── VolumeControl.svelte: 60 行
+│   ├── PlayControls.svelte: 80 lines
+│   ├── ProgressBar.svelte: 100 lines
+│   └── VolumeControl.svelte: 60 lines
 └── hooks/
-    ├── useAudio.ts: 80 行
-    ├── usePlaylist.ts: 90 行
-    └── useVolume.ts: 50 行
+    ├── useAudio.ts: 80 lines
+    ├── usePlaylist.ts: 90 lines
+    └── useVolume.ts: 50 lines
 ```
 
-**收益**：
-- ✅ 主组件从 934 行减少到 50 行（-94%）
-- ✅ 每个子组件职责单一，易于理解和测试
-- ✅ Hooks 可复用
-- ✅ 更容易维护和扩展
+**Benefits**:
+- ✅ Main component reduced from 934 to 50 lines (-94%)
+- ✅ Each subcomponent has a single responsibility, easier to understand and test
+- ✅ Hooks are reusable
+- ✅ Easier to maintain and extend
 
-### 案例 2：Calendar 完整拆分
+### Case 2: Complete Calendar split
 
-**背景**：
-- Calendar.astro 527 行
-- 日历算法复杂
-- 多种视图模式
+**Background**:
+- Calendar.astro: 527 lines
+- Complex calendar algorithms
+- Multiple view modes
 
-**拆分策略**：
-1. 提取日期计算逻辑到 calendarUtils.ts
-2. 按 UI 层级拆分（Header、Grid、PostList）
-3. 创建 useCalendar Hook 管理状态
+**Split strategy**:
+1. Extract date calculation logic to calendarUtils.ts
+2. Split by UI hierarchy (Header, Grid, PostList)
+3. Create useCalendar hook for state management
 
-**拆分结果**：
+**Split result**:
 ```
-Calendar.astro: 50 行（组合层）
-├── CalendarHeader.svelte: 80 行
-├── CalendarGrid.svelte: 150 行
-├── PostList.astro: 100 行
+Calendar.astro: 50 lines (composition layer)
+├── CalendarHeader.svelte: 80 lines
+├── CalendarGrid.svelte: 150 lines
+├── PostList.astro: 100 lines
 ├── hooks/
-│   └── useCalendar.ts: 120 行
+│   └── useCalendar.ts: 120 lines
 └── utils/
-    └── calendarUtils.ts: 80 行
+    └── calendarUtils.ts: 80 lines
 ```
 
-**收益**：
-- ✅ 主组件从 527 行减少到 50 行（-90%）
-- ✅ 日历算法独立，易于测试
-- ✅ UI 和逻辑分离
-- ✅ 可复用的 calendarUtils
+**Benefits**:
+- ✅ Main component reduced from 527 to 50 lines (-90%)
+- ✅ Calendar algorithms isolated and easier to test
+- ✅ UI and logic separated
+- ✅ Reusable calendarUtils
 
-### 案例 3：TOC 合并拆分
+### Case 3: TOC merge and split
 
-**背景**：
-- FloatingTOC.astro 548 行
-- MobileTOC.svelte 651 行
-- widget/TOC.astro 379 行
-- 三个组件功能重复
+**Background**:
+- FloatingTOC.astro: 548 lines
+- MobileTOC.svelte: 651 lines
+- widget/TOC.astro: 379 lines
+- Three components with overlapping functionality
 
-**拆分策略**：
-1. 提取公共逻辑到 useTOC Hook
-2. 创建统一的 TOC 组件
-3. 按设备分离 UI（DesktopTOC、MobileTOC）
+**Split strategy**:
+1. Extract shared logic to useTOC hook
+2. Create a unified TOC component
+3. Separate UI by device (DesktopTOC, MobileTOC)
 
-**拆分结果**：
+**Split result**:
 ```
 organisms/TOC/
-├── TOC.astro: 50 行（组合层）
-├── DesktopTOC.svelte: 200 行
-├── MobileTOC.svelte: 150 行
+├── TOC.astro: 50 lines (composition layer)
+├── DesktopTOC.svelte: 200 lines
+├── MobileTOC.svelte: 150 lines
 └── hooks/
-    └── useTOC.ts: 180 行
+    └── useTOC.ts: 180 lines
 ```
 
-**收益**：
-- ✅ 消除重复代码
-- ✅ 统一的 TOC 逻辑
-- ✅ 更容易维护
-- ✅ 总行数从 1578 行减少到 580 行（-63%）
+**Benefits**:
+- ✅ Eliminated duplicate code
+- ✅ Unified TOC logic
+- ✅ Easier to maintain
+- ✅ Total lines reduced from 1578 to 580 (-63%)
 
-## 拆分后验证
+## Post-Split Verification
 
-### 功能验证
+### Functional verification
 
 ```bash
-# 运行开发服务器
+# Run dev server
 pnpm run dev
 
-# 手动测试所有功能
-# - 播放器播放/暂停/切换
-# - 日历导航和选择
-# - TOC 导航和滚动
+# Manually test all features
+# - Player play/pause/skip
+# - Calendar navigation and selection
+# - TOC navigation and scroll
 ```
 
-### 性能验证
+### Performance verification
 
 ```bash
-# 运行 Lighthouse
+# Run Lighthouse
 npx lighthouse http://localhost:4321 --view
 
-# 检查指标
+# Check metrics
 # - Performance
 # - First Contentful Paint
 # - Time to Interactive
 ```
 
-### 代码质量验证
+### Code quality verification
 
 ```bash
-# 运行 Lint
+# Run lint
 pnpm run lint
 
-# 运行类型检查
+# Run type check
 pnpm run typecheck
 
-# 运行测试
+# Run tests
 pnpm run test
 ```
 
-### 对比验证
+### Comparison verification
 
 ```bash
-# 统计拆分前后行数
-echo "拆分前：934 行"
-echo "拆分后：$(wc -l MusicPlayer/*.svelte | tail -1)"
+# Count lines before and after split
+echo "Before split: 934 lines"
+echo "After split: $(wc -l MusicPlayer/*.svelte | tail -1)"
 
-# 统计组件数量
+# Count components
 find . -name "*.svelte" -o -name "*.astro" | wc -l
 ```
 
-## 文档更新
+## Documentation Updates
 
-### 拆分后需要更新的文档
+### Documents to update after splitting
 
-1. **组件文档**
+1. **Component documentation**
    ```markdown
-   ## MusicPlayer 组件
+   ## MusicPlayer component
 
-   ### 架构
-   - MusicPlayer.astro（组合层）
-   - MiniPlayer.svelte（迷你播放器）
-   - ExpandedPlayer.svelte（展开播放器）
-   - PlaylistPanel.svelte（播放列表）
+   ### Architecture
+   - MusicPlayer.astro (composition layer)
+   - MiniPlayer.svelte (mini player)
+   - ExpandedPlayer.svelte (expanded player)
+   - PlaylistPanel.svelte (playlist)
 
-   ### 使用方法
+   ### Usage
    ```astro
    <MusicPlayer client:visible />
    ```
 
    ### Props
-   - playlist: 播放列表
-   - autoplay: 是否自动播放
+   - playlist: Playlist
+   - autoplay: Whether to autoplay
    ```
 
-2. **迁移指南**
+2. **Migration guide**
    ```markdown
-   ## 从旧版本迁移
+   ## Migrating from older versions
 
-   ### 变更
-   - MusicPlayer 组件内部结构已重构
-   - API 保持不变，无需修改使用代码
+   ### Changes
+   - MusicPlayer internal structure refactored
+   - Public API unchanged; no changes required in usage code
 
-   ### 注意事项
-   - 确保 client:visible 指令正确使用
+   ### Notes
+   - Ensure client:visible directive is used correctly
    ```
 
 3. **CHANGELOG**
@@ -1269,59 +1269,60 @@ find . -name "*.svelte" -o -name "*.astro" | wc -l
    ## [2.0.0] - 2026-03-17
 
    ### Changed
-   - 重构 MusicPlayer 组件架构
-   - 拆分 Calendar 组件
-   - 合并 TOC 相关组件
+   - Refactored MusicPlayer component architecture
+   - Split Calendar component
+   - Merged TOC-related components
 
    ### Performance
-   - 减少初始加载包大小 30%
-   - 提升组件渲染性能 40%
+   - Reduced initial bundle size by 30%
+   - Improved component render performance by 40%
    ```
 
-## 常见问题（FAQ）
+## FAQ
 
-### Q1: 拆分会影响性能吗？
+### Q1: Does splitting affect performance?
 
-**A**: 不会。实际上，拆分后：
-- 可以使用 `client:visible` 等指令按需加载
-- 更细的组件可以更好地缓存
-- 减少不必要的重渲染
+**A**: No. In practice, after splitting:
+- You can use directives like `client:visible` for on-demand loading
+- Smaller components cache better
+- Unnecessary re-renders are reduced
 
-### Q2: 拆分后如何处理组件间通信？
+### Q2: How do components communicate after splitting?
 
-**A**: 使用以下方法：
-- Props 传递（父 → 子）
-- 事件派发（子 → 父）
-- 全局 Store（跨组件）
-- Context API（深层组件）
+**A**: Use:
+- Props (parent → child)
+- Event dispatch (child → parent)
+- Global store (cross-component)
+- Context API (deep component trees)
 
-### Q3: 什么时候需要拆分，什么时候不需要？
-
-**A**:
-**需要拆分**：
-- 组件 > 500 行
-- 职责 > 3 个
-- 状态变量 > 10 个
-- 难以理解和测试
-
-**不需要拆分**：
-- 组件 < 200 行
-- 职责单一
-- 逻辑简单
-- 易于维护
-
-### Q4: 拆分后如何保持向后兼容？
+### Q3: When should I split, and when should I not?
 
 **A**:
-1. 保持公共 API 不变
-2. 使用默认值
-3. 提供迁移指南
-4. 逐步弃用旧 API
 
-### Q5: 如何测试拆分后的组件？
+**Split when**:
+- Component > 500 lines
+- More than 3 responsibilities
+- More than 10 state variables
+- Hard to understand and test
+
+**Do not split when**:
+- Component < 200 lines
+- Single responsibility
+- Simple logic
+- Easy to maintain
+
+### Q4: How do I maintain backward compatibility after splitting?
 
 **A**:
-1. **单元测试**：测试单个组件
+1. Keep the public API unchanged
+2. Use default values
+3. Provide a migration guide
+4. Deprecate old APIs gradually
+
+### Q5: How do I test components after splitting?
+
+**A**:
+1. **Unit tests**: Test individual components
    ```typescript
    test('MiniPlayer renders correctly', () => {
      const { getByRole } = render(MiniPlayer, { isPlaying: true })
@@ -1329,7 +1330,7 @@ find . -name "*.svelte" -o -name "*.astro" | wc -l
    })
    ```
 
-2. **集成测试**：测试组件组合
+2. **Integration tests**: Test component composition
    ```typescript
    test('MusicPlayer integrates sub-components', () => {
      const { getByText } = render(MusicPlayer, { playlist })
@@ -1337,7 +1338,7 @@ find . -name "*.svelte" -o -name "*.astro" | wc -l
    })
    ```
 
-3. **E2E 测试**：测试用户流程
+3. **E2E tests**: Test user flows
    ```typescript
    test('User can play music', async ({ page }) => {
      await page.goto('/')
@@ -1346,41 +1347,41 @@ find . -name "*.svelte" -o -name "*.astro" | wc -l
    })
    ```
 
-## 总结
+## Summary
 
-组件拆分是提升代码质量的关键步骤。记住：
+Component splitting is a key step in improving code quality. Remember:
 
-✅ **拆分原则**
-- 单一职责（SRP）
-- 接口隔离（ISP）
-- 依赖倒置（DIP）
-- 保持简单（KISS）
+✅ **Split principles**
+- Single responsibility (SRP)
+- Interface segregation (ISP)
+- Dependency inversion (DIP)
+- Keep it simple (KISS)
 
-✅ **拆分方法**
-- 按功能拆分
-- 按 UI 层级拆分
-- 按关注点拆分
-- 提取通用组件
+✅ **Split methods**
+- Split by feature
+- Split by UI hierarchy
+- Split by concern
+- Extract shared components
 
-✅ **避免陷阱**
-- 过度拆分
-- 循环依赖
+✅ **Avoid pitfalls**
+- Over-splitting
+- Circular dependencies
 - Props drilling
-- 过早优化
+- Premature optimization
 
-✅ **持续改进**
-- 定期评估组件
-- 重构大型组件
-- 保持文档更新
-- 分享最佳实践
+✅ **Continuous improvement**
+- Regularly evaluate components
+- Refactor large components
+- Keep documentation updated
+- Share best practices
 
 ---
 
-**最后更新**: 2026-03-17
-**维护者**: Mizuki 开发团队
+**Last updated**: 2026-03-17
+**Maintainer**: Mizuki development team
 
-## 参考资源
+## Reference Resources
 
-- [组件架构设计规范](./01-component-architecture.md)
-- [Aruma 组件拆分示例](../../demo/Aruma/docs/rule/05-component-architecture.md)
-- [React 组件拆分指南](https://react.dev/learn/thinking-in-react)
+- [Component architecture design specification](./01-component-architecture.md)
+- [Aruma component split example](../../demo/Aruma/docs/rule/05-component-architecture.md)
+- [React component split guide](https://react.dev/learn/thinking-in-react)

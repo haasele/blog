@@ -16,15 +16,15 @@ import Search from "./Search.svelte"
 
 const className = Astro.props.class
 
-// 获取导航栏透明模式配置
+// Navbar transparent mode from config
 const navbarTransparentMode =
 	siteConfig.banner?.navbar?.transparentMode || "semi";
 
-// 获取整体布局方案切换按钮显示设置
+// Wallpaper mode switch visibility from config
 const modeSwitchDisplay =
 	siteConfig.wallpaperMode?.showModeSwitchOnMobile || "desktop";
 
-// 检查是否为首页
+// Check if home page
 const isHomePage = Astro.url.pathname === "/" || Astro.url.pathname === "";
 
 const links: NavBarLink[] = navBarConfig.links.map(
@@ -49,21 +49,21 @@ const hasIconPngFallback = rawIcon?.endsWith(".png") && !isIconExternal;
 const logoWebpSrc = hasLogoPngFallback ? logoSrc.replace(/\.png$/i, ".webp") : logoSrc;
 const iconWebpSrc = hasIconPngFallback ? iconSrc.replace(/\.png$/i, ".webp") : iconSrc;
 ---
-<div id="navbar" class="z-50 onload-animation group" data-transparent-mode={navbarTransparentMode} data-is-home={isHomePage}>
-    <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
-    <div class:list={[className, "!overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto flex items-center justify-between px-4"]}>
-        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] px-5 font-bold active:scale-95 shrink-0 transition-all duration-300">
+<div id="navbar" class="z-50 group pointer-events-none" data-transparent-mode={navbarTransparentMode} data-is-home={isHomePage}>
+    <div class="absolute h-8 left-0 right-0 -top-8 bg-transparent transition pointer-events-none"></div> <!-- used for onload animation -->
+    <div class:list={[className, "navbar-bar pointer-events-auto !overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto flex items-center justify-between px-4"]}>
+        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[2.75rem] md:h-[3.25rem] px-5 font-bold active:scale-95 shrink-0 transition-[transform,opacity] duration-300">
             <div class="flex flex-row items-center text-md">
-				{/* 使用navbarTitle配置或默认配置 */}
+				{/* navbarTitle config or defaults */}
                 {siteConfig.navbarTitle ? (
                     siteConfig.navbarTitle.mode === "logo" ? (
                         hasLogoPngFallback ? (
                             <picture>
                                 <source srcset={logoWebpSrc} type="image/webp" />
-                                <img src={logoSrc} alt={siteConfig.navbarTitle.text} class="h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] max-w-full object-contain transition-all duration-300" loading="lazy" />
+                                <img src={logoSrc} alt={siteConfig.navbarTitle.text} class="h-[2.75rem] md:h-[3.25rem] max-w-full object-contain transition-[transform,opacity] duration-300" loading="lazy" />
                             </picture>
                         ) : (
-                            <img src={logoSrc} alt={siteConfig.navbarTitle.text} class="h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] max-w-full object-contain transition-all duration-300" loading="lazy" />
+                            <img src={logoSrc} alt={siteConfig.navbarTitle.text} class="h-[2.75rem] md:h-[3.25rem] max-w-full object-contain transition-[transform,opacity] duration-300" loading="lazy" />
                         )
                     ) : (
                         <>
@@ -95,7 +95,7 @@ const iconWebpSrc = hasIconPngFallback ? iconSrc.replace(/\.png$/i, ".webp") : i
             <div id="search-container">
                 <Search client:only="svelte"></Search>
             </div>
-            {/* 只在 sidebar 模式下显示移动端 TOC 按钮 */}
+            {/* Mobile TOC button (sidebar TOC mode only) */}
 			{siteConfig.toc.enable && siteConfig.toc.mobileTop && <MobileTOC client:only="svelte"></MobileTOC>}
             {!siteConfig.themeColor.fixed && (
                     <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
@@ -103,7 +103,7 @@ const iconWebpSrc = hasIconPngFallback ? iconSrc.replace(/\.png$/i, ".webp") : i
                     </button>
             )}
             <LayoutSwitch client:only="svelte" currentLayout={siteConfig.postListLayout.defaultMode}></LayoutSwitch>
-            <!-- 整体布局方案切换按钮：根据配置决定在哪些设备上显示 -->
+            <!-- Wallpaper mode switch: visibility per config -->
             <div class:list={[
                 modeSwitchDisplay === "off" ? "hidden" :
                 modeSwitchDisplay === "mobile" ? "block md:hidden" :
@@ -127,14 +127,14 @@ const iconWebpSrc = hasIconPngFallback ? iconSrc.replace(/\.png$/i, ".webp") : i
 	const navbarLinksContainer = document.getElementById("navbar-links-container");
 
 	if (searchContainer && navbarLinksContainer) {
-		// 鼠标移入/触摸开始时隐藏导航链接
+		// Hide nav links on search hover/touch start
 		const hideLinks = () => {
 			if (window.matchMedia("(min-width: 1280px)").matches && window.matchMedia("(hover: hover)").matches) {
 				navbarLinksContainer.style.opacity = "0";
 			}
 		};
 
-		// 鼠标移出/触摸结束时显示导航链接
+		// Show nav links on search hover/touch end
 		const showLinks = () => {
 			const navbar = document.getElementById("navbar");
 			if (navbar && !navbar.classList.contains("is-searching")) {
@@ -145,18 +145,18 @@ const iconWebpSrc = hasIconPngFallback ? iconSrc.replace(/\.png$/i, ".webp") : i
 		searchContainer.addEventListener("mouseenter", hideLinks);
 		searchContainer.addEventListener("mouseleave", showLinks);
 
-		// 移动端/触摸屏支持
+		// Mobile / touch support
 		searchContainer.addEventListener("touchstart", hideLinks, { passive: true });
 		searchContainer.addEventListener("touchend", showLinks);
 
-		// 监听 navbar 的 class 变化，当搜索框折叠时确保链接显示
+		// Watch navbar class; ensure links show when search collapses
 		const navbar = document.getElementById("navbar");
 		if (navbar) {
 			const observer = new MutationObserver((mutations) => {
 				mutations.forEach((mutation) => {
 					if (mutation.type === "attributes" && mutation.attributeName === "class") {
 						if (!navbar.classList.contains("is-searching")) {
-							// 搜索框已折叠，如果此时鼠标不在搜索容器内，强制显示链接
+							// Search collapsed; show links if pointer not over search
 							if (!searchContainer.matches(':hover')) {
 								showLinks();
 							}
@@ -187,7 +187,7 @@ async function loadButtonScript() {
         }
     } catch (error) {
         console.error('Failed to load panel manager:', error);
-        // 备用逻辑
+        // Fallback logic
         const settingBtn = document.getElementById("display-settings-switch");
         if (settingBtn) {
             settingBtn.onclick = function () {
@@ -212,66 +212,72 @@ async function loadButtonScript() {
 
 loadButtonScript();
 
-// 为semifull模式添加滚动检测逻辑
+// Scroll detection for semifull navbar mode only (semi/full use constant glass styling)
 function initSemifullScrollDetection() {
     const navbar = document.getElementById('navbar');
     if (!navbar) {return;}
-    
-    // 移除之前的滚动事件监听器（如果存在）
+
+    const transparentMode = navbar.getAttribute('data-transparent-mode') ?? 'semi';
+
     // @ts-ignore
     if (window.semifullScrollHandler) {
         // @ts-ignore
         window.removeEventListener('scroll', window.semifullScrollHandler);
+        // @ts-ignore
+        window.semifullScrollHandler = undefined;
     }
-    
-    // 获取当前是否为首页
+
+    navbar.classList.remove('scrolled');
+
+    if (transparentMode !== 'semifull') {
+        return;
+    }
+
     // @ts-ignore
     const isHomePage = navbar.dataset.isHome === 'true';
 
-    // 如果不是首页，在平板/桌面端强制显示为scrolled状态
     if (!isHomePage) {
         navbar.classList.add('scrolled');
         return;
     }
-    
+
     let ticking = false;
-    
+    let isScrolled = false;
+    const scrollOnThreshold = 72;
+    const scrollOffThreshold = 24;
+
     function updateNavbarState() {
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const threshold = 50; // 滚动阈值，可以根据需要调整
-        
-        if (navbar && scrollTop > threshold) {
-            navbar.classList.add('scrolled');
-        } else if (navbar) {
-            navbar.classList.remove('scrolled');
+
+        if (!isScrolled && scrollTop > scrollOnThreshold) {
+            isScrolled = true;
+            navbar?.classList.add('scrolled');
+        } else if (isScrolled && scrollTop < scrollOffThreshold) {
+            isScrolled = false;
+            navbar?.classList.remove('scrolled');
         }
-        
+
         ticking = false;
     }
-    
+
     function requestTick() {
         if (!ticking) {
             requestAnimationFrame(updateNavbarState);
             ticking = true;
         }
     }
-    
-    // 保存新的事件处理器引用
+
     // @ts-ignore
     window.semifullScrollHandler = requestTick;
-    
-    // 监听滚动事件
     window.addEventListener('scroll', requestTick, { passive: true });
-    
-    // 初始化状态
     updateNavbarState();
 }
 
-// 将函数暴露到全局对象，供页面切换时调用
+// Expose globally for page transitions
 // @ts-ignore
 window.initSemifullScrollDetection = initSemifullScrollDetection;
 
-// 页面加载完成后初始化滚动检测
+// Init scroll detection after load
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSemifullScrollDetection);
 } else {

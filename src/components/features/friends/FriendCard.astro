@@ -23,7 +23,7 @@ const hostname = new URL(friend.siteurl).hostname;
 	data-tags={friend.tags.join(",")}
 >
 	<div class="p-6">
-		<!-- 头像和标题区 -->
+		<!-- Avatar and title -->
 		<div class="flex items-start gap-4 mb-4">
 			<div
 				class="w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden bg-[var(--btn-regular-bg)] ring-2 ring-transparent transition-all duration-300"
@@ -53,14 +53,14 @@ const hostname = new URL(friend.siteurl).hostname;
 			</div>
 		</div>
 
-		<!-- 描述 -->
+		<!-- Description -->
 		<p
 			class="text-sm text-black/60 dark:text-white/60 mb-4 line-clamp-2 min-h-[2.5rem]"
 		>
 			{friend.desc}
 		</p>
 
-		<!-- 标签 -->
+		<!-- Tags -->
 		<div class="flex flex-wrap gap-2 mb-4">
 			{
 				friend.tags.map((tag) => (
@@ -71,7 +71,7 @@ const hostname = new URL(friend.siteurl).hostname;
 			}
 		</div>
 
-		<!-- 操作按钮 -->
+		<!-- Actions -->
 		<div class="flex gap-2">
 			<a
 				href={friend.siteurl}
@@ -116,7 +116,7 @@ const hostname = new URL(friend.siteurl).hostname;
 		</div>
 	</div>
 
-	<!-- 悬停装饰效果 -->
+	<!-- Hover decoration -->
 	<div
 		class="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
 	>

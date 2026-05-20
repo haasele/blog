@@ -1,6 +1,6 @@
 /* 
- * 浮层面板动画增强样式
- * 为所有浮层面板提供统一、流畅的动画效果
+ * Floating panel animation enhancements
+ * Unified, smooth animation effects for all floating panels
  */
 
 .float-panel {
@@ -8,23 +8,23 @@
   will-change: transform, opacity;
   backface-visibility: hidden;
 
-  /* 为动画做准备 */
+  /* Prepare for animation */
   transform-origin: top center;
 }
 
-/* 面板打开时的默认状态 */
+/* Default state when panel opens */
 .float-panel:not(.float-panel-closed) {
   transform: scaleY(1) scaleX(1);
   pointer-events: auto;
 }
 
-/* 面板关闭时的状态 */
+/* State when panel closes */
 .float-panel-closed {
   transform: scaleY(0) scaleX(0.8);
   pointer-events: none;
 }
 
-/* 特定面板的动画调整 */
+/* Panel-specific animation adjustments */
 #mobile-toc-panel {
   transform-origin: top right;
 }
@@ -65,7 +65,7 @@
   transform: scaleY(0) scaleX(0.5);
 }
 
-/* 移动端 */
+/* Mobile */
 @media (max-width: 768px) {
   .float-panel-closed {
     transform: scaleY(0) scaleX(0.85);
@@ -80,7 +80,7 @@
   }
 }
 
-/* 移动设备触摸优化 */
+/* Touch optimization for mobile devices */
 @media (hover: none) and (pointer: coarse) {
   .float-panel {
     touch-action: manipulation;

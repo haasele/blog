@@ -34,10 +34,10 @@
 		}
 	}
 
-	// 辅助函数：同时更新两种存储
-	// sessionStorage 用于判断当前会话状态（关闭标签页失效）
-	// localStorage 用于兼容其他组件（如 PostPage.astro）
-	// TODO: 使用 sessionStorage 存储状态，关闭标签页即销毁。不应把缓存数据存在访客本地电脑上
+	// Update both storage backends
+	// sessionStorage for session state (cleared on tab close)
+	// localStorage for other components (e.g. PostPage.astro)
+	// TODO: Prefer sessionStorage; avoid persisting cache on visitor devices
 	function updateStorage(layout: LayoutMode) {
 		sessionStorage.setItem("postListLayout", layout);
 		localStorage.setItem("postListLayout", layout);
@@ -56,7 +56,7 @@
 		const newLayout = userPreference === "list" ? "grid" : "list";
 		userPreference = newLayout;
 
-		// 更新存储
+		// Persist layout
 		updateStorage(newLayout);
 	}
 

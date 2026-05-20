@@ -1,20 +1,20 @@
-// 友情链接页面处理脚本
-// 此脚本作为全局脚本加载，不受 Swup 页面切换影响
+// Friends links page handler script
+// Loaded as a global script; unaffected by Swup page transitions
 
 (() => {
 	console.log("[Friends Global] Script loaded");
 
-	// 使用全局变量存储状态
+	// Store state in global variables
 	if (typeof window.friendsPageState === "undefined") {
 		window.friendsPageState = {
 			initialized: false,
 			eventListeners: [],
 			mutationObserver: null,
-			copySuccessText: "已复制", // 默认值，会被页面覆盖
+			copySuccessText: "Copied", // Default value; overridden by the page
 		};
 	}
 
-	// 初始化函数
+	// Initialization
 	function initFriendsPage() {
 		console.log("[Friends Global] initFriendsPage called");
 
@@ -22,7 +22,7 @@
 		var friendsGrid = document.getElementById("friends-grid");
 		var noResults = document.getElementById("no-results");
 
-		// 如果关键元素不存在，直接返回
+		// Return early if required elements are missing
 		if (!searchInput || !friendsGrid || !noResults) {
 			return false;
 		}
@@ -37,7 +37,7 @@
 			copyButtons: copyButtons.length,
 		});
 
-		// 从页面获取复制成功文本
+		// Read copy-success text from the page
 		var copySuccessTextElement = document.getElementById(
 			"friends-copy-success-text",
 		);
@@ -46,7 +46,7 @@
 				copySuccessTextElement.textContent;
 		}
 
-		// 清理旧的事件监听器
+		// Remove old event listeners
 		if (window.friendsPageState.eventListeners.length > 0) {
 			console.log(
 				"[Friends Global] Cleaning",
@@ -68,7 +68,7 @@
 		var currentTag = "all";
 		var searchTerm = "";
 
-		// 过滤函数
+		// Filter friends
 		function filterFriends() {
 			var visibleCount = 0;
 			for (var i = 0; i < friendCards.length; i++) {
@@ -101,7 +101,7 @@
 			}
 		}
 
-		// 搜索功能
+		// Search
 		var searchHandler = (e) => {
 			searchTerm = e.target.value.toLowerCase();
 			filterFriends();
@@ -113,11 +113,11 @@
 			searchHandler,
 		]);
 
-		// 标签筛选
+		// Tag filter
 		for (var i = 0; i < tagFilters.length; i++) {
 			((button) => {
 				var clickHandler = () => {
-					// 更新选中状态
+					// Update active state
 					for (var j = 0; j < tagFilters.length; j++) {
 						var btn = tagFilters[j];
 						btn.classList.remove("active");
@@ -136,7 +136,7 @@
 			})(tagFilters[i]);
 		}
 
-		// 复制链接功能
+		// Copy link
 		for (var i = 0; i < copyButtons.length; i++) {
 			((button) => {
 				var clickHandler = () => {
@@ -181,7 +181,7 @@
 		return true;
 	}
 
-	// 带重试的初始化
+	// Init with retries
 	function tryInit(retries) {
 		retries = retries || 0;
 		if (initFriendsPage()) {
@@ -195,7 +195,7 @@
 		}
 	}
 
-	// MutationObserver 监听 DOM 变化
+	// MutationObserver for DOM changes
 	function setupMutationObserver() {
 		if (window.friendsPageState.mutationObserver) {
 			window.friendsPageState.mutationObserver.disconnect();
@@ -240,7 +240,7 @@
 		});
 	}
 
-	// 页面加载时初始化
+	// Init on page load
 	if (document.readyState === "loading") {
 		document.addEventListener("DOMContentLoaded", () => {
 			console.log("[Friends Global] DOMContentLoaded");
@@ -250,10 +250,10 @@
 		tryInit();
 	}
 
-	// 启动 MutationObserver
+	// Start MutationObserver
 	setupMutationObserver();
 
-	// 监听所有可能的页面切换事件
+	// Listen for page transition events
 	var events = [
 		"swup:contentReplaced",
 		"swup:pageView",

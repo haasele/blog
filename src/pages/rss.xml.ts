@@ -30,7 +30,7 @@ export async function GET(context: APIContext) {
 		(post) => !post.data.encrypted,
 	);
 
-	// 初始化文章 ID 映射（用于 permalink 功能）
+	// Init post id map for permalinks
 	initPostIdMap(posts);
 
 	const feed: RSSFeedItem[] = [];

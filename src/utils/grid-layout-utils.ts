@@ -1,12 +1,12 @@
 /**
- * 网格布局工具函数
- * 提供 MainGridLayout 使用的服务端布局计算逻辑
+ * Grid layout utilities
+ * Server-side layout calculations used by MainGridLayout
  */
 import type { SiteConfig } from "../types/config";
 import type { widgetManager } from "./widget-manager";
 
 /**
- * Banner 图片配置
+ * Banner image configuration
  */
 export interface BannerImages {
 	desktop: string | string[];
@@ -14,7 +14,7 @@ export interface BannerImages {
 }
 
 /**
- * 布局配置接口
+ * Layout configuration interface
  */
 export interface GridLayoutConfig {
 	siteConfig: SiteConfig;
@@ -22,7 +22,7 @@ export interface GridLayoutConfig {
 }
 
 /**
- * 侧边栏存在性配置
+ * Sidebar presence configuration
  */
 export interface SidebarPresence {
 	hasLeftSidebarComponents: boolean;
@@ -32,7 +32,7 @@ export interface SidebarPresence {
 }
 
 /**
- * 网格布局计算结果
+ * Grid layout calculation result
  */
 export interface GridLayoutResult {
 	gridCols: string;
@@ -53,7 +53,7 @@ export interface GridLayoutResult {
 }
 
 /**
- * 获取侧边栏组件存在性
+ * Determine which sidebar widgets are present
  */
 export function getSidebarPresence(wm: typeof widgetManager): SidebarPresence {
 	const hasLeftSidebarComponents =
@@ -81,7 +81,7 @@ export function getSidebarPresence(wm: typeof widgetManager): SidebarPresence {
 }
 
 /**
- * 计算网格布局
+ * Calculate grid layout
  */
 export function calculateGridLayout(
 	config: GridLayoutConfig,
@@ -96,28 +96,28 @@ export function calculateGridLayout(
 		hasTabletLeftSidebarComponents,
 	} = presence;
 
-	// 检查侧边栏是否启用，动态调整网格布局
+	// Check whether sidebars are enabled and adjust the grid dynamically
 	const mobileShowSidebar = hasMobileDrawerComponents;
 	const tabletShowSidebar = hasTabletLeftSidebarComponents;
 	const desktopShowSidebar =
 		hasLeftSidebarComponents || hasRightSidebarComponents;
 
-	// 桌面端侧边栏最终显示状态（考虑是否有组件）
+	// Final desktop sidebar visibility (based on configured widgets)
 	const desktopShowLeftSidebar = hasLeftSidebarComponents;
 	const desktopShowRightSidebar = hasRightSidebarComponents;
 
-	// 平板端侧边栏最终显示状态
+	// Final tablet sidebar visibility
 	const tabletShowLeftSidebar = hasTabletLeftSidebarComponents;
-	// 平板端不再有独立的右侧栏，如果右移左了，它就在 tabletShowLeftSidebar 中显示
+	// Tablet has no separate right sidebar; moved-right widgets appear via tabletShowLeftSidebar
 	const tabletShowRightSidebar = false;
 	const tabletAnySidebar = tabletShowLeftSidebar;
 
-	// 检查默认布局模式，如果是 grid 模式，右侧边栏初始就应该隐藏
+	// In grid mode, hide the right sidebar initially
 	const defaultPostListLayout =
 		siteConfig.postListLayout?.defaultMode || "list";
 	const initialRightSidebarHidden = defaultPostListLayout === "grid";
 
-	// 动态网格布局类名 - 根据侧边栏模式和是否有组件调整列宽
+	// Dynamic grid column classes based on sidebar mode and widget presence
 	let desktopGridCols = "lg:grid-cols-1";
 	if (desktopShowLeftSidebar && desktopShowRightSidebar) {
 		desktopGridCols = "lg:grid-cols-[17.5rem_1fr_17.5rem]";
@@ -135,7 +135,7 @@ export function calculateGridLayout(
 		.trim()
 		.replace(/\s+/g, " ");
 
-	// 侧边栏容器类名 - 始终在左侧
+	// Left sidebar container classes
 	const sidebarClass = `
 		onload-animation
 		${mobileShowSidebar && hasMobileDrawerComponents ? "block" : "hidden"}
@@ -145,7 +145,7 @@ export function calculateGridLayout(
 		.trim()
 		.replace(/\s+/g, " ");
 
-	// 右侧边栏容器类名
+	// Right sidebar container classes
 	const rightSidebarClass = `
 		onload-animation
 		hidden
@@ -156,7 +156,7 @@ export function calculateGridLayout(
 		.trim()
 		.replace(/\s+/g, " ");
 
-	// 主内容区域类名 - 根据侧边栏模式调整grid-column
+	// Main content classes adjusted by sidebar mode
 	let desktopMainPos = "lg:col-span-1";
 	if (desktopShowLeftSidebar && desktopShowRightSidebar) {
 		desktopMainPos = "lg:col-start-2 lg:col-end-3";
@@ -195,14 +195,14 @@ export function calculateGridLayout(
 }
 
 /**
- * 获取 Banner 图片
+ * Resolve banner images
  */
 export async function getBannerImages(
 	siteConfig: SiteConfig,
 ): Promise<BannerImages> {
 	let bannerSrc = siteConfig.banner.src;
 
-	// 如果启用了图片API，获取API图片
+	// Fetch images from the API when enabled
 	if (siteConfig.banner.imageApi?.enable && siteConfig.banner.imageApi?.url) {
 		try {
 			const response = await fetch(siteConfig.banner.imageApi.url);
@@ -232,7 +232,7 @@ export async function getBannerImages(
 			mobile: srcObj.mobile || srcObj.desktop || "",
 		};
 	}
-	// 如果是字符串或字符串数组，同时用于桌面端和移动端
+	// String or string array values apply to both desktop and mobile
 	return {
 		desktop: bannerSrc as string | string[],
 		mobile: bannerSrc as string | string[],
@@ -240,7 +240,7 @@ export async function getBannerImages(
 }
 
 /**
- * 检查是否应该启用半透明效果
+ * Check whether transparency should be enabled
  */
 export function shouldEnableTransparency(
 	defaultWallpaperMode: string,
@@ -249,14 +249,14 @@ export function shouldEnableTransparency(
 }
 
 /**
- * 获取半透明效果 CSS 类名
+ * Get transparency CSS class name
  */
 export function getTransparencyClass(shouldEnable: boolean): string {
 	return shouldEnable ? "wallpaper-transparent" : "";
 }
 
 /**
- * 计算主内容区域顶部位置
+ * Calculate main content top offset
  */
 export function getMainPanelTop(
 	defaultWallpaperMode: string,

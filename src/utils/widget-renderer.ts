@@ -1,6 +1,6 @@
 /**
- * Widget 渲染工具
- * 提供侧边栏组件渲染的通用逻辑
+ * Widget rendering utilities
+ * Provides shared logic for sidebar widget rendering
  */
 import type { MarkdownHeading } from "astro";
 
@@ -8,7 +8,7 @@ import type { WidgetConfig } from "./types/widget";
 import { widgetManager } from "./widget-manager";
 
 /**
- * 组件渲染结果
+ * Widget render result
  */
 export interface RenderResult {
 	Component: unknown;
@@ -16,10 +16,10 @@ export interface RenderResult {
 }
 
 /**
- * 获取组件的 class 和 style 属性
- * @param component 组件配置
- * @param index 组件索引
- * @returns 包含 class 和 style 的对象
+ * Get widget class and style attributes
+ * @param component Widget configuration
+ * @param index Widget index
+ * @returns Object containing class and style
  */
 export function getComponentStyles(
 	component: WidgetConfig,
@@ -34,11 +34,11 @@ export function getComponentStyles(
 }
 
 /**
- * 组装组件的 props
- * @param component 组件配置
- * @param index 组件索引
- * @param headings 可选的 Markdown 标题（用于 TOC 组件）
- * @returns 组装好的 props 对象
+ * Assemble widget props
+ * @param component Widget configuration
+ * @param index Widget index
+ * @param headings Optional Markdown headings (for TOC widgets)
+ * @returns Assembled props object
  */
 export function buildComponentProps(
 	component: WidgetConfig,
@@ -56,7 +56,7 @@ export function buildComponentProps(
 		...component.customProps,
 	};
 
-	// TOC 组件需要传入 headings
+	// TOC widgets require headings to be passed in
 	if (
 		(component.type === "toc" || component.type === "card-toc") &&
 		headings
@@ -68,10 +68,10 @@ export function buildComponentProps(
 }
 
 /**
- * 获取设备类型
- * @param width 窗口宽度
- * @param breakpoints 断点配置
- * @returns 设备类型
+ * Get device type
+ * @param width Window width
+ * @param breakpoints Breakpoint configuration
+ * @returns Device type
  */
 export function getDeviceType(
 	width: number,

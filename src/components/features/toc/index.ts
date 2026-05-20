@@ -1,20 +1,20 @@
 /**
- * TOC 组件统一导出
+ * TOC exports
  *
- * Astro 组件使用包装器模式重导出
- * Svelte 组件（MobileTOC）请从原始位置导入：@components/MobileTOC.svelte
+ * Astro components re-exported via wrappers
+ * Import Svelte MobileTOC from @components/MobileTOC.svelte
  */
 
-// 组件导出（兼容包装器）
+// Components (compat wrappers)
 export { default as FloatingTOC } from "./FloatingTOC.astro";
 export { default as SidebarTOC } from "./SidebarTOC.astro";
 
-// 子组件导出
+// Subcomponents
 export { default as TOCBadge } from "./components/TOCBadge.astro";
 export { default as TOCItemComponent } from "./components/TOCItem.astro";
 export { default as TOCProgressBar } from "./components/TOCProgressBar.astro";
 
-// 类型导出
+// Types
 export type {
 	HeadingData,
 	TOCBaseProps,
@@ -24,7 +24,7 @@ export type {
 	TOCScrollOptions,
 } from "./types/toc";
 
-// 工具函数导出
+// Utilities
 export {
 	calculateReadingProgress,
 	createHeadingObserver,
@@ -36,7 +36,7 @@ export {
 	scrollToHeading,
 } from "./utils/toc-utils";
 
-// Hooks 导出
+// Hooks
 export * from "./hooks/useFloatingTOC";
 
 // Navigation hooks

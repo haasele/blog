@@ -11,7 +11,7 @@ async function getRawSortedPosts() {
 	});
 
 	const sorted = allBlogPosts.sort((a, b) => {
-		// 首先按置顶状态排序，置顶文章在前
+		// Sort pinned posts first
 		if (a.data.pinned && !b.data.pinned) {
 			return -1;
 		}
@@ -19,7 +19,7 @@ async function getRawSortedPosts() {
 			return 1;
 		}
 
-		// 如果置顶状态相同，优先按 Priority 排序（数值越小越靠前）
+		// When pinned status matches, sort by priority (lower values first)
 		if (a.data.pinned && b.data.pinned) {
 			const priorityA = a.data.priority;
 			const priorityB = b.data.priority;
@@ -34,7 +34,7 @@ async function getRawSortedPosts() {
 			}
 		}
 
-		// 否则按发布日期排序
+		// Otherwise sort by publish date
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 		return dateA > dateB ? -1 : 1;
@@ -59,15 +59,15 @@ export async function getSortedPosts() {
 export interface PostForList {
 	id: string;
 	data: CollectionEntry<"posts">["data"];
-	url?: string; // 预计算的文章 URL
+	url?: string; // Precomputed post URL
 }
 export async function getSortedPostsList(): Promise<PostForList[]> {
 	const sortedFullPosts = await getRawSortedPosts();
 
-	// 初始化文章 ID 映射（用于 permalink 功能）
+	// Initialize post ID mapping for permalink support
 	initPostIdMap(sortedFullPosts);
 
-	// delete post.body，并预计算 URL
+	// delete post.body and precompute URLs
 	const sortedPostsList = sortedFullPosts.map((post) => ({
 		id: post.id,
 		data: post.data,
@@ -146,25 +146,25 @@ export async function getCategoryList(): Promise<Category[]> {
 }
 
 /**
- * 对标题进行分词，支持中英文混合
+ * Tokenize a title with mixed Chinese and English text
  *
- * - 优先使用 Intl.Segmenter（在支持的运行时中效果更好）
- * - 在不支持 Segmenter 的环境（如部分 Node 运行时）下
- *   回退到基于正则的简单分词，以避免构建报错
- * - 过滤标点和空白，英文统一小写
+ * - Prefer Intl.Segmenter when the runtime supports it
+ * - Fall back to simple regex-based tokenization in environments without Segmenter
+ *   (such as some Node runtimes) to avoid build errors
+ * - Filter punctuation and whitespace; lowercase English tokens
  */
 function tokenizeTitle(title: string): Set<string> {
 	const tokens = new Set<string>();
 
-	// 运行时可能不支持 Intl.Segmenter（例如部分 Node 环境）
-	// 为了避免 SSR/构建时报错，这里做兼容处理
+	// Intl.Segmenter may be unavailable at runtime (e.g. some Node environments)
+	// Guard here to avoid SSR/build failures
 	const hasSegmenter =
 		typeof Intl !== "undefined" &&
 		"Segmenter" in Intl &&
 		typeof (Intl as any).Segmenter === "function";
 
 	if (!hasSegmenter) {
-		// 简单回退方案：按照空白和标点拆分
+		// Simple fallback: split on whitespace and punctuation
 		const basicTokens = title
 			.toLowerCase()
 			.split(/[\s\p{P}]+/gu)
@@ -175,7 +175,7 @@ function tokenizeTitle(title: string): Set<string> {
 		return tokens;
 	}
 
-	// 使用 Intl.Segmenter 进行更精细的中英文混合分词
+	// Use Intl.Segmenter for finer mixed Chinese/English tokenization
 	const segmenter = new (Intl as any).Segmenter("zh", {
 		granularity: "word",
 	});
@@ -189,7 +189,7 @@ function tokenizeTitle(title: string): Set<string> {
 }
 
 /**
- * 计算两个集合的 Jaccard 相似度
+ * Compute Jaccard similarity between two sets
  */
 function jaccardSimilarity(a: Set<string>, b: Set<string>): number {
 	if (a.size === 0 && b.size === 0) {
@@ -206,12 +206,12 @@ function jaccardSimilarity(a: Set<string>, b: Set<string>): number {
 }
 
 /**
- * 获取相关文章推荐
- * 评分公式: totalScore = tagMatchScore + titleSimilarityScore + timeFreshnessScore + categoryBonus
- * - tagMatchScore (0-100): 标签 Jaccard 相似度 × 100
- * - titleSimilarityScore (0-100): 标题分词 Jaccard 相似度 × 100
- * - timeFreshnessScore (0-30): 6 个月半衰期指数衰减
- * - categoryBonus (0 or 10): 同分类加 10 分
+ * Get related post recommendations
+ * Scoring formula: totalScore = tagMatchScore + titleSimilarityScore + timeFreshnessScore + categoryBonus
+ * - tagMatchScore (0-100): tag Jaccard similarity × 100
+ * - titleSimilarityScore (0-100): title token Jaccard similarity × 100
+ * - timeFreshnessScore (0-30): exponential decay with a 6-month half-life
+ * - categoryBonus (0 or 10): +10 for matching category
  */
 export async function getRelatedPosts(
 	currentPost: CollectionEntry<"posts">,
@@ -221,7 +221,7 @@ export async function getRelatedPosts(
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 
-	// 排除自身和加密文章
+	// Exclude the current post and password-protected posts
 	const candidates = allPosts.filter(
 		(p) => p.id !== currentPost.id && !p.data.password,
 	);
@@ -242,7 +242,7 @@ export async function getRelatedPosts(
 		const titleSimilarityScore =
 			jaccardSimilarity(currentTokens, postTokens) * 100;
 
-		// timeFreshnessScore (0-30): 6 个月半衰期
+		// timeFreshnessScore (0-30): 6-month half-life
 		const daysSincePublished =
 			(now - new Date(post.data.published).getTime()) /
 			(1000 * 60 * 60 * 24);
@@ -271,10 +271,10 @@ export async function getRelatedPosts(
 		};
 	});
 
-	// 按总分降序排列
+	// Sort by total score descending
 	scored.sort((a, b) => b.totalScore - a.totalScore);
 
-	// 优先取有标签匹配的
+	// Prefer posts with tag matches first
 	const withTagMatch = scored.filter((s) => s.tagMatchScore > 0);
 	const withoutTagMatch = scored.filter((s) => s.tagMatchScore === 0);
 
@@ -287,7 +287,7 @@ export async function getRelatedPosts(
 		result.push({ id: s.post.id, data: s.post.data });
 	}
 
-	// 不足时从剩余候选中按 timeFreshnessScore + categoryBonus 降序补充
+	// Fill remaining slots from candidates sorted by timeFreshnessScore + categoryBonus
 	if (result.length < maxCount) {
 		withoutTagMatch.sort(
 			(a, b) =>

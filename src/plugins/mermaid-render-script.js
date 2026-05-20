@@ -1,7 +1,7 @@
 (() => {
-	// 单例模式：检查是否已经初始化过
+	// Singleton: check if already initialized
 	if (window.mermaidInitialized) {
-		// 如果已经初始化过，只确保 renderMermaidDiagrams 函数可用
+		// If already initialized, only ensure renderMermaidDiagrams is available
 		if (typeof window.renderMermaidDiagrams !== "function") {
 			window.renderMermaidDiagrams = renderMermaidDiagrams;
 		}
@@ -10,12 +10,12 @@
 
 	window.mermaidInitialized = true;
 
-	// 记录当前主题状态，避免不必要的重新渲染
+	// Track current theme to avoid unnecessary re-renders
 	let currentTheme = null;
-	let isRendering = false; // 防止并发渲染
+	let isRendering = false; // Prevent concurrent rendering
 	let retryCount = 0;
 	const MAX_RETRIES = 3;
-	const RETRY_DELAY = 1000; // 1秒
+	const RETRY_DELAY = 1000; // 1 second
 	let fullscreenOverlay = null;
 
 	function injectFullscreenStyles() {
@@ -141,7 +141,7 @@
 		const closeButton = document.createElement("button");
 		closeButton.className =
 			"mermaid-fullscreen-close btn-regular rounded-lg h-10 w-10";
-		closeButton.title = "关闭全屏";
+		closeButton.title = "Exit fullscreen";
 		closeButton.textContent = "✕";
 		closeButton.addEventListener("click", closeFullscreen);
 
@@ -170,7 +170,7 @@
 		document.body.classList.add("mermaid-fullscreen-open");
 		fullscreenOverlay = overlay;
 
-		// 为全屏内的图表添加缩放控制
+		// Add zoom controls for fullscreen diagram
 		attachZoomControls(stage, clonedSvg);
 	}
 
@@ -181,8 +181,8 @@
 		const btn = document.createElement("button");
 		btn.type = "button";
 		btn.className = "mermaid-fullscreen-btn btn-regular rounded-lg h-9 w-9";
-		btn.title = "全屏查看";
-		btn.setAttribute("aria-label", "全屏查看 Mermaid 图表");
+		btn.title = "View fullscreen";
+		btn.setAttribute("aria-label", "View Mermaid diagram in fullscreen");
 		btn.innerHTML = "⛶";
 		btn.addEventListener("click", (ev) => {
 			ev.stopPropagation();
@@ -195,7 +195,7 @@
 		element.appendChild(btn);
 	}
 
-	// 检查主题是否真的发生了变化
+	// Check if theme actually changed
 	function hasThemeChanged() {
 		const isDark = document.documentElement.classList.contains("dark");
 		const newTheme = isDark ? "dark" : "default";
@@ -207,7 +207,7 @@
 		return false;
 	}
 
-	// 等待 Mermaid 库加载完成
+	// Wait for Mermaid library to load
 	function waitForMermaid(timeout = 10000) {
 		return new Promise((resolve, reject) => {
 			const startTime = Date.now();
@@ -233,10 +233,10 @@
 		});
 	}
 
-	// 存储 MutationObserver 实例
+	// Store MutationObserver instance
 	let themeObserver = null;
 
-	// 清理 MutationObserver
+	// Clean up MutationObserver
 	function cleanupMutationObserver() {
 		if (themeObserver) {
 			themeObserver.disconnect();
@@ -244,7 +244,7 @@
 		}
 	}
 
-	// 设置 MutationObserver 监听 html 元素的 class 属性变化
+	// Set MutationObserver on html class attribute changes
 	function setupMutationObserver() {
 		cleanupMutationObserver();
 
@@ -254,7 +254,7 @@
 					mutation.type === "attributes" &&
 					mutation.attributeName === "class"
 				) {
-					// 检查是否是 dark 类的变化
+					// Check if dark class changed
 					const target = mutation.target;
 					const wasDark = mutation.oldValue
 						? mutation.oldValue.includes("dark")
@@ -263,7 +263,7 @@
 
 					if (wasDark !== isDark) {
 						if (hasThemeChanged()) {
-							// 延迟渲染，避免主题切换时的闪烁
+							// Delayed render to avoid flicker during theme switch
 							setTimeout(() => renderMermaidDiagrams(), 150);
 						}
 					}
@@ -271,7 +271,7 @@
 			});
 		});
 
-		// 开始观察 html 元素的 class 属性变化
+		// Start observing html class attribute changes
 		themeObserver.observe(document.documentElement, {
 			attributes: true,
 			attributeFilter: ["class"],
@@ -279,7 +279,7 @@
 		});
 	}
 
-	// 缩放平移
+	// Zoom and pan
 	function attachZoomControls(element, svgElement) {
 		if (element.__zoomAttached) {
 			return;
@@ -347,7 +347,7 @@
 		wrapper.addEventListener("pointerdown", (ev) => {
 			if (ev.button !== 0) {
 				return;
-			} // 仅左键
+			} // Left button only
 			isPanning = true;
 			wrapper.setPointerCapture(ev.pointerId);
 			startX = ev.clientX;
@@ -362,7 +362,7 @@
 			}
 			const dx = ev.clientX - startX;
 			const dy = ev.clientY - startY;
-			tx = startTx + dx / scale; // 根据当前缩放调整灵敏度
+			tx = startTx + dx / scale; // Adjust sensitivity based on current zoom
 			ty = startTy + dy / scale;
 			applyTransform();
 		});
@@ -378,7 +378,7 @@
 			isPanning = false;
 		});
 
-		// 鼠标滚轮缩放
+		// Mouse wheel zoom
 		element.addEventListener(
 			"wheel",
 			(ev) => {
@@ -406,7 +406,7 @@
 			{ passive: false },
 		);
 
-		// 双击重置
+		// Double-click reset
 		wrapper.addEventListener("dblclick", () => {
 			scale = 1;
 			tx = 0;
@@ -423,32 +423,32 @@
 		});
 	}
 
-	// 设置其他事件监听器
+	// Set up other event listeners
 	function setupEventListeners() {
-		// 监听页面切换
+		// Listen for page transition
 		document.addEventListener("astro:page-load", () => {
-			// 重新初始化主题状态
+			// Reinitialize theme state
 			currentTheme = null;
-			retryCount = 0; // 重置重试计数
+			retryCount = 0; // Reset retry count
 			if (hasThemeChanged()) {
 				setTimeout(() => renderMermaidDiagrams(), 100);
 			}
 		});
 
-		// 监听页面可见性变化，页面重新可见时重新渲染
+		// Listen for visibility change; re-render when page becomes visible
 		document.addEventListener("visibilitychange", () => {
 			if (!document.hidden) {
 				setTimeout(() => renderMermaidDiagrams(), 200);
 			}
 		});
 
-		// 页面切换前清理
+		// Clean up before page transition
 		document.addEventListener("astro:before-swap", cleanupMutationObserver);
 
-		// 页面切换前清理全屏状态
+		// Clean up fullscreen state before page transition
 		document.addEventListener("astro:before-swap", closeFullscreen);
 
-		// Swup 页面切换时重新设置 Observer
+		// Re-setup Observer on Swup page transition
 		document.addEventListener("astro:after-swap", () => {
 			if (themeObserver === null) {
 				setupMutationObserver();
@@ -460,7 +460,7 @@
 		try {
 			await waitForMermaid();
 
-			// 初始化 Mermaid 配置
+			// Initialize Mermaid config
 			window.mermaid.initialize({
 				startOnLoad: false,
 				theme: "default",
@@ -469,16 +469,16 @@
 					fontSize: "16px",
 				},
 				securityLevel: "loose",
-				// 添加错误处理配置
+				// Add error handling config
 				errorLevel: "warn",
 				logLevel: "error",
 			});
 
-			// 渲染所有 Mermaid 图表
+			// Render all Mermaid diagrams
 			await renderMermaidDiagrams();
 		} catch (error) {
 			console.error("Failed to initialize Mermaid:", error);
-			// 如果初始化失败，尝试重新加载
+			// If init fails, try reload
 			if (retryCount < MAX_RETRIES) {
 				retryCount++;
 				setTimeout(() => initializeMermaid(), RETRY_DELAY * retryCount);
@@ -487,12 +487,12 @@
 	}
 
 	async function renderMermaidDiagrams() {
-		// 防止并发渲染
+		// Prevent concurrent rendering
 		if (isRendering) {
 			return;
 		}
 
-		// 检查 Mermaid 是否可用
+		// Check if Mermaid is available
 		if (!window.mermaid || typeof window.mermaid.render !== "function") {
 			console.warn("Mermaid not available, skipping render");
 			return;
@@ -516,21 +516,21 @@
 				return;
 			}
 
-			// 延迟检测主题，确保 DOM 已经更新
+			// Delayed theme detection to ensure DOM is updated
 			await new Promise((resolve) => setTimeout(resolve, 100));
 
 			const htmlElement = document.documentElement;
 			const isDark = htmlElement.classList.contains("dark");
 			const theme = isDark ? "dark" : "default";
 
-			// 更新 Mermaid 主题（只需要更新一次）
+			// Update Mermaid theme (once only)
 			window.mermaid.initialize({
 				startOnLoad: false,
 				theme: theme,
 				themeVariables: {
 					fontFamily: "inherit",
 					fontSize: "16px",
-					// 强制应用主题变量
+					// Force apply theme variables
 					primaryColor: isDark ? "#ffffff" : "#000000",
 					primaryTextColor: isDark ? "#ffffff" : "#000000",
 					primaryBorderColor: isDark ? "#ffffff" : "#000000",
@@ -543,7 +543,7 @@
 				logLevel: "error",
 			});
 
-			// 分批渲染，避免一次性阻塞主线程
+			// Batch render to avoid blocking main thread
 			const BATCH_SIZE = 3;
 			let index = 0;
 
@@ -568,11 +568,11 @@
 									break;
 								}
 
-								// 显示加载状态
+								// Show loading state
 								element.innerHTML =
 									'<div class="mermaid-loading">Rendering diagram...</div>';
 
-								// 渲染图表
+								// Render diagram
 								const { svg } = await window.mermaid.render(
 									`mermaid-${Date.now()}-${globalIndex}-${attempts}`,
 									code,
@@ -589,7 +589,7 @@
 								element.__zoomAttached = false;
 								element.appendChild(svgElement);
 
-								// 添加响应式支持
+								// Add responsive support
 								const insertedSvg =
 									element.querySelector("svg");
 								if (insertedSvg) {
@@ -597,10 +597,10 @@
 									insertedSvg.removeAttribute("height");
 									insertedSvg.style.maxWidth = "100%";
 									insertedSvg.style.height = "auto";
-									//Todo 需要根据实际情况
+									//Todo Adjust as needed
 									insertedSvg.style.minHeight = "300px";
 
-									// 强制应用样式
+									// Force apply styles
 									if (isDark) {
 										svgElement.style.filter =
 											"brightness(0.9) contrast(1.1)";
@@ -611,7 +611,7 @@
 									ensureFullscreenButton(element);
 								}
 
-								// 渲染成功，跳出重试循环
+								// Render succeeded; exit retry loop
 								break;
 							} catch (error) {
 								attempts++;
@@ -634,7 +634,7 @@
 										</div>
 									`;
 								} else {
-									// 等待一段时间后重试
+									// Wait before retry
 									await new Promise((resolve) =>
 										setTimeout(resolve, 500 * attempts),
 									);
@@ -647,7 +647,7 @@
 				index += BATCH_SIZE;
 
 				if (index < mermaidElements.length) {
-					// 在空闲时间继续渲染下一批，避免长时间阻塞主线程
+					// Continue next batch on idle to avoid long main-thread block
 					await new Promise((resolve) => {
 						if ("requestIdleCallback" in window) {
 							window.requestIdleCallback(() => resolve());
@@ -660,7 +660,7 @@
 			}
 
 			await renderBatch();
-			retryCount = 0; // 重置重试计数
+			retryCount = 0; // Reset retry count
 			window.dispatchEvent(
 				new CustomEvent("mermaid:render:done", {
 					detail: { count: mermaidElements.length },
@@ -670,7 +670,7 @@
 			console.error("Error in renderMermaidDiagrams:", error);
 			window.dispatchEvent(new CustomEvent("mermaid:render:done"));
 
-			// 如果渲染失败，尝试重新渲染
+			// If render fails, try re-render
 			if (retryCount < MAX_RETRIES) {
 				retryCount++;
 				setTimeout(
@@ -683,13 +683,13 @@
 		}
 	}
 
-	// 初始化主题状态
+	// Initialize theme state
 	function initializeThemeState() {
 		const isDark = document.documentElement.classList.contains("dark");
 		currentTheme = isDark ? "dark" : "default";
 	}
 
-	// 加载 Mermaid 库
+	// Load Mermaid library
 	async function loadMermaid() {
 		if (typeof window.mermaid !== "undefined") {
 			return Promise.resolve();
@@ -707,7 +707,7 @@
 
 			script.onerror = (error) => {
 				console.error("Failed to load Mermaid library:", error);
-				// 尝试备用 CDN
+				// Try fallback CDN
 				const fallbackScript = document.createElement("script");
 				fallbackScript.src =
 					"https://unpkg.com/mermaid@11/dist/mermaid.min.js";
@@ -732,28 +732,28 @@
 		});
 	}
 
-	// 主初始化函数
+	// Main init function
 	async function initialize() {
 		try {
-			// 设置监听器
+			// Set up listeners
 			setupMutationObserver();
 			setupEventListeners();
 
-			// 初始化主题状态
+			// Initialize theme state
 			initializeThemeState();
 
-			// 加载并初始化 Mermaid
+			// Load and initialize Mermaid
 			await loadMermaid();
 			await initializeMermaid();
 
-			// 将 renderMermaidDiagrams 暴露到全局作用域，以便在解密后调用
+			// Expose renderMermaidDiagrams globally for post-decryption calls
 			window.renderMermaidDiagrams = renderMermaidDiagrams;
 		} catch (error) {
 			console.error("Failed to initialize Mermaid system:", error);
 		}
 	}
 
-	// 启动初始化
+	// Start initialization
 	if (document.readyState === "loading") {
 		document.addEventListener("DOMContentLoaded", initialize);
 	} else {

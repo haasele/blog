@@ -1,10 +1,10 @@
 /**
- * Banner 样式文件
- * 包含 Banner 文本、轮播图、水波纹效果和响应式布局样式
+ * Banner styles
+ * Banner text, carousel, wave effect, and responsive layout
  */
 
 /* ==========================================================================
-   Banner 文本样式
+   Banner text styles
    ========================================================================== */
 .banner-title {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
@@ -31,20 +31,20 @@
 }
 
 /* ==========================================================================
-   无 Banner 模式布局
+   No Banner mode layout
    ========================================================================== */
 body.no-banner-mode .absolute.w-full.z-30 {
   top: 5.5rem !important;
 }
 
-/* TOC 垂直对齐优化 */
+/* TOC vertical alignment optimization */
 body.no-banner-mode #toc-inner-wrapper {
   top: 5.5rem !important;
   height: calc(100vh - 8rem) !important;
   max-height: calc(100vh - 8rem) !important;
 }
 
-/* 低高度屏幕下给目录更多可用空间，避免滚动区域被过度压缩 */
+/* More TOC space on short screens to avoid compressed scroll area */
 @media (max-height: 860px) {
   #toc-inner-wrapper {
     height: calc(100vh - 5.5rem) !important;
@@ -57,7 +57,7 @@ body.no-banner-mode #toc-inner-wrapper {
   }
 }
 
-/* 全屏壁纸模式下的 TOC 毛玻璃背景 */
+/* TOC frosted glass background in fullscreen wallpaper mode */
 body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded="true"]) {
   background: var(--card-bg-transparent) !important;
   backdrop-filter: blur(20px) !important;
@@ -67,7 +67,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   box-shadow: var(--shadow-lg);
 }
 
-/* 桌面端 Banner 模式下的主内容区域位置 */
+/* Main content position in desktop Banner mode */
 @media (min-width: 1280px) {
   body.enable-banner .absolute.w-full.z-30 {
     top: 35vh !important;
@@ -75,7 +75,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端无侧边栏布局优化
+   Mobile layout without sidebar optimization
    ========================================================================== */
 @media (max-width: 767px) {
   .mobile-no-sidebar {
@@ -97,7 +97,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     margin: 0 !important;
   }
 
-  /* 修复双侧边栏模式在移动端的布局问题 */
+  /* Fix dual-sidebar layout on mobile */
   .mobile-both-sidebar {
     grid-template-columns: 1fr !important;
     padding-left: 0.5rem !important;
@@ -116,10 +116,10 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端横幅优化 - 小屏手机 (320px - 479px)
+   Mobile banner optimization - small phones (320px - 479px)
    ========================================================================== */
 @media (max-width: 479px) {
-  /* Banner wrapper 高度优化 */
+  /* Banner wrapper height optimization */
   body.enable-banner #banner-wrapper:not(.mobile-hide-banner) {
     height: 70vh !important;
     min-height: 450px;
@@ -127,13 +127,13 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     top: 0 !important;
   }
 
-  /* 主内容区域位置调整 */
+  /* Main content position adjustment */
   body.enable-banner .absolute.w-full.z-30:not(.mobile-main-no-banner) {
     top: 70vh !important;
     min-height: calc(100vh - 70vh) !important;
   }
 
-  /* 横幅文本覆盖层优化 */
+  /* Banner text overlay optimization */
   .banner-text-overlay {
     align-items: center !important;
     justify-content: center !important;
@@ -141,14 +141,14 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     text-align: center !important;
   }
 
-  /* 文本容器优化 */
+  /* Text container optimization */
   .banner-text-overlay > div {
     margin-bottom: 0 !important;
     width: 95% !important;
     text-align: center !important;
   }
 
-  /* 标题字体优化 */
+  /* Title font optimization */
   .banner-title {
     font-size: 3.2rem !important;
     line-height: 1.1 !important;
@@ -156,14 +156,14 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8) !important;
   }
 
-  /* 副标题字体优化 */
+  /* Subtitle font optimization */
   .banner-subtitle {
     font-size: 1rem !important;
     line-height: 1.3 !important;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7) !important;
   }
 
-  /* 波浪效果高度调整 */
+  /* Wave effect height adjustment */
   .waves {
     height: 8vh !important;
     min-height: 60px !important;
@@ -172,10 +172,10 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端横幅优化 - 大屏手机 (480px - 767px)
+   Mobile banner optimization - large phones (480px - 767px)
    ========================================================================== */
 @media (min-width: 480px) and (max-width: 767px) {
-  /* Banner wrapper 高度优化 */
+  /* Banner wrapper height optimization */
   body.enable-banner #banner-wrapper:not(.mobile-hide-banner) {
     height: 75vh !important;
     min-height: 500px;
@@ -183,13 +183,13 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     top: 0 !important;
   }
 
-  /* 主内容区域位置调整 */
+  /* Main content position adjustment */
   body.enable-banner .absolute.w-full.z-30:not(.mobile-main-no-banner) {
     top: 75vh !important;
     min-height: calc(100vh - 75vh) !important;
   }
 
-  /* 横幅文本覆盖层优化 */
+  /* Banner text overlay optimization */
   .banner-text-overlay {
     align-items: center !important;
     justify-content: center !important;
@@ -197,14 +197,14 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     text-align: center !important;
   }
 
-  /* 文本容器优化 */
+  /* Text container optimization */
   .banner-text-overlay > div {
     margin-bottom: 0 !important;
     width: 90% !important;
     text-align: center !important;
   }
 
-  /* 标题字体优化 */
+  /* Title font optimization */
   .banner-title {
     font-size: 3.8rem !important;
     line-height: 1.1 !important;
@@ -212,14 +212,14 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8) !important;
   }
 
-  /* 副标题字体优化 */
+  /* Subtitle font optimization */
   .banner-subtitle {
     font-size: 1.125rem !important;
     line-height: 1.4 !important;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7) !important;
   }
 
-  /* 波浪效果高度调整 */
+  /* Wave effect height adjustment */
   .waves {
     height: 10vh !important;
     min-height: 70px !important;
@@ -228,23 +228,23 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   平板设备横幅优化 (768px - 1279px)
+   Tablet banner optimization (768px - 1279px)
    ========================================================================== */
 @media (min-width: 768px) and (max-width: 1279px) {
-  /* Banner wrapper 高度优化 */
+  /* Banner wrapper height optimization */
   body.enable-banner #banner-wrapper:not(.mobile-hide-banner) {
     height: 70vh !important;
     min-height: 500px;
     top: 0 !important;
   }
 
-  /* 主内容区域位置调整 */
+  /* Main content position adjustment */
   body.enable-banner .absolute.w-full.z-30:not(.mobile-main-no-banner) {
     top: 70vh !important;
     min-height: calc(100vh - 70vh) !important;
   }
 
-  /* 横幅文本覆盖层优化 */
+  /* Banner text overlay optimization */
   .banner-text-overlay {
     align-items: center !important;
     justify-content: center !important;
@@ -252,14 +252,14 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     text-align: center !important;
   }
 
-  /* 文本容器优化 */
+  /* Text container optimization */
   .banner-text-overlay > div {
     margin-bottom: 0 !important;
     width: 85% !important;
     text-align: center !important;
   }
 
-  /* 标题字体优化 */
+  /* Title font optimization */
   .banner-title {
     font-size: 4rem !important;
     line-height: 1.1 !important;
@@ -267,21 +267,21 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8) !important;
   }
 
-  /* 副标题字体优化 */
+  /* Subtitle font optimization */
   .banner-subtitle {
     font-size: 1.5rem !important;
     line-height: 1.4 !important;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7) !important;
   }
 
-  /* 波浪效果高度调整 */
+  /* Wave effect height adjustment */
   .waves {
     height: 12vh !important;
     min-height: 80px !important;
     max-height: 120px !important;
   }
 
-  /* 修复双侧边栏模式在平板端的布局问题 */
+  /* Fix dual-sidebar layout on tablet */
   .mobile-both-sidebar {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
@@ -298,7 +298,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   Banner 轮播槽位（所有断点共享）
+   Banner carousel slot (shared across breakpoints)
    ========================================================================== */
 .banner-image-slot-mobile,
 .banner-image-slot-desktop {
@@ -320,7 +320,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   桌面端样式 (1280px+)
+   Desktop styles (1280px+)
    ========================================================================== */
 @media (min-width: 1280px) {
   .banner-text-overlay {
@@ -336,7 +336,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     text-align: center !important;
   }
 
-  /* 桌面端波浪效果恢复默认 */
+  /* Desktop wave effect back to default */
   .waves {
     height: 15vh !important;
     min-height: 80px !important;
@@ -345,16 +345,16 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端图片优化
+   Mobile image optimization
    ========================================================================== */
 @media (max-width: 1279px) {
-  /* 移动端 banner 加载动画优化 */
+  /* Mobile banner load animation optimization */
   .onload-animation-fade-in {
     animation: mobile-fade-in 0.8s ease-out forwards !important;
   }
 }
 
-/* 移动端专用淡入动画 */
+/* Mobile-only fade-in animation */
 @keyframes mobile-fade-in {
   0% {
     opacity: 0;
@@ -367,7 +367,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   手机端非首页隐藏 Banner
+   Hide Banner on non-home mobile pages
    ========================================================================== */
 @media (max-width: 1279px) {
   #banner-wrapper {
@@ -391,7 +391,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
       opacity 0.2s ease-in !important;
   }
 
-  /* 手机端非首页时主内容区域从顶部开始 */
+  /* Non-home mobile: main content starts from top */
   .absolute.w-full.z-30 {
     transition: top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
     will-change: top;
@@ -405,17 +405,17 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端导航栏与 Banner 的协调
+   Mobile navbar and Banner coordination
    ========================================================================== */
 @media (max-width: 1279px) {
-  /* 暗色主题下的导航栏 */
+  /* Navbar in dark theme */
   :root.dark #navbar-wrapper {
-    /* 移除覆盖样式，让 Navbar.astro 的圆角和半透明效果生效 */
+    /* Remove overrides so Navbar.astro rounded corners and transparency apply */
   }
 }
 
 /* ==========================================================================
-   移动端 Banner 性能优化
+   Mobile Banner Performance optimization
    ========================================================================== */
 @media (max-width: 1279px) {
   .banner-container {
@@ -445,7 +445,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     contain: layout style;
   }
 
-  /* 移动端图片优化 */
+  /* Mobile image optimization */
   #banner-carousel img {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
@@ -459,25 +459,25 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   无 Banner 布局
+   No Banner layout
    ========================================================================== */
 .no-banner-layout {
   top: 5.5rem !important;
   min-height: calc(100vh - 5.5rem) !important;
 }
 
-/* Grid 模式下隐藏右侧边栏 */
+/* Hide right sidebar in Grid mode */
 .right-sidebar-container.hidden-in-grid-mode {
   display: none !important;
 }
 
-/* Grid 模式下调整主网格布局 */
+/* Adjust main grid in Grid mode */
 #main-grid[data-layout-mode="grid"] {
-  /* 在桌面端只显示左侧边栏和主内容 */
+  /* Desktop: show left sidebar and main content only */
 }
 
 /* ==========================================================================
-   平板设备 Grid 模式
+   Tablet Grid mode
    ========================================================================== */
 @media (min-width: 768px) and (max-width: 1279px) {
   #main-grid[data-layout-mode="grid"] {
@@ -513,7 +513,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     width: auto !important;
   }
 
-  /* 侧边栏组件宽度调整 - 四列显示 */
+  /* Sidebar widget width - four columns */
   #main-grid[data-layout-mode="grid"] #sidebar .sidebar-content > * {
     width: calc(25% - 0.75rem) !important;
     flex: 0 0 calc(25% - 0.75rem) !important;
@@ -521,27 +521,27 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     margin-bottom: 0 !important;
   }
 
-  /* 公告栏特殊样式调整 */
+  /* Announcement bar special styles */
   #main-grid[data-layout-mode="grid"] #sidebar widget-layout[data-id="announcement"] .flex.items-center.justify-between > div:first-child {
     width: 100% !important;
     flex: 1 !important;
   }
 
-  /* 公告栏拉伸链接按钮 */
+  /* Announcement bar stretch link button */
   #main-grid[data-layout-mode="grid"] #sidebar widget-layout[data-id="announcement"] a {
     display: block !important;
     width: 100% !important;
     text-align: center !important;
   }
 
-  /* 公告栏隐藏关闭按钮 */
+  /* Announcement bar hide close button */
   #main-grid[data-layout-mode="grid"] #sidebar widget-layout[data-id="announcement"] button[onclick="closeAnnouncement()"] {
     display: none !important;
   }
 }
 
 /* ==========================================================================
-   桌面设备 Grid 模式
+   Desktop Grid mode
    ========================================================================== */
 @media (min-width: 1280px) {
   #main-grid[data-layout-mode="grid"] {
@@ -553,7 +553,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   }
 }
 
-/* 确保大屏桌面设备 Grid 模式配置 */
+/* Ensure large desktop Grid mode configuration */
 @media (min-width: 1280px) {
   #main-grid[data-layout-mode="grid"] {
     grid-template-columns: 17.5rem 1fr !important;
@@ -565,7 +565,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端当 Banner 被禁用时的布局样式
+   Mobile layout when Banner is disabled
    ========================================================================== */
 @media (max-width: 1279px) {
   .absolute.w-full.z-30.no-banner-layout {
@@ -575,7 +575,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   }
 }
 
-/* 小屏手机当 Banner 被禁用时的布局样式 */
+/* Small phone layout when Banner disabled */
 @media (max-width: 479px) {
   .absolute.w-full.z-30.no-banner-layout {
     top: 5.5rem !important;
@@ -584,7 +584,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   }
 }
 
-/* 平板设备当 Banner 被禁用时的布局样式 */
+/* Tablet layout when Banner disabled */
 @media (min-width: 768px) and (max-width: 1279px) {
   .absolute.w-full.z-30.no-banner-layout {
     top: 5.5rem !important;
@@ -594,7 +594,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端横屏优化
+   Mobile landscape optimization
    ========================================================================== */
 @media (max-width: 1279px) and (orientation: landscape) {
   #banner-wrapper:not(.mobile-hide-banner) {
@@ -602,7 +602,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     height: 60vh !important;
   }
 
-  /* 主内容区域位置调整 */
+  /* Main content position adjustment */
   .absolute.w-full.z-30:not(.mobile-main-no-banner) {
     top: 60vh !important;
     min-height: calc(100vh - 60vh) !important;
@@ -632,7 +632,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端暗色模式优化
+   Mobile dark mode optimization
    ========================================================================== */
 @media (max-width: 1279px) and (prefers-color-scheme: dark) {
   .banner-text-overlay {
@@ -649,7 +649,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   水波纹显示优化
+   Wave display optimization
    ========================================================================== */
 .waves {
   overflow: visible;
@@ -667,14 +667,14 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   backface-visibility: hidden;
 }
 
-/* 波浪与背景同步切换优化 */
+/* Wave and background sync on theme switch */
 #header-waves {
   isolation: isolate;
   contain: none;
   margin-bottom: -1px;
 }
 
-/* 主题切换时的额外保护 */
+/* Extra protection during theme switch */
 .theme-changing #header-waves,
 .theme-changing #header-waves svg,
 .theme-changing #header-waves use {
@@ -684,7 +684,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   移动端水波纹特殊优化
+   Mobile wave special optimization
    ========================================================================== */
 @media (max-width: 1279px) {
   #header-waves {
@@ -692,7 +692,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     z-index: 5;
   }
 
-  /* 当 Banner 隐藏时，完全移除水波纹以节省渲染资源 */
+  /* When Banner hidden, remove wave entirely to save rendering */
   .mobile-hide-banner #header-waves {
     display: none !important;
   }
@@ -707,7 +707,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   }
 }
 
-/* 超小屏幕水波纹优化 */
+/* Extra small screen wave optimization */
 @media (max-width: 360px) {
   .waves {
     height: 6vh !important;
@@ -717,9 +717,9 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
 }
 
 /* ==========================================================================
-   基于屏幕高度的 Banner 优化
+   Banner optimization by screen height
    ========================================================================== */
-/* 极小高度屏幕 (高度 ≤ 500px) */
+/* Very short screens (height ≤ 500px) */
 @media (max-height: 500px) {
   #banner-wrapper {
     height: 85vh !important;
@@ -751,7 +751,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   }
 }
 
-/* 小高度屏幕 (高度 501px - 600px) */
+/* Short screens (height 501px - 600px) */
 @media (min-height: 501px) and (max-height: 600px) {
   #banner-wrapper {
     height: 80vh !important;
@@ -783,7 +783,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   }
 }
 
-/* 中等高度屏幕 (高度 601px - 700px) */
+/* Medium height screens (height 601px - 700px) */
 @media (min-height: 601px) and (max-height: 700px) {
   #banner-wrapper {
     height: 75vh !important;
@@ -815,7 +815,7 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   }
 }
 
-/* 横屏模式特殊处理 */
+/* Landscape mode special handling */
 @media (orientation: landscape) and (max-height: 500px) {
   #banner-wrapper {
     height: 90vh !important;

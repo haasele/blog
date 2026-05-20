@@ -1,37 +1,37 @@
-# CSS 样式指南
+# CSS Style Guide
 
-## 概述
+## Overview
 
-本文档定义了 Mizuki 项目的 CSS 样式规范，确保样式的一致性、可维护性和性能。
+This document defines the CSS style guidelines for the Mizuki project, ensuring consistency, maintainability, and performance.
 
-## 核心原则
+## Core Principles
 
-### 禁止使用 `!important` 级别
+### Avoid `!important` by Default
 
-项目中**应该尽量避免使用 `!important` 级别的 CSS**，原因如下：
+The project **should avoid using `!important` in CSS** for the following reasons:
 
-1. **破坏样式优先级**：`!important` 会打破 CSS 的自然级联规则
-2. **难以维护**：一旦使用 `!important`，后续修改将不得不使用更多的 `!important`
-3. **与主题系统冲突**：`!important` 可能导致不可预期的样式冲突
-4. **Tailwind CSS 不兼容**：Tailwind 的原子类设计基于正常的 CSS 优先级，`!important` 会破坏这种设计
-5. **调试困难**：`!important` 使得样式调试变得非常困难
+1. **Breaks style precedence**: `!important` overrides CSS's natural cascade rules
+2. **Hard to maintain**: Once `!important` is used, future changes often require more `!important`
+3. **Conflicts with the theme system**: `!important` can cause unexpected style conflicts
+4. **Incompatible with Tailwind CSS**: Tailwind's utility classes rely on normal CSS precedence; `!important` undermines this design
+5. **Difficult to debug**: `!important` makes style debugging much harder
 
-## 允许使用 `!important` 的例外情况
+## Exceptions Where `!important` Is Allowed
 
-### Twikoo 评论区样式
+### Twikoo Comment Section Styles
 
-在 `src/styles/twikoo.css` 文件中**允许使用 `!important`**。
+Using `!important` is **allowed** in the `src/styles/twikoo.css` file.
 
-**理由**：
-1. **第三方库动态注入**：Twikoo 是第三方评论系统，其样式通过 JavaScript 动态注入到页面
-2. **选择器优先级高**：Twikoo 内部样式使用了较高的选择器优先级，常规 CSS 无法覆盖
-3. **隔离性好**：Twikoo 样式文件独立，`!important` 的影响范围仅限于评论区，不会影响其他组件
-4. **无其他替代方案**：由于无法控制 Twikoo 的样式注入时机和方式，`!important` 是唯一可靠的覆盖方式
-5. **CSS-in-JS 库**：Twikoo 使用组件库，其内联样式的优先级很难用常规 CSS 覆盖
+**Rationale**:
+1. **Third-party dynamic injection**: Twikoo is a third-party comment system; its styles are injected into the page via JavaScript
+2. **High selector specificity**: Twikoo's internal styles use high selector specificity that regular CSS cannot override
+3. **Good isolation**: The Twikoo stylesheet is separate; `!important` only affects the comment section and does not impact other components
+4. **No alternative**: Because Twikoo's style injection timing and method cannot be controlled, `!important` is the only reliable override
+5. **CSS-in-JS library**: Twikoo uses a component library whose inline styles are difficult to override with regular CSS
 
-**示例**：
+**Example**:
 ```css
-/* ✅ 允许：在 twikoo.css 中覆盖 Twikoo 默认样式 */
+/* ✅ Allowed: Override Twikoo default styles in twikoo.css */
 .tk-loading {
   display: flex !important;
   justify-content: center !important;
@@ -48,26 +48,26 @@
 }
 ```
 
-### 其他特殊情况（需要审批）
+### Other Special Cases (Requires Approval)
 
-如果遇到以下特殊情况，需要经过团队审批才能使用 `!important`：
+If you encounter the following special cases, team approval is required before using `!important`:
 
-1. **覆盖第三方库的必要样式**（如 Twikoo、Chart.js 等）
-2. **修复框架级别的 bug**（仅作为临时解决方案，需要跟进）
-3. **处理浏览器的已知 bug**（仅作为临时解决方案，需要添加注释）
+1. **Necessary overrides for third-party libraries** (e.g., Twikoo, Chart.js)
+2. **Framework-level bug fixes** (temporary solution only; follow-up required)
+3. **Known browser bugs** (temporary solution only; add a comment)
 
-**审批流程**：
-1. 在 Pull Request 中说明为什么需要使用 `!important`
-2. 提供替代方案的尝试记录
-3. 获得至少 1 名核心开发者的批准
+**Approval Process**:
+1. Explain in the Pull Request why `!important` is needed
+2. Document attempts at alternative approaches
+3. Obtain approval from at least one core developer
 
-## 正确做法
+## Recommended Approaches
 
-### 1. 提高选择器优先级
+### 1. Increase Selector Specificity
 
-通过更具体的选择器来覆盖样式，而不是使用 `!important`。
+Override styles with more specific selectors instead of using `!important`.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```css
 .album-card {
   background-color: white !important;
@@ -79,9 +79,9 @@
 }
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```css
-/* 通过提高选择器优先级覆盖样式 */
+/* Override styles by increasing selector specificity */
 .album-card.card-base {
   background-color: white;
   color: black;
@@ -91,17 +91,17 @@
   background-color: black;
 }
 
-/* 或者使用更具体的选择器 */
+/* Or use a more specific selector */
 .card-base.album-card {
   background-color: white;
 }
 ```
 
-### 2. 使用 CSS 变量
+### 2. Use CSS Variables
 
-使用 CSS 变量而不是硬编码值，这样可以在全局统一修改。
+Use CSS variables instead of hardcoded values so they can be changed globally.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```css
 .button {
   background-color: #3b82f6 !important;
@@ -109,7 +109,7 @@
 }
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```css
 :root {
   --primary: #3b82f6;
@@ -122,60 +122,60 @@
 }
 ```
 
-### 3. 利用 Tailwind 的优先级
+### 3. Leverage Tailwind Precedence
 
-Tailwind CSS 的原子类按顺序应用，后面的类会覆盖前面的类。
+Tailwind CSS utility classes are applied in order; later classes override earlier ones.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```css
 <div class="!bg-white !text-black">
-  内容
+  Content
 </div>
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```astro
 ---
-// Tailwind 类按顺序应用，不需要 !important
+// Tailwind classes apply in order; no !important needed
 ---
 
 <div class="bg-white dark:bg-black text-black dark:text-white">
-  内容
+  Content
 </div>
 ```
 
-### 4. 使用作用域样式
+### 4. Use Scoped Styles
 
-Astro 的作用域样式自动提供选择器隔离。
+Astro scoped styles automatically provide selector isolation.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```astro
 ---
 ---
 
 <div class="card">
-  内容
+  Content
 </div>
 
 <style>
-  /* 使用 :global 影响全局 */
+  /* Using :global affects the entire page */
   :global(.card) {
     background: white !important;
   }
 </style>
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```astro
 ---
 ---
 
 <div class="card card-base">
-  内容
+  Content
 </div>
 
 <style>
-  /* 作用域样式自动隔离，不需要 :global */
+  /* Scoped styles are automatically isolated; no :global needed */
   .card {
     background: var(--card-bg);
     color: var(--text-color);
@@ -183,11 +183,11 @@ Astro 的作用域样式自动提供选择器隔离。
 </style>
 ```
 
-### 5. 使用组合类
+### 5. Use Composed Classes
 
-通过组合多个 Tailwind 类来实现复杂的样式。
+Achieve complex styles by combining multiple Tailwind classes.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```css
 <style>
   .custom-button {
@@ -202,26 +202,26 @@ Astro 的作用域样式自动提供选择器隔离。
 </style>
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```astro
 ---
 ---
 
 <button class="inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-200">
-  按钮
+  Button
 </button>
 ```
 
-## 特殊情况处理
+## Special Case Handling
 
-### 需要覆盖第三方库样式时
+### Overriding Third-Party Library Styles
 
-#### Twikoo 评论区（允许 `!important`）✅
+#### Twikoo Comment Section (Allows `!important`) ✅
 
-**文件位置**：`src/styles/twikoo.css`
+**File Location**: `src/styles/twikoo.css`
 
 ```css
-/* ✅ 允许：Twikoo 样式文件 */
+/* ✅ Allowed: Twikoo stylesheet */
 .tk-btn {
   color: var(--primary) !important;
   background-color: transparent !important;
@@ -243,60 +243,60 @@ Astro 的作用域样式自动提供选择器隔离。
   border-color: var(--primary) transparent transparent transparent !important;
 }
 
-/* 其他 Twikoo 相关样式... */
+/* Other Twikoo-related styles... */
 ```
 
-#### 其他第三方库（需要审批）
+#### Other Third-Party Libraries (Requires Approval)
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```css
-/* 未经审批直接使用 !important */
+/* Using !important without approval */
 .external-library-element {
   color: red !important;
 }
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```css
-/* 先尝试其他方法 */
+/* Try other methods first */
 .external-library-container .external-library-element {
-  /* 方法 1：提高选择器优先级 */
+  /* Method 1: Increase selector specificity */
   color: red;
 }
 
-/* 方法 2：使用更具体的选择器 */
+/* Method 2: Use a more specific selector */
 .widget-container .external-library-element {
   color: red;
 }
 
-/* 方法 3：添加说明注释 */
+/* Method 3: Add an explanatory comment */
 /*
- * TODO: 临时解决方案，需要与库维护者协商
+ * TODO: Temporary solution; needs coordination with library maintainers
  * Issue: #123
  */
 .external-library-element {
-  color: red !important; /* 需要审批，PR #123 */
+  color: red !important; /* Requires approval, PR #123 */
 }
 ```
 
-### 内联样式的优先级
+### Inline Style Precedence
 
-内联样式的优先级高于外部样式表，应谨慎使用。
+Inline styles have higher precedence than external stylesheets; use them carefully.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```astro
 ---
 <div style="background-color: white !important; padding: 1rem !important;">
-  内容
+  Content
 </div>
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```astro
 ---
-<!-- 使用 Tailwind 类或自定义 class -->
+<!-- Use Tailwind classes or a custom class -->
 <div class="bg-white p-4 custom-card">
-  内容
+  Content
 </div>
 
 <style>
@@ -307,18 +307,18 @@ Astro 的作用域样式自动提供选择器隔离。
 </style>
 ```
 
-### 动态样式
+### Dynamic Styles
 
-使用 CSS 变量或样式绑定，而不是在 JS 中直接操作 style。
+Use CSS variables or style bindings instead of directly manipulating `style` in JavaScript.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```javascript
 element.style.setProperty('background-color', 'white', 'important');
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```typescript
-// 使用 CSS 变量
+// Use CSS variables
 document.documentElement.style.setProperty('--dynamic-color', dynamicValue);
 ```
 
@@ -332,114 +332,114 @@ document.documentElement.style.setProperty('--dynamic-color', dynamicValue);
 }
 ```
 
-## Tailwind CSS 的 `!important` 使用
+## Tailwind CSS `!important` Usage
 
-### Tailwind v4 的 `!` 前缀
+### Tailwind v4 `!` Prefix
 
-Tailwind CSS v4 提供了 `!` 前缀来添加 `!important`：
+Tailwind CSS v4 provides the `!` prefix to add `!important`:
 
-**⚠️ 谨慎使用**：仅在绝对必要时使用 `!` 前缀。
+**⚠️ Use with caution**: Only use the `!` prefix when absolutely necessary.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```astro
 ---
-<!-- 未经审批使用 ! 前缀 -->
+<!-- Using ! prefix without approval -->
 <div class="!bg-white !text-black">
-  内容
+  Content
 </div>
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```astro
 ---
-<!-- 使用正常的 Tailwind 类 -->
+<!-- Use normal Tailwind classes -->
 <div class="bg-white dark:bg-black text-black dark:text-white">
-  内容
+  Content
 </div>
 ```
 
-**使用场景**：仅在必须覆盖第三方库的内联样式时使用。
+**Use Case**: Only when you must override third-party inline styles.
 
 ```astro
 ---
-<!-- 只有在无法通过其他方式覆盖时才使用 -->
-<div class="!bg-white" style="/* 需要覆盖第三方样式 */">
-  内容
+<!-- Only use when no other override method works -->
+<div class="!bg-white" style="/* Needs to override third-party styles */">
+  Content
 </div>
 ```
 
-## CSS 优先级规则
+## CSS Precedence Rules
 
-### 选择器优先级（从高到低）
+### Selector Precedence (High to Low)
 
-1. **内联样式（`style="..."`）**：最高优先级
-2. **`!important`**：强制最高优先级
-3. **ID 选择器（`#id`）**
-4. **类选择器（`.class`）**
-5. **属性选择器（`[attr]`）**
-6. **伪类选择器（`:hover`、`:active` 等）**
-7. **伪元素选择器（`::before`、`::after` 等）**
-8. **元素选择器（`div`、`span` 等）**：最低优先级
+1. **Inline styles (`style="..."`)**: Highest precedence
+2. **`!important`**: Forces highest precedence
+3. **ID selectors (`#id`)**
+4. **Class selectors (`.class`)**
+5. **Attribute selectors (`[attr]`)**
+6. **Pseudo-class selectors (`:hover`, `:active`, etc.)**
+7. **Pseudo-element selectors (`::before`, `::after`, etc.)**
+8. **Element selectors (`div`, `span`, etc.)**: Lowest precedence
 
-### 特异性规则
+### Specificity Rules
 
 ```css
-/* 优先级 1：ID 选择器 */
+/* Precedence 1: ID selector */
 #unique-element {
   color: red;
 }
 
-/* 优先级 2：类选择器 + 伪类 */
+/* Precedence 2: Class selector + pseudo-class */
 .button:hover {
   color: blue;
 }
 
-/* 优先级 3：类选择器 */
+/* Precedence 3: Class selector */
 .button {
   color: green;
 }
 
-/* 优先级 4：元素选择器 */
+/* Precedence 4: Element selector */
 div {
   color: black;
 }
 ```
 
-### 选择器特异性计算
+### Specificity Calculation
 
 ```css
-/* 特异性：1 个 ID，0 个类，0 个属性 = 100 分 */
+/* Specificity: 1 ID, 0 classes, 0 attributes = 100 points */
 #header .nav-link {
   color: blue;
 }
 
-/* 特异性：0 个 ID，1 个类，1 个属性 = 11 分 */
+/* Specificity: 0 IDs, 1 class, 1 attribute = 11 points */
 .nav-link.active {
-  color: green; /* 更高优先级 */
+  color: green; /* Higher precedence */
 }
 
-/* 特异性：0 个 ID，2 个类 = 20 分 */
+/* Specificity: 0 IDs, 2 classes = 20 points */
 .card .header .title {
-  color: red; /* 最高优先级 */
+  color: red; /* Highest precedence */
 }
 ```
 
-## 暗色主题样式
+## Dark Theme Styles
 
-### 使用 CSS 变量
+### Use CSS Variables
 
-使用 CSS 变量实现主题切换，避免使用 `!important`。
+Use CSS variables for theme switching; avoid `!important`.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```css
-/* 使用 !important 强制覆盖 */
+/* Using !important to force overrides */
 .dark .card {
   background-color: black !important;
   color: white !important;
 }
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```css
 :root {
   --card-bg: white;
@@ -457,15 +457,15 @@ div {
 }
 ```
 
-### 暗色主题选择器
+### Dark Theme Selectors
 
 ```css
-/* ✅ 正确：使用暗色主题类名 */
+/* ✅ Correct: Use dark theme class name */
 .dark .card {
   background-color: var(--card-bg-dark);
 }
 
-/* 或者在 Astro 组件中使用 */
+/* Or in an Astro component */
 <style>
   :global(.dark) .card {
     background-color: var(--card-bg-dark);
@@ -473,60 +473,60 @@ div {
 </style>
 ```
 
-## 组件样式最佳实践
+## Component Style Best Practices
 
-### 1. 作用域样式
+### 1. Scoped Styles
 
-Astro 组件默认使用作用域样式，不需要额外的包装器。
+Astro components use scoped styles by default; no extra wrapper is needed.
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```astro
 ---
 ---
 
 <div class="my-component">
-  内容
+  Content
 </div>
 
 <style>
   .my-component {
-    /* 样式仅应用于当前组件 */
+    /* Styles apply only to this component */
     padding: 1rem;
   }
 </style>
 ```
 
-### 2. 全局样式（谨慎使用）
+### 2. Global Styles (Use Sparingly)
 
-只在真正需要全局影响时使用 `:global()`。
+Only use `:global()` when global impact is truly required.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```astro
 ---
 <style>
-  /* 影响 .my-class 的所有实例 */
+  /* Affects all instances of .my-class */
   :global(.my-class) {
     background: white !important;
   }
 </style>
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```css
-/* 在全局样式文件中定义 */
+/* Define in global stylesheet */
 .src/styles/global.css {
   .global-utility {
-    /* 真正需要的全局样式 */
+    /* Styles that truly need to be global */
     display: flex;
   }
 }
 ```
 
-### 3. 使用 CSS 变量优先
+### 3. Prefer CSS Variables
 
-优先使用 CSS 变量，而不是硬编码值。
+Prefer CSS variables over hardcoded values.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```css
 .button {
   background-color: #3b82f6;
@@ -535,7 +535,7 @@ Astro 组件默认使用作用域样式，不需要额外的包装器。
 }
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```css
 :root {
   --primary: #3b82f6;
@@ -551,23 +551,23 @@ Astro 组件默认使用作用域样式，不需要额外的包装器。
 }
 ```
 
-### 4. Tailwind 与自定义样式混合
+### 4. Mixing Tailwind and Custom Styles
 
 ```astro
 ---
 ---
 
-<!-- Tailwind 处理布局和间距 -->
+<!-- Tailwind handles layout and spacing -->
 <div class="flex flex-col gap-4 p-6">
-  <!-- 自定义样式处理组件特定行为 -->
+  <!-- Custom styles handle component-specific behavior -->
   <div class="custom-card">
-    内容
+    Content
   </div>
 </div>
 
 <style>
   .custom-card {
-    /* 组件特定的样式 */
+    /* Component-specific styles */
     background-color: var(--card-bg);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -575,47 +575,47 @@ Astro 组件默认使用作用域样式，不需要额外的包装器。
 </style>
 ```
 
-## 检查清单
+## Checklist
 
-在提交代码前，确保：
+Before submitting code, ensure:
 
-### CSS 相关
-- [ ] 普通业务 CSS 文件中没有 `!important`
-- [ ] `<style>` 标签中没有 `!important`（Twikoo 组件除外）
-- [ ] Tailwind 类中没有 `!` 前缀（除非有充分理由）
-- [ ] 使用了 CSS 变量而不是硬编码值
-- [ ] 使用了作用域样式而不是全局样式
-- [ ] 样式优先级合理，易于理解和维护
+### CSS-Related
+- [ ] No `!important` in regular business CSS files
+- [ ] No `!important` in `<style>` tags (except Twikoo components)
+- [ ] No `!` prefix in Tailwind classes (unless well justified)
+- [ ] CSS variables are used instead of hardcoded values
+- [ ] Scoped styles are used instead of global styles
+- [ ] Style precedence is reasonable and easy to understand and maintain
 
-### Twikoo 样式
-- [ ] Twikoo 相关样式只在 `src/styles/twikoo.css` 中
-- [ ] 使用了 `!important` 覆盖 Twikoo 默认样式
-- [ ] 添加了必要的注释说明为什么需要覆盖
+### Twikoo Styles
+- [ ] Twikoo-related styles exist only in `src/styles/twikoo.css`
+- [ ] `!important` is used to override Twikoo default styles
+- [ ] Necessary comments explain why overrides are needed
 
-### 主题样式
-- [ ] 使用 CSS 变量实现主题切换
-- [ ] 暗色主题使用正确的类名或变量
-- [ ] 没有 `!important` 强制覆盖主题样式
+### Theme Styles
+- [ ] CSS variables are used for theme switching
+- [ ] Dark theme uses correct class names or variables
+- [ ] No `!important` forcing theme style overrides
 
-### 性能相关
-- [ ] 避免了不必要的重复样式
-- [ ] 使用了 Tailwind 的工具类而不是自定义 CSS
-- [ ] 没有过度的选择器嵌套
+### Performance
+- [ ] Unnecessary duplicate styles are avoided
+- [ ] Tailwind utility classes are used instead of custom CSS
+- [ ] Excessive selector nesting is avoided
 
-## 替代方案优先级
+## Alternative Priority Order
 
-在需要覆盖样式时，按以下优先级尝试：
+When you need to override styles, try these approaches in order:
 
-### 1. 使用 Tailwind 原子类（首选）
+### 1. Use Tailwind Utility Classes (Preferred)
 
 ```astro
 ---
 <div class="bg-white p-4 rounded-lg shadow-md">
-  内容
+  Content
 </div>
 ```
 
-### 2. 提高选择器优先级（次选）
+### 2. Increase Selector Specificity (Second Choice)
 
 ```css
 .card-base.album-card {
@@ -623,7 +623,7 @@ Astro 组件默认使用作用域样式，不需要额外的包装器。
 }
 ```
 
-### 3. 使用 CSS 变量（再次选）
+### 3. Use CSS Variables (Third Choice)
 
 ```css
 :root {
@@ -635,19 +635,19 @@ Astro 组件默认使用作用域样式，不需要额外的包装器。
 }
 ```
 
-### 4. 使用作用域样式（备选）
+### 4. Use Scoped Styles (Fallback)
 
 ```css
-/* 在组件内部 */
+/* Inside a component */
 .my-component .element {
   background-color: white;
 }
 ```
 
-### 5. 使用全局样式（特殊）
+### 5. Use Global Styles (Special Case)
 
 ```css
-/* 在全局样式文件中 */
+/* In global stylesheet */
 .src/styles/global.css {
   .special-case {
     background-color: white;
@@ -655,71 +655,71 @@ Astro 组件默认使用作用域样式，不需要额外的包装器。
 }
 ```
 
-### 6. 使用 `!important`（最后手段）
+### 6. Use `!important` (Last Resort)
 
-**仅允许的情况**：
-- Twikoo 评论区样式
-- 经过团队审批的第三方库样式覆盖
+**Allowed only in these cases**:
+- Twikoo comment section styles
+- Third-party library overrides approved by the team
 
-## 常见问题和解决方案
+## FAQ and Solutions
 
-### Q1: 样式不生效怎么办？
+### Q1: What if styles don't apply?
 
-**A**: 按照以下步骤排查：
+**A**: Troubleshoot in this order:
 
-1. **检查选择器特异性**：优先使用更具体的选择器
-2. **检查样式加载顺序**：后面的样式会覆盖前面的样式
-3. **检查作用域**：确认样式是否在正确的作用域内
-4. **检查 CSS 变量**：确认变量是否正确定义
-5. **检查 Tailwind 配置**：确认 Tailwind 是否正确配置
+1. **Check selector specificity**: Prefer more specific selectors
+2. **Check style load order**: Later styles override earlier ones
+3. **Check scope**: Confirm styles are in the correct scope
+4. **Check CSS variables**: Confirm variables are defined correctly
+5. **Check Tailwind configuration**: Confirm Tailwind is configured correctly
 
-### Q2: 如何覆盖 Tailwind 的默认样式？
+### Q2: How do I override Tailwind default styles?
 
-**A**: 使用 Tailwind 的工具类或自定义样式，而不是 `!important`。
+**A**: Use Tailwind utility classes or custom styles, not `!important`.
 
 ```astro
 ---
-<!-- ✅ 正确：使用 Tailwind 类 -->
+<!-- ✅ Correct: Use Tailwind classes -->
 <div class="text-lg font-semibold text-gray-900">
-  标题
+  Title
 </div>
 
-<!-- ❌ 错误：使用 !important -->
+<!-- ❌ Incorrect: Use !important -->
 <div class="!text-lg !font-semibold">
-  标题
+  Title
 </div>
 ```
 
-### Q3: 第三方库样式冲突怎么办？
+### Q3: What if third-party library styles conflict?
 
-**A**: 按照优先级处理：
+**A**: Handle in this priority order:
 
-1. **提高选择器优先级**
-2. **使用更具体的选择器**
-3. **包装组件以隔离样式**
-4. **最后手段**：使用 `!important`（需要审批）
+1. **Increase selector specificity**
+2. **Use more specific selectors**
+3. **Wrap components to isolate styles**
+4. **Last resort**: Use `!important` (requires approval)
 
-**示例**：
+**Example**:
 ```css
-/* 优先级 1：包装器隔离 */
+/* Priority 1: Wrapper isolation */
 .my-wrapper .external-library-element {
   color: var(--text-color);
 }
 
-/* 优先级 2：更具体的选择器 */
+/* Priority 2: More specific selector */
 div.widget-container .external-library-element {
   color: var(--text-color);
 }
 
-/* 优先级 3：临时解决方案（需要审批） */
+/* Priority 3: Temporary solution (requires approval) */
 .external-library-element {
-  color: var(--text-color) !important; /* 需要审批，Issue #123 */
+  color: var(--text-color) !important; /* Requires approval, Issue #123 */
 }
 ```
 
-### Q4: 主题切换时样式闪烁怎么办？
+### Q4: What if styles flash during theme switching?
 
-**A**: 使用 CSS 变量和过渡，而不是 `!important` 强制刷新。
+**A**: Use CSS variables and transitions instead of forcing a refresh with `!important`.
 
 ```css
 :root {
@@ -739,31 +739,31 @@ div.widget-container .external-library-element {
 }
 ```
 
-## Twikoo 样式文件规范
+## Twikoo Stylesheet Guidelines
 
-### 文件位置
+### File Location
 
 ```
 src/styles/
-├── global.css           # 全局样式
-├── theme.css            # 主题样式
-├── components.css       # 组件样式
-└── twikoo.css          # Twikoo 样式（允许 !important）
+├── global.css           # Global styles
+├── theme.css            # Theme styles
+├── components.css       # Component styles
+└── twikoo.css          # Twikoo styles (allows !important)
 ```
 
-### Twikoo 样式示例
+### Twikoo Style Examples
 
 ```css
 /* src/styles/twikoo.css */
-/* Twikoo 评论区样式 - 允许使用 !important */
+/* Twikoo comment section styles - !important allowed */
 
-/* 容器样式 */
+/* Container styles */
 .tk-admin {
   background-color: var(--card-bg) !important;
   border-radius: 8px !important;
 }
 
-/* 按钮样式 */
+/* Button styles */
 .tk-btn {
   color: var(--primary) !important;
   background-color: transparent !important;
@@ -775,21 +775,21 @@ src/styles/
   background-color: var(--primary-bg-light) !important;
 }
 
-/* 输入框样式 */
+/* Input styles */
 .tk-input {
   background-color: var(--input-bg) !important;
   border-color: var(--border-color) !important;
   color: var(--text-color) !important;
 }
 
-/* 提交按钮 */
+/* Submit button */
 .tk-submit-btn {
   background-color: var(--primary) !important;
   color: white !important;
   font-weight: 600 !important;
 }
 
-/* 加载状态 */
+/* Loading state */
 .tk-loading {
   display: flex !important;
   justify-content: center !important;
@@ -800,14 +800,14 @@ src/styles/
   border-color: var(--primary) transparent transparent transparent !important;
 }
 
-/* 内容区域 */
+/* Content area */
 .tk-content {
   color: var(--text-color) !important;
   font-size: 1rem !important;
   line-height: 1.6 !important;
 }
 
-/* 链接样式 */
+/* Link styles */
 .tk-content a {
   color: var(--primary) !important;
   text-decoration: none !important;
@@ -817,24 +817,24 @@ src/styles/
   text-decoration: underline !important;
 }
 
-/* 其他 Twikoo 相关样式... */
+/* Other Twikoo-related styles... */
 ```
 
-### Twikoo 样式最佳实践
+### Twikoo Style Best Practices
 
-1. **集中管理**：所有 Twikoo 样式都在 `twikoo.css` 文件中
-2. **添加注释**：为每个样式覆盖添加注释说明原因
-3. **使用 CSS 变量**：优先使用项目定义的 CSS 变量
-4. **保持一致性**：与其他组件使用相同的设计令牌
-5. **定期更新**：Twikoo 更新时同步调整样式
+1. **Centralized management**: All Twikoo styles live in `twikoo.css`
+2. **Add comments**: Document the reason for each style override
+3. **Use CSS variables**: Prefer project-defined CSS variables
+4. **Stay consistent**: Use the same design tokens as other components
+5. **Keep updated**: Adjust styles when Twikoo is updated
 
-## 性能优化
+## Performance Optimization
 
-### 避免过度使用
+### Avoid Overuse
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```css
-/* 过度使用 !important */
+/* Excessive use of !important */
 .button {
   display: flex !important;
   align-items: center !important;
@@ -851,16 +851,16 @@ src/styles/
 }
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```astro
 ---
-<!-- 使用 Tailwind 工具类 -->
+<!-- Use Tailwind utility classes -->
 <button class="flex items-center justify-center px-4 py-2 border-0 rounded-lg bg-[var(--primary)] text-white font-medium transition-all duration-200 cursor-pointer">
-  按钮
+  Button
 </button>
 ```
 
-### 使用 CSS 变量提高性能
+### Use CSS Variables for Performance
 
 ```css
 :root {
@@ -869,7 +869,7 @@ src/styles/
   --spacing-lg: 24px;
 }
 
-/* 多次重用变量 */
+/* Reuse variables multiple times */
 .card {
   padding: var(--spacing-md);
 }
@@ -883,35 +883,35 @@ src/styles/
 }
 ```
 
-## 总结
+## Summary
 
-### 核心原则
+### Core Principles
 
-1. **禁止使用 `!important`**：除了 Twikoo 组件和经过审批的情况
-2. **优先使用 Tailwind**：利用工具类而不是自定义 CSS
-3. **使用 CSS 变量**：提高样式的可维护性
-4. **提高选择器优先级**：而不是使用 `!important`
-5. **使用作用域样式**：避免全局污染
-6. **保持一致性**：使用统一的设计令牌
+1. **Avoid `!important`**: Except for Twikoo components and approved cases
+2. **Prefer Tailwind**: Use utility classes instead of custom CSS
+3. **Use CSS variables**: Improve style maintainability
+4. **Increase selector specificity**: Instead of using `!important`
+5. **Use scoped styles**: Avoid global pollution
+6. **Stay consistent**: Use unified design tokens
 
-### 检查清单
+### Checklist
 
-- [ ] 没有 `!important`（Twikoo 除外）
-- [ ] 使用了 Tailwind 工具类
-- [ ] 使用了 CSS 变量
-- [ ] 样式优先级合理
-- [ ] 主题样式正确
-- [ ] 没有过度嵌套
+- [ ] No `!important` (except Twikoo)
+- [ ] Tailwind utility classes are used
+- [ ] CSS variables are used
+- [ ] Style precedence is reasonable
+- [ ] Theme styles are correct
+- [ ] No excessive nesting
 
 ---
 
-**最后更新**: 2026-03-17
-**维护者**: Mizuki 开发团队
+**Last Updated**: 2026-03-17
+**Maintainers**: Mizuki Development Team
 
-## 参考资源
+## References
 
-- [组件架构设计规范](./01-component-architecture.md)
-- [文件组织架构规范](./03-file-organization-architecture.md)
-- [Aruma CSS 规范](../../demo/Aruma/docs/rule/02-no-important-css.md)
-- [Tailwind CSS 文档](https://tailwindcss.com/docs)
-- [CSS 优先级计算器](https://specificity.keegan.st/)
+- [Component Architecture Guidelines](./01-component-architecture.md)
+- [File Organization Architecture Guidelines](./03-file-organization-architecture.md)
+- [Aruma CSS Guidelines](../../demo/Aruma/docs/rule/02-no-important-css.md)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [CSS Specificity Calculator](https://specificity.keegan.st/)

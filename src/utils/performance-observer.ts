@@ -1,9 +1,9 @@
 /**
- * 运行时性能监控工具
- * 收集 Core Web Vitals 指标并可选上报到分析服务
+ * Runtime performance monitoring
+ * Collects Core Web Vitals and optionally reports them to analytics
  */
 
-// Web Vitals 类型定义
+// Web Vitals type definitions
 interface LayoutShift extends PerformanceEntry {
 	value: number;
 	hadRecentInput: boolean;
@@ -42,7 +42,7 @@ export interface WebVitalsMetric {
 export type MetricCallback = (metric: WebVitalsMetric) => void;
 
 /**
- * 观察 Cumulative Layout Shift (CLS)
+ * Observe Cumulative Layout Shift (CLS)
  */
 export function observeCLS(callback: MetricCallback): () => void {
 	let clsValue = 0;
@@ -60,7 +60,7 @@ export function observeCLS(callback: MetricCallback): () => void {
 
 	observer.observe({ type: "layout-shift", buffered: true });
 
-	// 每隔 1 秒上报一次 CLS 值
+	// Report CLS every second
 	const intervalId = setInterval(() => {
 		if (clsValue > 0) {
 			callback({
@@ -79,7 +79,7 @@ export function observeCLS(callback: MetricCallback): () => void {
 		}
 	}, 1000);
 
-	// 最终上报
+	// Final report
 	const snoopOnPreviousEntries = () => {
 		clsEntries = [];
 		new PerformanceObserver((list) => {
@@ -92,7 +92,7 @@ export function observeCLS(callback: MetricCallback): () => void {
 		}).observe({ type: "layout-shift", buffered: true });
 	};
 
-	// 返回清理函数
+	// Return cleanup function
 	return () => {
 		clearInterval(intervalId);
 		observer.disconnect();
@@ -101,7 +101,7 @@ export function observeCLS(callback: MetricCallback): () => void {
 }
 
 /**
- * 观察 Largest Contentful Paint (LCP)
+ * Observe Largest Contentful Paint (LCP)
  */
 export function observeLCP(
 	callback: MetricCallback,
@@ -139,17 +139,17 @@ export function observeLCP(
 
 	observer.observe({ type: "largest-contentful-paint", buffered: true });
 
-	// 返回清理函数
+	// Return cleanup function
 	return () => {
 		observer.disconnect();
 	};
 }
 
 /**
- * 观察 First Input Delay (FID) / Interaction to Next Paint (INP)
+ * Observe First Input Delay (FID) / Interaction to Next Paint (INP)
  */
 export function observeFID(callback: MetricCallback): () => void {
-	// FID 已弃用，使用 INP 代替
+	// FID is deprecated; use INP instead
 	let fidValue = 0;
 
 	const observer = new PerformanceObserver((list) => {
@@ -177,14 +177,14 @@ export function observeFID(callback: MetricCallback): () => void {
 
 	observer.observe({ type: "first-input", buffered: true });
 
-	// 返回清理函数
+	// Return cleanup function
 	return () => {
 		observer.disconnect();
 	};
 }
 
 /**
- * 观察 Interaction to Next Paint (INP)
+ * Observe Interaction to Next Paint (INP)
  */
 export function observeINP(callback: MetricCallback): () => void {
 	let inpValue = 0;
@@ -194,21 +194,21 @@ export function observeINP(callback: MetricCallback): () => void {
 	const observer = new PerformanceObserver((list) => {
 		for (const entry of list.getEntries()) {
 			const eventTiming = entry as PerformanceEventTiming;
-			// 使用类型断言访问 interactionId
+			// Use a type assertion to access interactionId
 			if ((eventTiming as { interactionId?: number }).interactionId) {
 				pendingEntries.push(eventTiming);
 			}
 		}
 	});
 
-	// 使用类型断言来传递非标准选项
+	// Use a type assertion to pass non-standard options
 	observer.observe({
 		type: "event",
 		buffered: true,
 		...({ durationThreshold: 16 } as PerformanceObserverInit),
 	});
 
-	// 检查待处理的交互
+	// Process pending interactions
 	const checkPendingEntries = () => {
 		for (const entry of pendingEntries) {
 			const duration = entry.duration;
@@ -238,7 +238,7 @@ export function observeINP(callback: MetricCallback): () => void {
 
 	const intervalId = setInterval(checkPendingEntries, 100);
 
-	// 返回清理函数
+	// Return cleanup function
 	return () => {
 		clearInterval(intervalId);
 		observer.disconnect();
@@ -246,7 +246,7 @@ export function observeINP(callback: MetricCallback): () => void {
 }
 
 /**
- * 观察 First Contentful Paint (FCP)
+ * Observe First Contentful Paint (FCP)
  */
 export function observeFCP(callback: MetricCallback): () => void {
 	let fcpValue = 0;
@@ -274,14 +274,14 @@ export function observeFCP(callback: MetricCallback): () => void {
 
 	observer.observe({ type: "paint", buffered: true });
 
-	// 返回清理函数
+	// Return cleanup function
 	return () => {
 		observer.disconnect();
 	};
 }
 
 /**
- * 观察 Navigation Timing API
+ * Observe Navigation Timing API
  */
 export function observeNavigationTiming(callback: MetricCallback): () => void {
 	const observer = new PerformanceObserver((list) => {
@@ -302,14 +302,14 @@ export function observeNavigationTiming(callback: MetricCallback): () => void {
 
 	observer.observe({ type: "navigation", buffered: true });
 
-	// 返回清理函数
+	// Return cleanup function
 	return () => {
 		observer.disconnect();
 	};
 }
 
 /**
- * 观察 Resource Timing API
+ * Observe Resource Timing API
  */
 export function observeResourceTiming(
 	callback: MetricCallback,
@@ -334,14 +334,14 @@ export function observeResourceTiming(
 
 	observer.observe({ type: "resource", buffered: true });
 
-	// 返回清理函数
+	// Return cleanup function
 	return () => {
 		observer.disconnect();
 	};
 }
 
 /**
- * 性能回归检测
+ * Performance regression detection
  */
 export function checkPerformanceRegression(
 	currentMetrics: Record<string, number>,
@@ -389,7 +389,7 @@ export function checkPerformanceRegression(
 }
 
 /**
- * 初始化所有 Web Vitals 监控
+ * Initialize all Web Vitals monitoring
  */
 export function initPerformanceMonitoring(
 	callback: MetricCallback,
@@ -413,7 +413,7 @@ export function initPerformanceMonitoring(
 		cleanups.push(observeResourceTiming(callback));
 	}
 
-	// 返回清理所有监控的函数
+	// Return a function that cleans up all observers
 	return () => {
 		cleanups.forEach((cleanup) => cleanup());
 	};

@@ -19,7 +19,7 @@ const title = i18n(I18nKey.about);
 ---
 
 <MainGridLayout title={title}>
-	<!-- 引入右侧边栏布局管理器 -->
+	<!-- Right sidebar layout manager -->
 	<script>
 		import("../scripts/right-sidebar-layout.js");
 	</script>
@@ -29,7 +29,7 @@ const title = i18n(I18nKey.about);
 		<div class="card-base z-10 px-9 py-6 relative w-full">
 			<PageHeader title={title} />
 
-			<!-- 从MD文件读取的内容 -->
+			<!-- Content from markdown -->
 			<Markdown class="mt-2">
 				<Content />
 			</Markdown>

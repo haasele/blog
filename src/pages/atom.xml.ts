@@ -24,15 +24,15 @@ export async function GET(context: APIContext) {
 	}
 
 	// Use the same ordering as site listing (pinned first, then by published desc)
-	// 过滤掉加密文章和草稿文章
+	// Exclude encrypted and draft posts
 	const posts = (await getSortedPosts()).filter(
 		(post) => !post.data.encrypted && post.data.draft !== true,
 	);
 
-	// 初始化文章 ID 映射（用于 permalink 功能）
+	// Init post id map for permalinks
 	initPostIdMap(posts);
 
-	// 创建Atom feed头部
+	// Atom feed header
 	let atomFeed = `<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>${siteConfig.title}</title>
@@ -122,7 +122,7 @@ export async function GET(context: APIContext) {
 			}
 		}
 
-		// 添加Atom条目
+		// Atom entry
 		const postUrl = new URL(getPostUrl(post), context.site).href;
 		const content = sanitizeHtml(html.toString(), {
 			allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
@@ -141,7 +141,7 @@ export async function GET(context: APIContext) {
       <name>${profileConfig.name}</name>
     </author>`;
 
-		// 添加分类标签
+		// Category tags
 		if (post.data.category) {
 			atomFeed += `
     <category term="${post.data.category}"></category>`;
@@ -151,7 +151,7 @@ export async function GET(context: APIContext) {
   </entry>`;
 	}
 
-	// 关闭Atom feed
+	// Close Atom feed
 	atomFeed += `
 </feed>`;
 

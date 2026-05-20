@@ -71,7 +71,7 @@ const config = {
 				await loadTwikooScript();
 
 				if (typeof twikoo === "undefined") {
-					console.warn("[Twikoo] 脚本加载失败");
+					console.warn("[Twikoo] Script failed to load");
 					return;
 				}
 
@@ -79,7 +79,7 @@ const config = {
 				const dynamicConfig = createTwikooConfig();
 				await twikoo.init(dynamicConfig);
 			} catch (error) {
-				console.error("[Twikoo] 初始化失败:", error);
+				console.error("[Twikoo] Initialization failed:", error);
 			}
 		}
 

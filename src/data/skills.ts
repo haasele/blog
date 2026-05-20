@@ -93,7 +93,7 @@ export const skillsData: Skill[] = [
 		level: "intermediate",
 		experience: { years: 1, months: 4 },
 		projects: ["e-commerce-frontend", "blog-platform"],
-		color: "#616161", // 更改为深灰色，避免纯黑色
+		color: "#616161", // Changed to dark gray to avoid pure black
 	},
 	{
 		id: "nuxtjs",
@@ -321,7 +321,7 @@ export const skillsData: Skill[] = [
 		level: "intermediate",
 		experience: { years: 1, months: 8 },
 		projects: ["data-visualization-tool"],
-		color: "#616161", // 更改为深灰色，避免纯黑色
+		color: "#616161", // Changed to dark gray to avoid pure black
 	},
 	{
 		id: "spring",
@@ -466,7 +466,7 @@ export const skillsData: Skill[] = [
 		level: "intermediate",
 		experience: { years: 1, months: 8 },
 		projects: ["java-enterprise", "spring-boot-app"],
-		color: "#616161", // 更改为深灰色，避免纯黑色
+		color: "#616161", // Changed to dark gray to avoid pure black
 	},
 	{
 		id: "pycharm",
@@ -490,7 +490,7 @@ export const skillsData: Skill[] = [
 		level: "beginner",
 		experience: { years: 0, months: 8 },
 		projects: ["dotnet-api", "desktop-app"],
-		color: "#616161", // 更改为深灰色，避免纯黑色
+		color: "#616161", // Changed to dark gray to avoid pure black
 	},
 	{
 		id: "goland",

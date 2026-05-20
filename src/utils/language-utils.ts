@@ -1,7 +1,7 @@
 /**
- * 获取语言的显示名称
- * @param langCode 语言代码（配置文件格式或翻译服务格式）
- * @returns 语言的显示名称
+ * Get the display name for a language
+ * @param langCode Language code (config file format or translation service format)
+ * @returns Language display name
  */
 export function getLanguageDisplayName(langCode: string): string {
 	const languageNames: Record<string, string> = {
@@ -19,7 +19,7 @@ export function getLanguageDisplayName(langCode: string): string {
 		de: "Deutsch",
 		ru: "Русский",
 		ar: "العربية",
-		// 翻译服务格式
+		// Translation service format
 		chinese_simplified: "简体中文",
 		chinese_traditional: "繁體中文",
 		english: "English",

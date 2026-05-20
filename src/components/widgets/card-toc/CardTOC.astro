@@ -1,8 +1,8 @@
 ---
 /**
- * CardTOC - 卡片式目录组件
- * 使用 WidgetLayout (竖线+标题封装)
- * 复用 TOCManager 逻辑
+ * CardTOC - card-style TOC component
+ * Uses WidgetLayout (vertical rule + title wrapper)
+ * Reuses TOCManager logic
  */
 
 import "@/styles/toc.css";
@@ -58,8 +58,8 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 	const cardTocManagers = new WeakMap();
 
 	/**
-	 * 为单个 card-toc 实例初始化目录。
-	 * 目录绑定当前组件自己的内容容器，避免左侧多断点并存时命中隐藏实例。
+	 * Initialize TOC for a single card-toc instance.
+	 * Bind TOC to this instance's content container to avoid hidden duplicates at breakpoints.
 	 */
 	function initCardTOC(root: Element) {
 		if (!(root instanceof HTMLElement)) {
@@ -99,8 +99,8 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 	}
 
 	/**
-	 * 页面内可能同时存在多个 card-toc 实例。
-	 * 统一批量初始化，确保可见和隐藏实例都各自绑定正确容器。
+	 * Multiple card-toc instances may exist on one page.
+	 * Batch-init so visible and hidden instances each bind the correct container.
 	 */
 	function initAllCardTOCs() {
 		document.querySelectorAll("[data-card-toc-root]").forEach((root) => {

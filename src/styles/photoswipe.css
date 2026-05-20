@@ -1,6 +1,6 @@
 @reference "tailwindcss";
 
-/* PhotoSwipe 按钮样式 */
+/* PhotoSwipe button styles */
 .pswp__button {
   @apply transition bg-black/40 hover:bg-black/50 active:bg-black/60 flex items-center justify-center mr-0 w-12 h-12;
   margin-right: 0 !important;

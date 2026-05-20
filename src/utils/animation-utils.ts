@@ -1,6 +1,6 @@
 /**
- * 动画工具类 - 参考 yukina 主题的动画系统
- * 提供页面切换和组件动画的统一管理
+ * Animation utilities - inspired by the yukina theme animation system
+ * Provides unified page transition and component animation management
  */
 
 export interface AnimationConfig {
@@ -23,7 +23,7 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 初始化动画系统
+	 * Initialize the animation system
 	 */
 	init(): void {
 		this.setupSwupIntegration();
@@ -32,23 +32,23 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 设置 Swup 集成
+	 * Set up Swup integration
 	 */
 	private setupSwupIntegration(): void {
 		if (typeof window !== "undefined" && (window as any).swup) {
 			const swup = (window as any).swup;
 
-			// 页面离开动画
+			// Page leave animation
 			swup.hooks.on("animation:out:start", () => {
 				this.triggerPageLeaveAnimation();
 			});
 
-			// 页面进入动画
+			// Page enter animation
 			swup.hooks.on("animation:in:start", () => {
 				this.triggerPageEnterAnimation();
 			});
 
-			// 内容替换后重新初始化动画
+			// Reinitialize animations after content replacement
 			swup.hooks.on("content:replace", () => {
 				setTimeout(() => {
 					this.initializePageAnimations();
@@ -58,17 +58,17 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 触发页面离开动画
+	 * Trigger page leave animation
 	 */
 	private triggerPageLeaveAnimation(): void {
 		this.isAnimating = true;
 		document.documentElement.classList.add("is-leaving");
 
-		// 移动端优化：减少动画延迟，避免闪烁
+		// Mobile optimization: reduce animation delay to avoid flicker
 		const isMobile = window.innerWidth <= 768;
 		const delay = isMobile ? 10 : 30;
 
-		// 添加离开动画类到主要元素
+		// Apply leave animation classes to main elements
 		const mainElements = document.querySelectorAll(".transition-leaving");
 		mainElements.forEach((element, index) => {
 			setTimeout(() => {
@@ -78,13 +78,13 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 触发页面进入动画
+	 * Trigger page enter animation
 	 */
 	private triggerPageEnterAnimation(): void {
 		document.documentElement.classList.remove("is-leaving");
 		document.documentElement.classList.add("is-entering");
 
-		// 移除离开动画类
+		// Remove leave animation classes
 		const elements = document.querySelectorAll(".animate-leave");
 		elements.forEach((element) => {
 			element.classList.remove("animate-leave");
@@ -98,10 +98,10 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 初始化页面动画
+	 * Initialize page animations
 	 */
 	private initializePageAnimations(): void {
-		// 重新应用加载动画
+		// Reapply load animations
 		const animatedElements = document.querySelectorAll(".onload-animation");
 		animatedElements.forEach((element, index) => {
 			const htmlElement = element as HTMLElement;
@@ -109,7 +109,7 @@ export class AnimationManager {
 				Number.parseInt(htmlElement.style.animationDelay, 10) ||
 				index * 50;
 
-			// 重置动画
+			// Reset animation
 			htmlElement.style.opacity = "0";
 			htmlElement.style.transform = "translateY(1.5rem)";
 
@@ -121,29 +121,29 @@ export class AnimationManager {
 			}, delay);
 		});
 
-		// 重新初始化侧边栏组件
+		// Reinitialize sidebar widgets
 		this.initializeSidebarComponents();
 	}
 
 	/**
-	 * 初始化侧边栏组件
+	 * Initialize sidebar widgets
 	 */
 	private initializeSidebarComponents(): void {
-		// 查找页面中的侧边栏元素
+		// Find sidebar elements on the page
 		const sidebar = document.getElementById("sidebar");
 		if (sidebar) {
-			// 触发自定义事件，通知侧边栏重新初始化
+			// Dispatch a custom event to reinitialize the sidebar
 			const event = new CustomEvent("sidebar:init");
 			sidebar.dispatchEvent(event);
 		}
 
-		// 触发全局事件，通知所有组件重新初始化
+		// Dispatch a global event to reinitialize all widgets
 		const globalEvent = new CustomEvent("page:reinit");
 		document.dispatchEvent(globalEvent);
 	}
 
 	/**
-	 * 设置滚动动画
+	 * Set up scroll animations
 	 */
 	private setupScrollAnimations(): void {
 		if (typeof window === "undefined") {
@@ -165,7 +165,7 @@ export class AnimationManager {
 			});
 		}, observerOptions);
 
-		// 观察所有需要滚动动画的元素
+		// Observe all scroll-animated elements
 		const scrollElements = document.querySelectorAll(".animate-on-scroll");
 		scrollElements.forEach((element) => {
 			observer.observe(element);
@@ -173,7 +173,7 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 添加动画到队列
+	 * Queue an animation
 	 */
 	queueAnimation(callback: () => void): void {
 		if (this.isAnimating) {
@@ -184,7 +184,7 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 处理动画队列
+	 * Process the animation queue
 	 */
 	private processAnimationQueue(): void {
 		while (this.animationQueue.length > 0) {
@@ -196,7 +196,7 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 创建自定义动画
+	 * Create a custom animation
 	 */
 	createAnimation(element: HTMLElement, config: AnimationConfig): void {
 		const {
@@ -213,7 +213,7 @@ export class AnimationManager {
 			right: "translateX(-1.5rem)",
 		};
 
-		// 设置初始状态
+		// Set initial state
 		element.style.opacity = "0";
 		element.style.transform = transforms[direction];
 		element.style.transition = `opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}`;
@@ -240,7 +240,7 @@ export class AnimationManager {
 	// }
 
 	/**
-	 * 批量动画
+	 * Stagger animations across multiple elements
 	 */
 	staggerAnimations(
 		elements: NodeListOf<Element> | HTMLElement[],
@@ -257,17 +257,17 @@ export class AnimationManager {
 	}
 
 	/**
-	 * 检查是否正在动画
+	 * Check whether an animation is in progress
 	 */
 	isCurrentlyAnimating(): boolean {
 		return this.isAnimating;
 	}
 }
 
-// 导出单例实例
+// Export singleton instance
 export const animationManager = AnimationManager.getInstance();
 
-// 自动初始化
+// Auto-initialize
 if (typeof window !== "undefined") {
 	if (document.readyState === "loading") {
 		document.addEventListener("DOMContentLoaded", () => {

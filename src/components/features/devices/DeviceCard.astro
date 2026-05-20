@@ -17,7 +17,7 @@ const { device, index, viewDetailsText } = Astro.props;
 	class="device-card group relative overflow-hidden rounded-xl border border-[var(--line-divider)] bg-[var(--card-bg)] transition-all duration-300 hover:border-[var(--primary)]/50 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-white/5 hover:scale-[1.02] hover:-translate-y-0.5 block cursor-pointer"
 	style={`animation-delay: ${index * 100}ms`}
 >
-	<!-- 设备图片区域 -->
+	<!-- Device image -->
 	<div class="relative p-6 pb-0">
 		<div
 			class="flex justify-center items-center h-48 bg-gradient-to-br from-[var(--card-bg)] to-[var(--btn-regular-bg)] rounded-lg overflow-hidden relative"
@@ -35,7 +35,7 @@ const { device, index, viewDetailsText } = Astro.props;
 		</div>
 	</div>
 
-	<!-- 设备信息区域 -->
+	<!-- Device info -->
 	<div class="p-6 pt-4 relative z-10">
 		<div class="flex items-start justify-between mb-3">
 			<h3
@@ -96,7 +96,7 @@ const { device, index, viewDetailsText } = Astro.props;
 			</p>
 		</div>
 
-		<!-- 查看详情按钮 -->
+		<!-- View details -->
 		<div
 			class="flex items-center justify-between pt-3 border-t border-[var(--line-divider)] border-dashed opacity-0 group-hover:opacity-100 transition-all duration-300"
 		>

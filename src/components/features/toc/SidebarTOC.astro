@@ -1,7 +1,7 @@
 ---
 /**
- * SidebarTOC - 侧边栏目录组件
- * 基于 Web Component 实现，支持 IntersectionObserver 滚动监听
+ * SidebarTOC - sidebar TOC
+ * Web Component with IntersectionObserver scroll sync
  */
 
 import type { MarkdownHeading } from "astro";
@@ -143,7 +143,7 @@ const { class: className } = Astro.props;
 			);
 			top = Math.max(0, Math.min(top, maxTop));
 
-			// 小于一个行高级别的位移不触发滚动，减少active更新时的抖动感
+			// Ignore sub-line scroll delta to reduce jitter when updating active
 			if (Math.abs((scrollContainer.scrollTop || 0) - top) < 24) return;
 
 			scrollContainer.scrollTo({ top, left: 0, behavior: "smooth" });

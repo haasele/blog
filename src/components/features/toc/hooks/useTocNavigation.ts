@@ -1,12 +1,12 @@
 /**
- * useTocNavigation - TOC 导航逻辑 hook
- * 处理标题提取、滚动导航等核心功能
+ * useTocNavigation - TOC navigation hook
+ * Heading extraction, scroll navigation, etc.
  */
 
 import type { HeadingData, TOCScrollOptions } from "../types/toc";
 
 /**
- * 从 DOM 中提取标题数据
+ * Extract heading data from DOM
  */
 export function extractHeadingsFromDOM(
 	containerSelector = "#post-container",
@@ -27,7 +27,7 @@ export function extractHeadingsFromDOM(
 }
 
 /**
- * 滚动到指定标题
+ * Scroll to heading
  */
 export function scrollToHeading(
 	id: string,
@@ -45,7 +45,7 @@ export function scrollToHeading(
 }
 
 /**
- * 创建标题点击处理器
+ * Heading click handler
  */
 export function createHeadingClickHandler(
 	getConfig?: () => { offset?: number; behavior?: ScrollBehavior },
@@ -70,7 +70,7 @@ export function createHeadingClickHandler(
 }
 
 /**
- * 获取 TOC 配置
+ * Get TOC config
  */
 export function getTOCConfig(): {
 	depth: number;
@@ -90,7 +90,7 @@ export function getTOCConfig(): {
 }
 
 /**
- * 检查当前页面是否为文章页
+ * Whether current page is a post
  */
 export function isPostPage(): boolean {
 	const container = document.querySelector(
@@ -100,7 +100,7 @@ export function isPostPage(): boolean {
 }
 
 /**
- * 获取容器选择器
+ * Container selector
  */
 export function getContainerSelector(): string {
 	if (typeof document === "undefined") {

@@ -11,9 +11,6 @@ A modern, feature-rich static blog template built with [Astro](https://astro.bui
 
 [**🖥️ Live Demo**](https://mizuki.mysqil.com/) | [**📝 Documentation**](https://docs.mizuki.mysqil.com/)
 
-🌏 **README Languages:**
-[**English**](./README.md) / [**中文**](./README.zh.md) / [**日本語**](./README.ja.md) / [**繁體中文**](./README.tw.md) /
-
 Get started quickly with our comprehensive documentation. Whether you're customizing your theme, configuring features, or deploying to production, the documentation covers everything you need to launch your blog successfully.
 
 [📚 Read Full Documentation](https://docs.mizuki.mysqil.com/) →
@@ -36,13 +33,6 @@ Get started quickly with our comprehensive documentation. Whether you're customi
 ## 🚀 NEW: Automatic Resolution Adaptation
 
 > **🎯 Automatic Resolution Algorithm** - Intelligently adapts content layout based on device screen resolution, providing the best viewing experience for all devices
-
-🌏 README Language
-[**English**](./README.md) /
-[**中文**](./README.zh.md) /
-[**日本語**](./README.ja.md) /
-[**繁體中文**](./README.tw.md) /
-
 
 ### 🔧 Component Configuration System Restructuring
 - **Unified Configuration Architecture:** Brand new modular component configuration system, supporting dynamic component management and order configuration

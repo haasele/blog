@@ -45,7 +45,7 @@
 	}}
 	role="button"
 	tabindex="0"
-	aria-label="播放 {song.title} - {song.artist}"
+	aria-label="Play {song.title} - {song.artist}"
 >
 	<div class="w-6 h-6 flex items-center justify-center">
 		{#if isCurrent && isPlaying}

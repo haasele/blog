@@ -9,9 +9,9 @@ import type {
 export interface SiteConfig {
 	title: string;
 	subtitle: string;
-	siteURL: string; // 站点URL，以斜杠结尾，例如：https://mizuki.mysqil.com/
-	keywords?: string[]; // 站点关键词，用于生成 <meta name="keywords">
-	siteStartDate?: string; // 站点开始日期，格式：YYYY-MM-DD，用于计算运行天数
+	siteURL: string; // Site URL with trailing slash, e.g. https://mizuki.mysqil.com/
+	keywords?: string[]; // Site keywords for <meta name="keywords">
+	siteStartDate?: string; // Site start date (YYYY-MM-DD) for uptime calculation
 
 	lang:
 		| "en"
@@ -30,42 +30,42 @@ export interface SiteConfig {
 		fixed: boolean;
 	};
 
-	// 特色页面开关配置
+	// Feature page toggles
 	featurePages: {
-		anime: boolean; // 番剧页面开关
-		diary: boolean; // 日记页面开关
-		friends: boolean; // 友链页面开关
-		projects: boolean; // 项目页面开关
-		skills: boolean; // 技能页面开关
-		timeline: boolean; // 时间线页面开关
-		albums: boolean; // 相册页面开关
-		devices: boolean; // 设备页面开关
+		anime: boolean; // Anime page toggle
+		diary: boolean; // Diary page toggle
+		friends: boolean; // Friends page toggle
+		projects: boolean; // Projects page toggle
+		skills: boolean; // Skills page toggle
+		timeline: boolean; // Timeline page toggle
+		albums: boolean; // Albums page toggle
+		devices: boolean; // Devices page toggle
 	};
 
-	// 文章列表布局配置
+	// Post list layout configuration
 	postListLayout: {
-		defaultMode: "list" | "grid"; // 默认布局模式：list=列表模式，grid=网格模式
-		allowSwitch: boolean; // 是否允许用户切换布局
+		defaultMode: "list" | "grid"; // Default layout: list or grid
+		allowSwitch: boolean; // Allow user to switch layout
 		categoryBar?: {
-			enable: boolean; // 是否在文章列表页显示分类导航条
+			enable: boolean; // Show category bar on post list page
 		};
 	};
 
-	// 顶栏标题配置
+	// Navbar title configuration
 	navbarTitle?: {
-		mode?: "text-icon" | "logo"; // 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
-		text: string; // 顶栏标题文本
-		icon?: string; // 顶栏标题图标路径
-		logo?: string; // 网站Logo图片路径
+		mode?: "text-icon" | "logo"; // Display mode: "text-icon" = icon + text, "logo" = logo only
+		text: string; // Navbar title text
+		icon?: string; // Navbar title icon path
+		logo?: string; // Site logo image path
 	};
 
-	// 页面自动缩放配置
+	// Page auto-scaling configuration
 	pageScaling?: {
-		enable: boolean; // 是否开启自动缩放
-		targetWidth?: number; // 目标宽度，低于此宽度时开始缩放
+		enable: boolean; // Enable auto-scaling
+		targetWidth?: number; // Target width; scale when viewport is narrower
 	};
 
-	// 添加字体配置
+	// Font configuration
 	font: {
 		asciiFont: {
 			fontFamily: string;
@@ -81,37 +81,37 @@ export interface SiteConfig {
 		};
 	};
 
-	// 添加bangumi配置
+	// Bangumi configuration
 	bangumi?: {
-		userId?: string; // Bangumi用户ID
+		userId?: string; // Bangumi user ID
 		fetchOnDev?: boolean;
 	};
 
-	// 添加bilibili配置
+	// Bilibili configuration
 	bilibili?: {
-		vmid?: string; // Bilibili用户ID (vmid)
-		fetchOnDev?: boolean; // 是否在开发环境下获取 Bilibili 数据
-		coverMirror?: string; // 封面图片镜像源（可选，默认为空字符串）
-		useWebp?: boolean; // 是否使用WebP格式（默认 true）
+		vmid?: string; // Bilibili user ID (vmid)
+		fetchOnDev?: boolean; // Fetch Bilibili data in development
+		coverMirror?: string; // Cover image mirror (optional, default empty string)
+		useWebp?: boolean; // Use WebP format (default true)
 	};
 
-	// 添加番剧页面配置
+	// Anime page configuration
 	anime?: {
-		mode?: "bangumi" | "local" | "bilibili"; // 番剧页面模式
+		mode?: "bangumi" | "local" | "bilibili"; // Anime page data source mode
 	};
 
-	// 日记页面 Memos API 地址，客户端 fetch 获取动态数据
+	// Diary page Memos API URL; client fetches dynamic data
 	diaryApiUrl?: string;
 
-	// 标签样式配置
+	// Tag style configuration
 	tagStyle?: {
-		useNewStyle?: boolean; // 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
+		useNewStyle?: boolean; // New style (hover highlight) vs old style (persistent outline)
 	};
 
-	// 壁纸模式配置
+	// Wallpaper mode configuration
 	wallpaperMode: {
-		defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
+		defaultMode: "banner" | "fullscreen" | "none"; // Default: banner, fullscreen, or none
+		showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // Layout switch button: off, mobile only, desktop only, or both
 	};
 
 	banner: {
@@ -121,30 +121,30 @@ export interface SiteConfig {
 			| {
 					desktop?: string | string[];
 					mobile?: string | string[];
-			  }; // 支持单个图片、图片数组或分别设置桌面端和移动端图片
+			  }; // Single image, image array, or separate desktop/mobile images
 		position?: "top" | "center" | "bottom";
 		carousel?: {
-			enable: boolean; // 是否启用轮播
-			interval: number; // 轮播间隔时间（秒）
+			enable: boolean; // Enable carousel
+			interval: number; // Carousel interval in seconds
 		};
 		waves?: {
-			enable: boolean; // 是否启用水波纹效果
-			performanceMode?: boolean; // 性能模式：减少动画复杂度
-			mobileDisable?: boolean; // 移动端禁用
+			enable: boolean; // Enable wave effect
+			performanceMode?: boolean; // Performance mode: reduced animation complexity
+			mobileDisable?: boolean; // Disable on mobile
 		};
 		imageApi?: {
-			enable: boolean; // 是否启用图片API
-			url: string; // API地址，返回每行一个图片链接的文本
+			enable: boolean; // Enable image API
+			url: string; // API URL returning one image link per line
 		};
 		homeText?: {
-			enable: boolean; // 是否在首页显示自定义文字
-			title?: string; // 主标题
-			subtitle?: string | string[]; // 副标题，支持单个字符串或字符串数组
+			enable: boolean; // Show custom text on home page
+			title?: string; // Main title
+			subtitle?: string | string[]; // Subtitle; string or array of strings
 			typewriter?: {
-				enable: boolean; // 是否启用打字机效果
-				speed: number; // 打字速度（毫秒）
-				deleteSpeed: number; // 删除速度（毫秒）
-				pauseTime: number; // 完整显示后的暂停时间（毫秒）
+				enable: boolean; // Enable typewriter effect
+				speed: number; // Typing speed in milliseconds
+				deleteSpeed: number; // Delete speed in milliseconds
+				pauseTime: number; // Pause after full display in milliseconds
 			};
 		};
 		credit: {
@@ -153,23 +153,23 @@ export interface SiteConfig {
 			url?: string;
 		};
 		navbar?: {
-			transparentMode?: "semi" | "full" | "semifull"; // 导航栏透明模式
+			transparentMode?: "semi" | "full" | "semifull"; // Navbar transparency mode
 		};
 	};
 	toc: {
-		enable: boolean; // 总开关，false 时所有 TOC 都不显示
-		mobileTop: boolean; // 手机端顶部 TOC 按钮
-		desktopSidebar: boolean; // 电脑端右侧边栏 TOC
-		floating: boolean; // 悬浮 TOC 按钮
+		enable: boolean; // Master switch; disables all TOC when false
+		mobileTop: boolean; // Mobile top TOC button
+		desktopSidebar: boolean; // Desktop right sidebar TOC
+		floating: boolean; // Floating TOC button
 		depth: 1 | 2 | 3;
-		useJapaneseBadge?: boolean; // 使用日语假名标记（あいうえお...）代替数字
+		useJapaneseBadge?: boolean; // Use Japanese kana badges (あいうえお...) instead of numbers
 	};
-	showCoverInContent: boolean; // 控制文章封面在文章内容页显示的开关
+	showCoverInContent: boolean; // Show post cover on article content page
 	generateOgImages: boolean;
 	favicon: Favicon[];
-	showLastModified: boolean; // 控制"上次编辑"卡片显示的开关
-	pageProgressBar?: PageProgressBarConfig; // 页面顶部进度条配置
-	thirdPartyAnalytics?: ThirdPartyAnalyticsConfig; // 第三方统计配置
+	showLastModified: boolean; // Show "last modified" card
+	pageProgressBar?: PageProgressBarConfig; // Top page progress bar configuration
+	thirdPartyAnalytics?: ThirdPartyAnalyticsConfig; // Third-party analytics configuration
 }
 
 export interface Favicon {
@@ -195,8 +195,8 @@ export interface NavBarLink {
 	name: string;
 	url: string;
 	external?: boolean;
-	icon?: string; // 菜单项图标
-	children?: (NavBarLink | LinkPreset)[]; // 支持子菜单，可以是NavBarLink或LinkPreset
+	icon?: string; // Menu item icon
+	children?: (NavBarLink | LinkPreset)[]; // Submenu: NavBarLink or LinkPreset entries
 }
 
 export interface NavBarConfig {
@@ -213,8 +213,8 @@ export interface ProfileConfig {
 		icon: string;
 	}[];
 	typewriter?: {
-		enable: boolean; // 是否启用打字机效果
-		speed?: number; // 打字速度（毫秒）
+		enable: boolean; // Enable typewriter effect
+		speed?: number; // Typing speed in milliseconds
 	};
 }
 
@@ -224,37 +224,37 @@ export interface LicenseConfig {
 	url: string;
 }
 
-// Permalink 配置
+// Permalink configuration
 export interface PermalinkConfig {
-	enable: boolean; // 是否启用全局 permalink 功能
+	enable: boolean; // Enable global permalink feature
 	/**
-	 * permalink 格式模板
-	 * 支持的占位符：
-	 * - %year% : 4位年份 (2024)
-	 * - %monthnum% : 2位月份 (01-12)
-	 * - %day% : 2位日期 (01-31)
-	 * - %hour% : 2位小时 (00-23)
-	 * - %minute% : 2位分钟 (00-59)
-	 * - %second% : 2位秒数 (00-59)
-	 * - %post_id% : 文章序号（按发布时间升序排列）
-	 * - %postname% : 文章文件名（slug）
-	 * - %category% : 分类名（无分类时为 "uncategorized"）
+	 * Permalink format template.
+	 * Supported placeholders:
+	 * - %year% : 4-digit year (2024)
+	 * - %monthnum% : 2-digit month (01-12)
+	 * - %day% : 2-digit day (01-31)
+	 * - %hour% : 2-digit hour (00-23)
+	 * - %minute% : 2-digit minute (00-59)
+	 * - %second% : 2-digit second (00-59)
+	 * - %post_id% : Post sequence number (ordered by publish date ascending)
+	 * - %postname% : Post filename (slug)
+	 * - %category% : Category name ("uncategorized" when none)
 	 *
-	 * 示例：
+	 * Examples:
 	 * - "%year%-%monthnum%-%postname%" => "2024-12-my-post"
 	 * - "%post_id%-%postname%" => "42-my-post"
 	 * - "%category%-%postname%" => "tech-my-post"
 	 *
-	 * 注意：不支持斜杠 "/"，所有生成的链接都在根目录下
+	 * Note: slashes "/" are not supported; all generated links are at the site root
 	 */
 	format: string;
 }
 
-// 评论配置
+// Comment configuration
 
 export interface CommentConfig {
-	enable: boolean; // 是否启用评论功能
-	system?: "twikoo" | "giscus"; // 评论系统选择
+	enable: boolean; // Enable comments
+	system?: "twikoo" | "giscus"; // Comment system
 	twikoo?: TwikooConfig;
 	giscus?: GiscusConfig;
 }
@@ -305,114 +305,114 @@ export interface BlogPostData {
 
 export interface ExpressiveCodeConfig {
 	theme: string;
-	hideDuringThemeTransition?: boolean; // 是否在主题切换时隐藏代码块
+	hideDuringThemeTransition?: boolean; // Hide code blocks during theme transition
 }
 
 export interface AnnouncementConfig {
-	// enable属性已移除，现在通过sidebarLayoutConfig统一控制
-	title?: string; // 公告栏标题
-	content: string; // 公告栏内容
-	icon?: string; // 公告栏图标
-	type?: "info" | "warning" | "success" | "error"; // 公告类型
-	closable?: boolean; // 是否可关闭
+	// enable removed; controlled via sidebarLayoutConfig
+	title?: string; // Announcement title
+	content: string; // Announcement content
+	icon?: string; // Announcement icon
+	type?: "info" | "warning" | "success" | "error"; // Announcement type
+	closable?: boolean; // Whether the announcement can be closed
 	link?: {
-		enable: boolean; // 是否启用链接
-		text: string; // 链接文字
-		url: string; // 链接地址
-		external?: boolean; // 是否外部链接
+		enable: boolean; // Enable link
+		text: string; // Link text
+		url: string; // Link URL
+		external?: boolean; // External link
 	};
 }
 
 export interface MusicPlayerConfig {
-	enable: boolean; // 是否启用音乐播放器功能
-	showFloatingPlayer: boolean; // 是否显示悬浮播放器 UI
-	floatingEntryMode?: "default" | "fab"; // 悬浮入口模式：默认独立播放器或集成到 FAB 组
-	mode: "meting" | "local"; // 音乐播放器模式
-	meting_api: string; // Meting API 地址
-	id: string; // 歌单ID
-	server: string; // 音乐源服务器
-	type: string; // 音乐类型
+	enable: boolean; // Enable music player
+	showFloatingPlayer: boolean; // Show floating player UI
+	floatingEntryMode?: "default" | "fab"; // Floating entry: standalone player or FAB group
+	mode: "meting" | "local"; // Music player mode
+	meting_api: string; // Meting API URL
+	id: string; // Playlist ID
+	server: string; // Music source server
+	type: string; // Music type
 }
 
 export interface FooterConfig {
-	enable: boolean; // 是否启用Footer HTML注入功能
-	customHtml?: string; // 自定义HTML内容，用于添加备案号等信息
+	enable: boolean; // Enable footer HTML injection
+	customHtml?: string; // Custom HTML (e.g. ICP filing number)
 }
 
-// 组件配置类型定义
+// Widget component type definitions
 export type WidgetComponentType =
 	| "profile"
 	| "announcement"
 	| "categories"
 	| "tags"
 	| "toc"
-	| "card-toc" // 卡片式目录组件
+	| "card-toc" // Card-style TOC component
 	| "music-player"
 	| "music-sidebar"
-	| "pio" // 添加 pio 组件类型
-	| "site-stats" // 站点统计组件
-	| "calendar" // 日历组件
+	| "pio" // Live2D mascot component
+	| "site-stats" // Site statistics component
+	| "calendar" // Calendar component
 	| "custom";
 
 export interface WidgetComponentConfig {
-	type: WidgetComponentType; // 组件类型
-	position: "top" | "sticky"; // 组件位置：顶部固定区域或粘性区域
-	class?: string; // 自定义CSS类名
-	style?: string; // 自定义内联样式
-	animationDelay?: number; // 动画延迟时间（毫秒）
+	type: WidgetComponentType; // Component type
+	position: "top" | "sticky"; // Position: top fixed area or sticky area
+	class?: string; // Custom CSS class
+	style?: string; // Custom inline style
+	animationDelay?: number; // Animation delay in milliseconds
 	responsive?: {
-		hidden?: ("mobile" | "tablet" | "desktop")[]; // 在指定设备上隐藏
-		collapseThreshold?: number; // 折叠阈值
+		hidden?: ("mobile" | "tablet" | "desktop")[]; // Hide on specified breakpoints
+		collapseThreshold?: number; // Collapse threshold
 	};
-	customProps?: Record<string, any>; // 自定义属性，用于扩展组件功能
+	customProps?: Record<string, any>; // Custom props for component extensions
 }
 
 export interface SidebarLayoutConfig {
-	properties: WidgetComponentConfig[]; // 组件配置列表
+	properties: WidgetComponentConfig[]; // Component configuration list
 	components: {
 		left: WidgetComponentType[];
 		right: WidgetComponentType[];
 		drawer: WidgetComponentType[];
 	};
 	defaultAnimation: {
-		enable: boolean; // 是否启用默认动画
-		baseDelay: number; // 基础延迟时间（毫秒）
-		increment: number; // 每个组件递增的延迟时间（毫秒）
+		enable: boolean; // Enable default animation
+		baseDelay: number; // Base delay in milliseconds
+		increment: number; // Per-component delay increment in milliseconds
 	};
 	responsive: {
 		breakpoints: {
-			mobile: number; // 移动端断点（px）
-			tablet: number; // 平板端断点（px）
-			desktop: number; // 桌面端断点（px）
+			mobile: number; // Mobile breakpoint (px)
+			tablet: number; // Tablet breakpoint (px)
+			desktop: number; // Desktop breakpoint (px)
 		};
 	};
 }
 
 export interface SakuraConfig {
-	enable: boolean; // 是否启用樱花特效
-	sakuraNum: number; // 樱花数量，默认21
-	limitTimes: number; // 樱花越界限制次数，-1为无限循环
+	enable: boolean; // Enable sakura effect
+	sakuraNum: number; // Sakura count (default 21)
+	limitTimes: number; // Boundary limit count; -1 = infinite loop
 	size: {
-		min: number; // 樱花最小尺寸倍数
-		max: number; // 樱花最大尺寸倍数
+		min: number; // Minimum size multiplier
+		max: number; // Maximum size multiplier
 	};
 	opacity: {
-		min: number; // 樱花最小不透明度
-		max: number; // 樱花最大不透明度
+		min: number; // Minimum opacity
+		max: number; // Maximum opacity
 	};
 	speed: {
 		horizontal: {
-			min: number; // 水平移动速度最小值
-			max: number; // 水平移动速度最大值
+			min: number; // Minimum horizontal speed
+			max: number; // Maximum horizontal speed
 		};
 		vertical: {
-			min: number; // 垂直移动速度最小值
-			max: number; // 垂直移动速度最大值
+			min: number; // Minimum vertical speed
+			max: number; // Maximum vertical speed
 		};
-		rotation: number; // 旋转速度
-		fadeSpeed: number; // 消失速度
+		rotation: number; // Rotation speed
+		fadeSpeed: number; // Fade-out speed
 	};
-	zIndex: number; // 层级，确保樱花在合适的层级显示
+	zIndex: number; // z-index for layering
 }
 
 export interface FullscreenWallpaperConfig {
@@ -422,79 +422,79 @@ export interface FullscreenWallpaperConfig {
 		| {
 				desktop?: string | string[];
 				mobile?: string | string[];
-		  }; // 支持单个图片、图片数组或分别设置桌面端和移动端图片
-	position?: "top" | "center" | "bottom"; // 壁纸位置，等同于 object-position
+		  }; // Single image, image array, or separate desktop/mobile images
+	position?: "top" | "center" | "bottom"; // Wallpaper position (object-position)
 	carousel?: {
-		enable: boolean; // 是否启用轮播
-		interval: number; // 轮播间隔时间（秒）
+		enable: boolean; // Enable carousel
+		interval: number; // Carousel interval in seconds
 	};
-	zIndex?: number; // 层级，确保壁纸在合适的层级显示
-	opacity?: number; // 壁纸透明度，0-1之间
-	blur?: number; // 背景模糊程度，单位px
+	zIndex?: number; // z-index for layering
+	opacity?: number; // Wallpaper opacity (0-1)
+	blur?: number; // Background blur in px
 }
 
 /**
- * Pio 看板娘配置
+ * Pio live mascot configuration
  */
 export interface PioConfig {
-	enable: boolean; // 是否启用看板娘
-	models?: string[]; // 模型文件路径数组
-	position?: "left" | "right"; // 看板娘位置
-	width?: number; // 看板娘宽度
-	height?: number; // 看板娘高度
-	mode?: "static" | "fixed" | "draggable"; // 展现模式
-	hiddenOnMobile?: boolean; // 是否在移动设备上隐藏
+	enable: boolean; // Enable live mascot
+	models?: string[]; // Model file paths
+	position?: "left" | "right"; // Mascot position
+	width?: number; // Mascot width
+	height?: number; // Mascot height
+	mode?: "static" | "fixed" | "draggable"; // Display mode
+	hiddenOnMobile?: boolean; // Hide on mobile devices
 	dialog?: {
-		welcome?: string | string[]; // 欢迎词
-		touch?: string | string[]; // 触摸提示
-		home?: string; // 首页提示
-		skin?: [string, string]; // 换装提示 [切换前, 切换后]
-		close?: string; // 关闭提示
-		link?: string; // 关于链接
+		welcome?: string | string[]; // Welcome messages
+		touch?: string | string[]; // Touch hints
+		home?: string; // Home page hint
+		skin?: [string, string]; // Outfit change hints [before, after]
+		close?: string; // Close hint
+		link?: string; // About link
 		custom?: {
-			selector: string; // CSS选择器
-			type: "read" | "link"; // 类型
-			text?: string; // 自定义文本
+			selector: string; // CSS selector
+			type: "read" | "link"; // Interaction type
+			text?: string; // Custom text
 		}[];
 	};
 }
 
 /**
- * 分享组件配置
+ * Share component configuration
  */
 export interface ShareConfig {
-	enable: boolean; // 是否启用分享功能
+	enable: boolean; // Enable share feature
 }
 
 /**
- * 相关文章组件配置
+ * Related posts component configuration
  */
 export interface RelatedPostsConfig {
-	enable: boolean; // 是否启用相关文章功能
-	maxCount: number; // 相关文章数量
+	enable: boolean; // Enable related posts
+	maxCount: number; // Maximum related post count
 }
 
 /**
- * 随机文章组件配置
+ * Random posts component configuration
  */
 export interface RandomPostsConfig {
-	enable: boolean; // 是否启用随机文章功能
-	maxCount: number; // 随机文章数量
+	enable: boolean; // Enable random posts
+	maxCount: number; // Maximum random post count
 }
 
 /**
- * 页面顶部进度条配置
+ * Top page progress bar configuration
  */
 export interface PageProgressBarConfig {
-	enable: boolean; // 是否启用页面顶部进度条
-	height?: number; // 进度条高度，默认 3px
-	duration?: number; // 动画时长，默认 8000ms
+	enable: boolean; // Enable top page progress bar
+	height?: number; // Bar height (default 3px)
+	duration?: number; // Animation duration (default 8000ms)
 }
 
 /**
- * 第三方统计配置（可能影响 Lighthouse 评分）
+ * Third-party analytics configuration (may affect Lighthouse scores)
  */
 export interface ThirdPartyAnalyticsConfig {
-	enable: boolean; // 是否启用第三方统计（Microsoft Clarity），默认关闭
-	clarityId?: string; // Clarity 项目 ID
+	enable: boolean; // Enable third-party analytics (Microsoft Clarity); default off
+	clarityId?: string; // Clarity project ID
 }

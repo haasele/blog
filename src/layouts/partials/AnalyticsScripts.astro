@@ -1,13 +1,13 @@
 ---
 /**
  * AnalyticsScripts.astro
- * 第三方分析脚本组件 - 延迟加载优化
+ * Third-party analytics scripts - deferred loading
  *
- * 包含:
+ * Includes:
  * - Google Tag Manager (GTM)
- * - Microsoft Clarity (可选，通过 thirdPartyAnalytics 配置控制)
+ * - Microsoft Clarity (optional, via thirdPartyAnalytics)
  *
- * 使用 requestIdleCallback 延迟加载以优化性能
+ * Deferred via requestIdleCallback for performance
  */
 
 interface Props {
@@ -27,7 +27,7 @@ const clarityEnable =
 	thirdPartyAnalytics.enable && thirdPartyAnalytics.clarityId;
 ---
 
-<!-- 第三方分析脚本 - 仅在用户交互后延迟加载 -->
+<!-- Third-party analytics - deferred until interaction -->
 <script
 	is:inline
 	define:vars={{
@@ -37,7 +37,7 @@ const clarityEnable =
 	}}
 >
 	(function () {
-		// 标记脚本是否已加载
+		// Whether scripts are loaded
 		window.analyticsLoaded = window.analyticsLoaded || false;
 
 		function loadAnalytics() {
@@ -60,7 +60,7 @@ const clarityEnable =
 				f.parentNode.insertBefore(j, f);
 			})(window, document, "script", "dataLayer", gtmId);
 
-			// Clarity (仅在启用时加载)
+			// Clarity (when enabled)
 			if (clarityEnable && clarityId) {
 				(function (c, l, a, r, i, t, y) {
 					c[a] =
@@ -77,7 +77,7 @@ const clarityEnable =
 			}
 		}
 
-		// 仅在用户交互后加载分析脚本，减少初始页面加载负担
+		// Load analytics after interaction to reduce initial load
 		const events = [
 			"scroll",
 			"mousemove",
@@ -105,7 +105,7 @@ const clarityEnable =
 			});
 		});
 
-		// 备用：如果用户 10 秒内没有交互，则在 idle 时加载
+		// Fallback: load on idle if no interaction within 10s
 		setTimeout(function () {
 			if (!loaded) {
 				loadAnalytics();

@@ -1,12 +1,11 @@
 /**
- * 移动端页面切换闪烁修复
- * Mobile Page Transition Flicker Fix
- * 专门解决手机端切换页面时的闪烁问题
+ * Mobile page transition flash fix
+ * Fixes flash when switching pages on phones
  */
 
-/* 移动端页面切换性能优化 */
+/* Mobile page transition performance optimization */
 @media (max-width: 768px) {
-  /* 为所有动画元素添加硬件加速 */
+  /* Add hardware acceleration to all animated elements */
   .transition-main,
   .transition-leaving,
   .onload-animation,
@@ -24,7 +23,7 @@
     will-change: transform, opacity;
   }
 
-  /* 优化页面切换动画 */
+  /* Optimize page transition animation */
   html.is-changing .transition-main {
     transition:
       opacity 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
@@ -37,7 +36,7 @@
       transform 200ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
   }
 
-  /* 减少移动端动画幅度 */
+  /* Reduce mobile animation amplitude */
   html.is-animating .transition-main {
     opacity: 0;
     transform: translateY(0.5rem) translateX(0.2rem);
@@ -48,7 +47,7 @@
     opacity: 0;
   }
 
-  /* 优化侧边栏动画 */
+  /* Optimize sidebar animation */
   #dynamic-sidebar {
     transition: all 0.2s ease-in-out;
   }
@@ -57,34 +56,34 @@
     transition: all 0.2s ease-in-out;
   }
 
-  /* 防止页面加载时的闪烁 */
+  /* Prevent flash on page load */
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* 优化网格布局切换 */
+  /* Optimize grid layout toggle */
   #main-grid {
     transition: all 0.3s ease-in-out;
   }
 
-  /* 防止图片加载时的闪烁 */
+  /* Prevent flash on image load */
   img {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
   }
 
-  /* 优化滚动行为 */
+  /* Optimize scroll behavior */
   html {
     scroll-behavior: smooth;
   }
 
-  /* 减少动画元素的数量 */
+  /* Reduce number of animated elements */
   .onload-animation {
     animation-duration: 0.3s;
   }
 
-  /* 优化字体渲染 */
+  /* Optimize font rendering */
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -92,9 +91,9 @@
   }
 }
 
-/* 超小屏幕设备优化 */
+/* Extra small screen optimization */
 @media (max-width: 480px) {
-  /* 进一步减少动画效果 */
+  /* Further reduce animation effects */
   html.is-animating .transition-main {
     transform: translateY(0.3rem) translateX(0.1rem);
   }
@@ -103,7 +102,7 @@
     transform: translateY(-0.2rem) translateX(-0.1rem);
   }
 
-  /* 简化侧边栏动画 */
+  /* Simplify sidebar animation */
   #dynamic-sidebar {
     transition: all 0.15s ease-in-out;
   }
@@ -113,7 +112,7 @@
   }
 }
 
-/* 性能优化：为减少动画的用户提供支持 */
+/* Performance optimization: support prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .transition-main,
   .transition-leaving,

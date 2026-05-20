@@ -1,31 +1,31 @@
 ---
 /**
- * TOC 条目组件
- * 渲染单个 TOC 链接项
+ * TOC item component
+ * Single TOC link item
  */
 
 import type { TOCItem as TOCItemType } from "../types/toc";
 import TOCBadge, { type BadgeVariant } from "./TOCBadge.astro";
 
 export interface Props {
-	/** TOC 条目数据 */
+	/** TOC entry data */
 	item: TOCItemType;
-	/** 是否激活状态 */
+	/** Active state */
 	active?: boolean;
-	/** 自定义类名 */
+	/** Custom class name */
 	class?: string;
 }
 
 const { item, active = false, class: className = "" } = Astro.props;
 
-// 根据深度计算缩进
+// Indent from depth
 const indentClass = item.depth === 0 ? "" : item.depth === 1 ? "pl-6" : "pl-8";
 
-// 根据深度确定徽章变体
+// Badge variant from depth
 const badgeVariant: BadgeVariant =
 	item.depth === 0 ? "number" : item.depth === 1 ? "dot" : "dot-small";
 
-// 文本颜色类
+// Text color classes
 const textClass =
 	item.depth <= 1
 		? "text-[var(--text-secondary)]"

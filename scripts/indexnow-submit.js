@@ -8,11 +8,11 @@ const __dirname = path.dirname(__filename);
 
 loadEnv();
 
-// 从 sitemap 文件中解析 URL 列表
+// Parse URL list from sitemap file
 function parseSitemap(sitemapPath) {
 	const sitemapContent = fs.readFileSync(sitemapPath, "utf-8");
 
-	// 使用正则表达式提取 URL
+	// Extract URLs with regex
 	const urlMatches = sitemapContent.match(/<loc>(.*?)<\/loc>/g);
 
 	if (!urlMatches) {
@@ -29,15 +29,15 @@ function parseSitemap(sitemapPath) {
 	return urls;
 }
 
-// 提交 URL 到 Bing IndexNow API
+// Submit URLs to Bing IndexNow API
 async function submitToIndexNow(urls) {
 	if (!urls || urls.length === 0) {
 		console.log("⚠ No URLs to submit");
 		return;
 	}
 
-	// 限制每次提交的 URL 数量（IndexNow API 有数量限制）
-	const MAX_URLS_PER_REQUEST = 10000; // IndexNow API 限制最大 10000 个URL
+	// Limit URLs per request (IndexNow API cap)
+	const MAX_URLS_PER_REQUEST = 10000; // IndexNow API max 10000 URLs per request
 	const urlChunks = [];
 
 	for (let i = 0; i < urls.length; i += MAX_URLS_PER_REQUEST) {
@@ -92,7 +92,7 @@ async function submitToIndexNow(urls) {
 				const responseBody = await response.text();
 				console.error(`   Response body: ${responseBody}`);
 
-				// 根据状态码提供更详细的错误信息
+				// Provide more detail based on status code
 				switch (response.status) {
 					case 400:
 						console.error("   Error: Request format is invalid");
@@ -127,11 +127,11 @@ async function submitToIndexNow(urls) {
 	}
 }
 
-// 主函数
+// Main entry point
 async function main() {
 	console.log("🚀 Starting Bing IndexNow URL submission task...\n");
 
-	// 构建输出目录路径
+	// Build output directory path
 	const distDir = path.join(__dirname, "../dist");
 	const sitemapPath = path.join(distDir, "sitemap-0.xml");
 
@@ -144,7 +144,7 @@ async function main() {
 	}
 
 	try {
-		// 解析 sitemap 获取 URL 列表
+		// Parse sitemap to get URL list
 		const urls = parseSitemap(sitemapPath);
 
 		if (urls.length === 0) {
@@ -152,7 +152,7 @@ async function main() {
 			return;
 		}
 
-		// 过滤出有效的 URL（以指定主机开头的）
+		// Filter URLs that belong to the configured host
 		const host = process.env.INDEXNOW_HOST;
 		const filteredUrls = urls.filter(
 			(url) =>
@@ -166,7 +166,7 @@ async function main() {
 			return;
 		}
 
-		// 提交 URL 到 IndexNow
+		// Submit URLs to IndexNow
 		await submitToIndexNow(filteredUrls);
 
 		console.log("\n🎉 Bing IndexNow URL submission task completed!");
@@ -176,5 +176,5 @@ async function main() {
 	}
 }
 
-// 运行主函数
+// Run main
 await main();

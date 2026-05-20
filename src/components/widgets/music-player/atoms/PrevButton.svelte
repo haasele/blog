@@ -11,7 +11,7 @@
 
 <button
 	class="btn-plain w-10 h-10 rounded-lg"
-	aria-label="上一首"
+	aria-label="Previous track"
 	{onclick}
 	{disabled}
 >

@@ -142,14 +142,14 @@ const archiveUrl = url("/archive/");
 			/\/$/,
 			"",
 		);
-		// 归档页路径也需要标准化，避免 /archive 与 /archive/ 不一致导致无法匹配
+		// Normalize archive path (/archive vs /archive/)
 		const archivePath = (
 			bar.getAttribute("data-archive-path") || "/archive"
 		).replace(/\/$/, "");
 		const isHome =
 			pathname === homePath || pathname === "" || pathname === "/";
 		const isArchive = pathname === archivePath;
-		// 分页页面（如 /2/, /3/）也属于首页的延续
+		// Paginated routes (/2/, /3/) count as home
 		const isHomePagination =
 			/^\/\d+$/.test(pathname) ||
 			(homePath !== "" &&
@@ -159,14 +159,14 @@ const archiveUrl = url("/archive/");
 						"\\/\\d+$",
 				).test(pathname));
 
-		// 在首页、首页分页和归档页显示
+		// Show on home, paginated home, and archive
 		if (!isHome && !isHomePagination && !isArchive) {
 			bar.style.display = "none";
 			return;
 		}
 		bar.style.display = "";
 
-		// 高亮当前分类
+		// Highlight current category
 		const pills = bar.querySelectorAll<HTMLAnchorElement>(".category-pill");
 		const params = new URLSearchParams(window.location.search);
 		const activeCategory = params.get("category") || "";
@@ -193,7 +193,7 @@ const archiveUrl = url("/archive/");
 			)?.setAttribute("data-active", "");
 		}
 
-		// 自动滚动到当前高亮的分类
+		// Scroll active category into view
 		const activePill = bar.querySelector<HTMLAnchorElement>(
 			".category-pill[data-active]",
 		);
@@ -209,7 +209,7 @@ const archiveUrl = url("/archive/");
 			});
 		}
 
-		// 更新横幅标题：归档页有分类筛选时显示分类名
+		// Update banner title to category on filtered archive
 		if (isArchive && activeCategory) {
 			const bannerTitle = document.querySelector(
 				".banner-page-title-text",
@@ -231,7 +231,7 @@ const archiveUrl = url("/archive/");
 			return;
 		}
 
-		// 鼠标滚轮横向滚动
+		// Horizontal scroll via mouse wheel
 		scroll.addEventListener(
 			"wheel",
 			(e) => {
@@ -244,7 +244,7 @@ const archiveUrl = url("/archive/");
 			{ passive: false },
 		);
 
-		// 监听滚动更新提示图标
+		// Update scroll hint on scroll
 		scroll.addEventListener("scroll", updateScrollHint);
 		window.addEventListener("resize", updateScrollHint);
 		updateScrollHint();

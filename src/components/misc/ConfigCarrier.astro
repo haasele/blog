@@ -2,7 +2,7 @@
 import { expressiveCodeConfig, siteConfig } from "@/config";
 ---
 
-<!-- 全局配置载体 -->
+<!-- Global config carrier -->
 <div
 	id="config-carrier"
 	data-hue={siteConfig.themeColor.hue}
@@ -20,7 +20,7 @@ import { expressiveCodeConfig, siteConfig } from "@/config";
 		tocUseJapaneseBadge: siteConfig.toc.useJapaneseBadge,
 	}}
 >
-	// 将 TOC 配置传递到前端
+	// Pass TOC config to the client
 	window.siteConfig = window.siteConfig || {};
 	window.siteConfig.toc = {
 		enable: tocEnable,
@@ -28,6 +28,6 @@ import { expressiveCodeConfig, siteConfig } from "@/config";
 		useJapaneseBadge: tocUseJapaneseBadge,
 	};
 
-	// 添加调试信息
+	// Debug logging
 	console.log("TOC Config:", window.siteConfig.toc);
 </script>

@@ -1,6 +1,6 @@
 /**
- * Swup 管理器主入口
- * 协调所有子模块，提供统一的页面过渡管理
+ * Swup manager main entry
+ * Coordinates all submodules and provides unified page transition management
  */
 
 import { widgetConfigs } from "../config";
@@ -28,8 +28,8 @@ import { getPanelHandler, initPanelHandler } from "./handlers/panel-handler";
 import { checkKatex, initCustomScrollbar } from "./handlers/scroll-handler";
 
 /**
- * Swup 管理器类
- * 统一管理页面过渡相关的所有功能
+ * Swup manager class
+ * Unified management of all page transition features
  */
 export class SwupManager {
 	private hooksManager: SwupHooksManager | null = null;
@@ -45,14 +45,14 @@ export class SwupManager {
 			SWUP_SELECTORS.bannerWrapper.slice(1),
 		);
 
-		// 初始化各个处理器
+		// Initialize handlers
 		this.fancyboxHandler = getFancyboxHandler();
 		this.backToTopHandler = getBackToTopHandler(this.bannerEnabled);
 		this.panelHandler = getPanelHandler();
 	}
 
 	/**
-	 * 初始化 Swup 管理器
+	 * Initialize Swup manager
 	 */
 	async init(): Promise<void> {
 		if (this.initialized) {
@@ -64,48 +64,48 @@ export class SwupManager {
 
 		await this.initPanelHandler();
 
-		// 设置 Sakura 特效
+		// Set up Sakura effect
 		this.setupSakura();
 
-		// 初始化 Swup 钩子
+		// Initialize Swup hooks
 		this.initSwupHooks();
 
-		// 初始化返回顶部处理器
+		// Initialize back to top handler
 		initBackToTopHandler(this.bannerEnabled);
 
-		// 初始化 Banner
+		// Initialize Banner
 		this.initBanner();
 
-		// 初始化链接预加载
+		// Initialize link preloading
 		this.initPreloading();
 
 		this.initialized = true;
-		console.log("SwupManager: 初始化完成");
+		console.log("SwupManager: initialized");
 	}
 
 	/**
-	 * 初始化面板处理器
+	 * Initialize panel handler
 	 */
 	private async initPanelHandler(): Promise<void> {
 		try {
 			await initPanelHandler();
 		} catch (error) {
-			console.error("SwupManager: 面板处理器初始化失败", error);
+			console.error("SwupManager: panel handler initialization failed", error);
 		}
 	}
 
 	/**
-	 * 设置 Sakura 特效
+	 * Set up Sakura effect
 	 */
 	private setupSakura(): void {
 		setupSakuraOnDOMReady(widgetConfigs);
 	}
 
 	/**
-	 * 初始化 Swup 钩子
+	 * Initialize Swup hooks
 	 */
 	private initSwupHooks(): void {
-		// 创建钩子管理器
+		// Create hooks manager
 		this.hooksManager = new SwupHooksManager(this.bannerEnabled, {
 			showBanner: this.showBanner.bind(this),
 			initFancybox: async () => {
@@ -122,20 +122,20 @@ export class SwupManager {
 			},
 		});
 
-		// 如果 Swup 已经就绪，直接设置钩子
+		// Register hooks if Swup is already ready
 		if (window?.swup?.hooks) {
 			initFancybox();
 			checkKatex();
 			this.hooksManager.registerHooks();
 		} else {
-			// 监听 Swup 就绪事件
+			// Listen for Swup ready event
 			document.addEventListener("swup:enable", () => {
 				if (this.hooksManager) {
 					this.hooksManager.registerHooks();
 				}
 			});
 
-			// 监听 DOM 加载（确保首屏也能加载优化组件）
+			// Listen for DOM load (ensure optimization components load on first paint)
 			if (document.readyState === "loading") {
 				document.addEventListener("DOMContentLoaded", async () => {
 					await initFancybox();
@@ -149,7 +149,7 @@ export class SwupManager {
 	}
 
 	/**
-	 * 初始化 Banner
+	 * Initialize Banner
 	 */
 	private initBanner(): void {
 		if (document.readyState === "loading") {
@@ -162,7 +162,7 @@ export class SwupManager {
 	}
 
 	/**
-	 * 初始化链接预加载
+	 * Initialize link preloading
 	 */
 	private initPreloading(): void {
 		if (document.readyState === "loading") {
@@ -175,13 +175,13 @@ export class SwupManager {
 	}
 
 	/**
-	 * 显示 Banner
-	 * 轮播图由 Banner.astro 中的内联脚本自行初始化（data-swup-ignore-script），
-	 * 此处仅处理单图模式的淡入效果。
+	 * Show Banner
+	 * Carousel is initialized by inline script in Banner.astro (data-swup-ignore-script);
+	 * this only handles fade-in for single-image mode.
 	 */
 	showBanner(): void {
 		requestAnimationFrame(() => {
-			// 处理单图 Banner (桌面端)
+			// Handle single-image Banner (desktop)
 			const banner = document.getElementById(
 				SWUP_SELECTORS.banner.slice(1),
 			);
@@ -189,7 +189,7 @@ export class SwupManager {
 				banner.classList.remove("opacity-0", "scale-105");
 			}
 
-			// 处理移动端单图 Banner
+			// Handle mobile single-image Banner
 			const mobileBanner = document.querySelector(
 				'.block.md\\:hidden[alt="Mobile banner image of the blog"]',
 			);
@@ -201,7 +201,7 @@ export class SwupManager {
 	}
 
 	/**
-	 * 销毁管理器
+	 * Destroy manager
 	 */
 	destroy(): void {
 		this.hooksManager = null;
@@ -213,18 +213,18 @@ export class SwupManager {
 	}
 
 	/**
-	 * 获取 Banner 启用状态
+	 * Get banner enabled state
 	 */
 	isBannerEnabled(): boolean {
 		return this.bannerEnabled;
 	}
 }
 
-// 创建全局实例
+// Create global instance
 let globalSwupManager: SwupManager | null = null;
 
 /**
- * 获取全局 Swup 管理器实例
+ * Get global Swup manager instance
  */
 export function getSwupManager(): SwupManager {
 	if (!globalSwupManager) {
@@ -234,7 +234,7 @@ export function getSwupManager(): SwupManager {
 }
 
 /**
- * 初始化 Swup 管理器（便捷函数）
+ * Initialize Swup manager (convenience function)
  */
 export async function initSwupManager(): Promise<void> {
 	const manager = getSwupManager();

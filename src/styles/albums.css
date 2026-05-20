@@ -1,11 +1,11 @@
-/* 相册模块样式 */
+/* Album module styles */
 
-/* 相册卡片动画 */
+/* Album card animation */
 .album-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 瀑布流布局 */
+/* Masonry layout */
 .gallery-masonry {
   column-width: 240px;
   column-gap: 0.75rem;
@@ -15,12 +15,12 @@
   break-inside: avoid;
 }
 
-/* 照片网格加载动画 */
+/* Photo grid load animation */
 .photo-gallery {
   animation: fadeInUp 0.6s ease-out;
 }
 
-/* 图片懒加载占位符 - 使用主题色变量 */
+/* Image lazy-load placeholder - theme color variables */
 .photo-image[loading="lazy"] {
   background: linear-gradient(90deg, var(--btn-regular-bg) 25%, var(--card-bg) 50%, var(--btn-regular-bg) 75%);
   background-size: 200% 100%;
@@ -47,7 +47,7 @@
   }
 }
 
-/* 响应式瀑布流 */
+/* Responsive masonry */
 @media (max-width: 768px) {
   .gallery-masonry {
     column-width: 180px;

@@ -1,9 +1,9 @@
 ---
 /**
  * HeadTags.astro
- * Head 标签组件 - 包含 SEO meta 标签、主题初始化脚本、CSS 变量等
+ * Head tags - SEO meta, theme init script, CSS variables, etc.
  *
- * 提取自 Layout.astro 以实现更好的代码组织
+ * Extracted from Layout.astro for better organization
  */
 
 import { profileConfig, siteConfig } from "@/config";
@@ -26,7 +26,7 @@ interface Props {
 	ogImageUrl?: string;
 	setOGTypeArticle?: boolean;
 
-	// 配置
+	// Config
 	configHue: number;
 }
 
@@ -38,7 +38,7 @@ const {
 	configHue,
 } = Astro.props;
 
-// 关键词
+// Keywords
 const keywords = siteConfig.keywords;
 
 // Favicons
@@ -94,10 +94,10 @@ const favicons: Favicon[] =
 	))
 }
 
-<!-- 字体通过构建脚本压缩到 /assets/font/ 目录，此处不再预加载以避免 404 -->
-<!-- 字体在构建时通过 scripts/compress-fonts.js 处理并复制到 dist/ -->
+<!-- Fonts compressed to /assets/font/ at build; no preload here to avoid 404 -->
+<!-- Built via scripts/compress-fonts.js into dist/ -->
 
-<!-- 预连接 Iconify API 以减少图标加载延迟 -->
+<!-- Preconnect Iconify API -->
 <link rel="preconnect" href="https://api.iconify.design" crossorigin />
 
 <!-- Set the theme before the page is rendered to avoid a flash -->
@@ -129,7 +129,7 @@ const favicons: Favicon[] =
 	// Set the theme for Expressive Code based on current mode
 	const expressiveTheme = isDark ? "github-dark" : "github-light";
 	const currentTheme = document.documentElement.getAttribute("data-theme");
-	// 只在主题不同时才更新，避免触发不必要的重绘
+	// Update only when theme changes to avoid repaints
 	if (currentTheme !== expressiveTheme) {
 		document.documentElement.setAttribute("data-theme", expressiveTheme);
 	}
@@ -146,7 +146,7 @@ const favicons: Favicon[] =
 		`${offset}px`,
 	);
 
-	// 自动缩放逻辑 (Moved from MainGridLayout to here for earlier execution)
+	// Auto-scaling (moved from MainGridLayout for earlier execution)
 	(function () {
 		if (pageScaling && pageScaling.enable) {
 			function adjustPageScale() {
@@ -175,13 +175,13 @@ const favicons: Favicon[] =
 				document.documentElement.style.fontSize = `${scale * 100}%`;
 			}
 
-			// 立即执行一次
+			// Run once immediately
 			adjustPageScale();
 
-			// 监听窗口大小变化
+			// Window resize
 			window.addEventListener("resize", adjustPageScale);
 
-			// Swup 页面切换后也需要检查
+			// Re-check after Swup navigation
 			document.addEventListener("swup:page:view", adjustPageScale);
 			window.addEventListener("orientationchange", adjustPageScale);
 		}
@@ -190,7 +190,7 @@ const favicons: Favicon[] =
 
 <!-- Dev mode script - avoid swup replacing head styles -->
 <script is:inline define:vars={{ IS_DEV: import.meta.env.DEV }}>
-	// Dev 模式下，避免 swup 在页面切换时反复替换 head 中的样式标签，导致偶发样式丢失
+	// Dev: avoid Swup replacing head styles and losing CSS
 	if (IS_DEV) {
 		document.addEventListener("swup:enable", () => {
 			if (window?.swup?.options) {

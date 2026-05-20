@@ -17,17 +17,17 @@ const OUTPUT_FILE = path.join(
 	"../src/data/bilibili-data.json",
 );
 
-// 状态映射: 1=想看, 2=在看, 3=已看
+// Status mapping: 1=planned, 2=watching, 3=completed
 const STATUS_MAP = {
 	1: "planned",
 	2: "watching",
 	3: "completed",
 };
 
-// 延迟函数
+// Delay helper
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// 带重试机制的请求
+// Request with retry
 async function withRetry(apiCall, retries = 3) {
 	for (let i = 0; i < retries; i++) {
 		try {
@@ -148,23 +148,23 @@ async function getData(
 	}
 
 	return (response?.data?.data?.list || []).map((bangumi) => {
-		// 处理封面图
+		// Process cover image
 		let cover = bangumi?.cover || "";
 		if (cover) {
 			try {
-				// 确保使用 https
+				// Ensure https
 				if (cover.startsWith("http://")) {
 					cover = cover.replace("http://", "https://");
 				}
-				// 如果需要使用镜像源
+				// Apply mirror prefix if configured
 				if (coverMirror) {
 					cover = `${coverMirror}${cover}`;
 				}
-				// 如果需要WebP格式
+				// Apply WebP format if enabled
 				if (useWebp && !cover.includes("@")) {
 					try {
 						const urlObj = new URL(cover);
-						// 如果路径中还没有尺寸参数，添加WebP优化参数
+						// Add WebP size params when path has none yet
 						if (!urlObj.pathname.includes("@")) {
 							urlObj.pathname += "@220w_280h.webp";
 							cover = urlObj.toString();
@@ -173,18 +173,18 @@ async function getData(
 							}
 						}
 					} catch {
-						// URL解析失败，使用原始封面
+						// URL parse failed; keep original cover
 					}
 				}
 			} catch {
-				// URL处理失败，使用原始封面
+				// URL processing failed; keep original cover
 			}
 		}
 
-		// 处理观看进度
+		// Process watch progress
 		let progress = 0;
 		if (bangumi?.progress) {
-			// progress可能是字符串如"1/14"或数字或空字符串
+			// progress may be a string like "1/14", a number, or empty
 			if (
 				typeof bangumi.progress === "string" &&
 				bangumi.progress.trim()
@@ -198,16 +198,16 @@ async function getData(
 			}
 		}
 
-		// 总集数
+		// Total episode count
 		const totalEpisodes = bangumi?.total_count || 0;
 		const progressPercent =
 			totalEpisodes > 0 && progress > 0
 				? Math.round((progress / totalEpisodes) * 100)
 				: 0;
 
-		// 描述（从evaluate或summary字段获取）
+		// Description (from evaluate or summary)
 		let description = bangumi?.evaluate || bangumi?.summary || "";
-		// 清理描述中的特殊字符和换行
+		// Normalize special characters and newlines in description
 		if (description) {
 			description = description
 				.replace(/\u003c/g, "<")
@@ -216,44 +216,44 @@ async function getData(
 				.trim();
 		}
 
-		// 提取年份（从发布时间或发布日期）
+		// Extract year from publish time or release date
 		let year = "";
 		if (bangumi?.publish?.release_date) {
-			// 优先使用release_date，格式如 "2018-07-08"
+			// Prefer release_date, e.g. "2018-07-08"
 			const dateMatch = bangumi.publish.release_date.match(/^(\d{4})/);
 			if (dateMatch) {
 				year = dateMatch[1];
 			}
 		} else if (bangumi?.publish?.pub_time) {
-			// 如果release_date不存在，使用pub_time，格式如 "2018-07-08 00:30:00"
+			// Fall back to pub_time, e.g. "2018-07-08 00:30:00"
 			const dateMatch = bangumi.publish.pub_time.match(/^(\d{4})/);
 			if (dateMatch) {
 				year = dateMatch[1];
 			}
 		}
 
-		// 提取地区/制作信息（作为studio）
+		// Extract region/production as studio
 		let studio = "";
 		if (bangumi?.areas && bangumi.areas.length > 0) {
 			studio = bangumi.areas[0].name || "";
 		}
 
-		// 提取类型/标签（使用styles数组）
+		// Extract genres/tags from styles array
 		const genre = [];
 		if (bangumi?.styles && Array.isArray(bangumi.styles)) {
-			// 使用styles作为genre
+			// Use styles as genre
 			genre.push(...bangumi.styles);
 		}
-		// 如果没有styles，使用season_type_name作为备选
+		// Fall back to season_type_name if no styles
 		if (genre.length === 0 && bangumi?.season_type_name) {
 			genre.push(bangumi.season_type_name);
 		}
-		// 如果还是没有，使用"未知"
+		// Default to "Unknown" if still empty
 		if (genre.length === 0) {
 			genre.push("Unknown");
 		}
 
-		// 构建链接（优先使用url字段，否则使用season_id）
+		// Build link (prefer url field, else season_id)
 		let link = "#";
 		if (bangumi?.url) {
 			link = bangumi.url;
@@ -311,7 +311,7 @@ async function processData(
 			SESSDATA,
 		);
 		list.push(...data);
-		await delay(300); // 延迟避免请求过快
+		await delay(300); // Throttle requests
 	}
 	console.log("");
 	return list;
@@ -341,7 +341,7 @@ async function main() {
 	const coverMirror = await getCoverMirrorFromConfig();
 	const useWebp = await getUseWebpFromConfig();
 
-	// 获取三种状态的数据 (1=想看, 2=在看, 3=已看)
+	// Fetch data for all three statuses (1=planned, 2=watching, 3=completed)
 	console.log("\nFetching Bilibili bangumi data...");
 	const planned = await processData(
 		VMID,

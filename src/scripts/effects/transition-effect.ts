@@ -1,6 +1,6 @@
 /**
- * 过渡效果控制器
- * 管理页面过渡动画的配置和行为
+ * Transition effect controller
+ * Manages page transition animation configuration and behavior
  */
 
 import { TRANSITION_CONFIG, type TransitionConfig } from "../core/swup-config";
@@ -15,7 +15,7 @@ export class TransitionEffect {
 	}
 
 	/**
-	 * 应用过渡配置到 CSS 变量
+	 * Apply transition config to CSS variables
 	 */
 	applyConfig(): void {
 		const { duration, easing, easingOut, translateDistance, staggerDelay } =
@@ -35,7 +35,7 @@ export class TransitionEffect {
 	}
 
 	/**
-	 * 重置为默认配置
+	 * Reset to default configuration
 	 */
 	reset(): void {
 		this.config = { ...TRANSITION_CONFIG };
@@ -43,7 +43,7 @@ export class TransitionEffect {
 	}
 
 	/**
-	 * 动态调整动画时长
+	 * Dynamically adjust animation duration
 	 */
 	setDuration(duration: number): void {
 		this.config.duration = duration;
@@ -51,7 +51,7 @@ export class TransitionEffect {
 	}
 
 	/**
-	 * 动态调整位移距离
+	 * Dynamically adjust translate distance
 	 */
 	setTranslateDistance(distance: string): void {
 		this.config.translateDistance = distance;
@@ -59,14 +59,14 @@ export class TransitionEffect {
 	}
 
 	/**
-	 * 获取当前配置
+	 * Get current configuration
 	 */
 	getConfig(): TransitionConfig {
 		return { ...this.config };
 	}
 
 	/**
-	 * 销毁实例
+	 * Destroy instance
 	 */
 	destroy(): void {
 		this.reset();

@@ -1,53 +1,53 @@
 /**
- * TOC 组件共享类型定义
+ * Shared TOC types
  */
 
 /**
- * TOC 条目数据结构
+ * TOC entry shape
  */
 export interface TOCItem {
-	/** 标题 ID（用于锚点） */
+	/** Heading id (anchor) */
 	id: string;
-	/** 标题文本 */
+	/** Heading text */
 	text: string;
-	/** 标题级别（1-6） */
+	/** Heading level (1-6) */
 	level: number;
-	/** 相对深度（0 = 顶级） */
+	/** Relative depth (0 = top) */
 	depth: number;
-	/** 徽章文本（数字或日语字符） */
+	/** Badge (number or Japanese) */
 	badge?: string;
 }
 
 /**
- * TOC 配置
+ * TOC config
  */
 export interface TOCConfig {
-	/** 是否启用 TOC */
+	/** TOC enabled */
 	enable: boolean;
-	/** 显示模式 */
+	/** Display mode */
 	mode: "float" | "sidebar";
-	/** 标题深度（1-6） */
+	/** Heading depth (1-6) */
 	depth: number;
-	/** 是否使用日语徽章 */
+	/** Japanese badges */
 	useJapaneseBadge: boolean;
 }
 
 /**
- * 从 DOM 提取的标题数据
+ * Heading data from DOM
  */
 export interface HeadingData {
-	/** 标题 ID */
+	/** Heading id */
 	id: string;
-	/** 标题文本 */
+	/** Heading text */
 	text: string;
-	/** 标题级别（1-6） */
+	/** Heading level (1-6) */
 	level: number;
 }
 
 /**
- * TOC 组件 Props 基础接口
+ * Base TOC component props
  */
 export interface TOCBaseProps {
-	/** 自定义类名 */
+	/** Custom class name */
 	class?: string;
 }

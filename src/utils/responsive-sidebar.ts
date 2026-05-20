@@ -1,18 +1,18 @@
 /**
- * 响应式侧边栏管理器
- * 提供侧边栏响应式显示的通用逻辑
+ * Responsive sidebar manager
+ * Provides shared logic for responsive sidebar display
  */
 import type { SidebarElementId } from "./types/widget";
 import { widgetManager } from "./widget-manager";
 import { getDeviceType } from "./widget-renderer";
 
-// Window 扩展接口
+// Extended Window interface
 interface WindowWithCustomProps extends Window {
 	[key: string]: unknown;
 }
 
 /**
- * 侧边栏显示配置
+ * Sidebar display configuration
  */
 export interface SidebarDisplayConfig {
 	elementId: SidebarElementId;
@@ -30,9 +30,9 @@ export interface SidebarDisplayConfig {
 }
 
 /**
- * 创建侧边栏显示属性
- * @param config 显示配置
- * @returns 计算后的 CSS 显示属性
+ * Build sidebar display CSS properties
+ * @param config Display configuration
+ * @returns Computed CSS display properties
  */
 function getSidebarDisplayProperty(
 	config: SidebarDisplayConfig,
@@ -55,21 +55,21 @@ function getSidebarDisplayProperty(
 }
 
 /**
- * 初始化响应式侧边栏管理器
- * @param config 侧边栏显示配置
+ * Initialize the responsive sidebar manager
+ * @param config Sidebar display configuration
  */
 export function initSidebarManager(config: SidebarDisplayConfig): void {
 	const managerKey = config.managerKey;
 	const win = window as unknown as WindowWithCustomProps;
 
-	// 避免重复初始化
+	// Avoid duplicate initialization
 	if (win[managerKey]) {
 		return;
 	}
 	win[managerKey] = true;
 
 	/**
-	 * 更新侧边栏显示状态
+	 * Update sidebar display state
 	 */
 	function updateDisplay(): void {
 		const sidebar = document.getElementById(config.elementId);
@@ -83,22 +83,22 @@ export function initSidebarManager(config: SidebarDisplayConfig): void {
 		}
 	}
 
-	// 初始化显示状态
+	// Initialize display state
 	updateDisplay();
 
-	// 监听窗口大小变化
+	// Listen for window resize
 	const resizeHandler = (): void => updateDisplay();
 	const resizeKey = `${config.managerKey}ResizeHandler`;
 	win[resizeKey] = resizeHandler;
 	window.addEventListener("resize", resizeHandler);
 
-	// 监听 SWUP 内容替换事件
+	// Listen for Swup content replacement
 	if (typeof window !== "undefined" && win.swup) {
 		const swupHookKey = `${config.managerKey}SwupHooked`;
 		if (!win[swupHookKey]) {
 			win[swupHookKey] = true;
 			win.swup.hooks.on("content:replace", () => {
-				// 延迟执行以确保 DOM 已更新
+				// Delay to ensure the DOM has updated
 				setTimeout(() => {
 					updateDisplay();
 				}, 100);
@@ -108,7 +108,7 @@ export function initSidebarManager(config: SidebarDisplayConfig): void {
 }
 
 /**
- * 获取 RightSideBar 的显示配置
+ * Get display configuration for RightSideBar
  */
 export function getRightSidebarDisplayConfig(): SidebarDisplayConfig {
 	return {

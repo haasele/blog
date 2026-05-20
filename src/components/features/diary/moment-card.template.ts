@@ -1,9 +1,9 @@
-// Memos API 集成 — 类型定义、数据转换和卡片渲染
-// 参考: DIARY_MEMOS_SETUP.md
+// Memos API — types, transforms, card rendering
+// See DIARY_MEMOS_SETUP.md
 
 import type { DiaryItem } from "../../../data/diary";
 
-// --- Memos API 响应类型 ---
+// --- Memos API response types ---
 
 export interface MemoAttachment {
 	name: string;
@@ -39,7 +39,7 @@ export interface MemosResponse {
 	nextPageToken: string;
 }
 
-// --- 数据转换 ---
+// --- Data transforms ---
 
 export function transformMemosToDiary(
 	memos: Memo[],
@@ -65,7 +65,7 @@ export function transformMemosToDiary(
 			mood: undefined,
 		}))
 		.sort((a, b) => {
-			// pinned 优先，其次按时间倒序
+			// Pinned first, then newest
 			const aM = memos.find((m) => m.createTime === a.date);
 			const bM = memos.find((m) => m.createTime === b.date);
 			if (aM?.pinned && !bM?.pinned) {
@@ -78,7 +78,7 @@ export function transformMemosToDiary(
 		});
 }
 
-// --- 相对时间格式化（客户端版本） ---
+// --- Relative time (client) ---
 
 export function formatRelativeTime(
 	dateString: string,
@@ -100,7 +100,7 @@ export function formatRelativeTime(
 	return `${Math.floor(diffInMinutes / 1440)}${daysAgo}`;
 }
 
-// --- 单张卡片 HTML 生成 ---
+// --- Single card HTML ---
 
 function getImageLayoutClass(count: number): string {
 	if (count === 1) {
@@ -196,7 +196,7 @@ function renderMomentCard(
 	</div>`;
 }
 
-// --- 全部卡片 HTML 生成 ---
+// --- All cards HTML ---
 
 export function renderMomentCards(
 	moments: DiaryItem[],

@@ -1,4 +1,4 @@
-// 本地番剧数据配置
+// Local anime data configuration
 export interface AnimeItem {
 	title: string;
 	status: "watching" | "completed" | "planned";

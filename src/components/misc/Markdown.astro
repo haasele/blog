@@ -1,5 +1,5 @@
 ---
-// 只加载基础的等宽字体，减少加载时间
+// Load only base monospace fonts to reduce load time
 import "@fontsource-variable/jetbrains-mono/wght-italic.css";
 
 interface Props {
@@ -23,24 +23,24 @@ const className = Astro.props.class;
 		if (target && target.classList.contains("copy-btn")) {
 			const codeEle = target.parentElement?.querySelector("code");
 
-			// 精确的代码提取逻辑
+			// Precise code extraction
 			let code = "";
 			if (codeEle) {
-				// 获取所有代码行元素
+				// Get all code line elements
 				const lineElements = codeEle.querySelectorAll("span.line");
 				if (lineElements.length > 0) {
-					// 对于有行结构的代码块，精确处理每一行
+					// For line-structured blocks, process each line
 					const lines: string[] = [];
 					for (let i = 0; i < lineElements.length; i++) {
 						const lineElement = lineElements[i];
-						// 直接获取文本内容，不添加额外处理
+						// Raw text content, no extra processing
 						const lineText = lineElement.textContent || "";
 						lines.push(lineText);
 					}
-					// 重要：使用 \n 连接行，而不是 \n\n 或其他方式
+					// Join lines with \n, not \n\n
 					code = lines.join("\n");
 				} else {
-					// 对于没有行结构的代码块
+					// Blocks without line structure
 					const codeElements = codeEle.querySelectorAll(
 						".code:not(summary *)",
 					);
@@ -53,42 +53,42 @@ const className = Astro.props.class;
 						}
 						code = lines.join("\n");
 					} else {
-						// 最后回退到直接使用整个code元素的文本内容
+						// Fallback: entire code element text
 						code = codeEle.textContent || "";
 					}
 				}
 			}
 
-			// 处理连续空行：改进的逻辑
+			// Collapse consecutive blank lines (improved logic)
 			code = code.replace(/\n\n\n+/g, function (match) {
-				// 计算连续换行符的数量
+				// Count consecutive newlines
 				const newlineCount = match.length;
-				// 计算空行数量（换行符数量减1）
+				// Blank line count (newlines - 1)
 				const emptyLineCount = newlineCount - 1;
 
-				// 偶数空行：除以2
-				// 奇数空行：(空行数+1)/2 向下取整
+				// Even blank lines: divide by 2
+				// Odd blank lines: floor((count + 1) / 2)
 				let resultEmptyLines: number;
 				if (emptyLineCount % 2 === 0) {
-					// 偶数
+					// even
 					resultEmptyLines = emptyLineCount / 2;
 				} else {
-					// 奇数
+					// odd
 					resultEmptyLines = Math.floor((emptyLineCount + 1) / 2);
 				}
 
-				// 至少保留一个空行
+				// Keep at least one blank line
 				if (resultEmptyLines < 1) {
 					resultEmptyLines = 1;
 				}
 
-				// 返回对应数量的换行符
+				// Return matching newlines
 				return "\n".repeat(resultEmptyLines + 1);
 			});
 
 			const copyToClipboard = async (text: string) => {
 				if (!navigator.clipboard?.writeText) {
-					throw new Error("Clipboard API 不可用");
+					throw new Error("Clipboard API is not available");
 				}
 
 				await navigator.clipboard.writeText(text);
@@ -103,7 +103,7 @@ const className = Astro.props.class;
 
 					target.classList.add("success");
 
-					// 设置新的timeout并保存ID到按钮的自定义属性中
+					// Set timeout and store id on button dataset
 					const newTimeoutId = setTimeout(() => {
 						target.classList.remove("success");
 					}, 1000);
@@ -114,8 +114,8 @@ const className = Astro.props.class;
 					);
 				})
 				.catch((err) => {
-					console.error("复制失败:", err);
-					// 可以在这里添加用户提示
+					console.error("Copy failed:", err);
+					// User-facing error hint could go here
 				});
 		}
 	});

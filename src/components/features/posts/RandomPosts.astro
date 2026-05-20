@@ -14,10 +14,10 @@ interface Props {
 
 const { excludeIds = [], maxCount = 5 } = Astro.props;
 
-// 在构建时获取所有文章
+// All posts at build time
 const allPosts = await getSortedPostsList();
 
-// 排除当前文章和加密文章
+// Exclude current and encrypted posts
 const candidates = allPosts.filter((p) => {
 	if (excludeIds.includes(p.id)) {
 		return false;

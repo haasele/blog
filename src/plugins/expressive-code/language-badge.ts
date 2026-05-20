@@ -8,7 +8,7 @@ export function pluginLanguageBadge() {
 		name: "Language Badge",
 		hooks: {
 			postprocessRenderedBlock: ({ codeBlock, renderData }) => {
-				// 把语言信息添加到 .frame 上
+				// Add language info to .frame element
 				const language = codeBlock.language;
 				if (language && renderData.blockAst.properties) {
 					renderData.blockAst.properties["data-language"] = language;

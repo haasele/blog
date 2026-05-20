@@ -1,5 +1,5 @@
-// 设备页面处理脚本
-// 此脚本作为全局脚本加载，不受 Swup 页面切换影响
+// Devices page handler script
+// Loaded as a global script; unaffected by Swup page transitions
 
 (() => {
 	if (typeof window.devicesPageState === "undefined") {

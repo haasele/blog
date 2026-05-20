@@ -1,5 +1,5 @@
-// 友情链接数据配置
-// 用于管理友情链接页面的数据
+// Friends links data configuration
+// Data for the friends links page
 
 export interface FriendItem {
 	id: number;
@@ -10,7 +10,7 @@ export interface FriendItem {
 	tags: string[];
 }
 
-// 友情链接数据
+// Friends links data
 export const friendsData: FriendItem[] = [
 	{
 		id: 1,
@@ -78,12 +78,12 @@ export const friendsData: FriendItem[] = [
 	},
 ];
 
-// 获取所有友情链接数据
+// Get all friends links data
 export function getFriendsList(): FriendItem[] {
 	return friendsData;
 }
 
-// 获取随机排序的友情链接数据
+// Get friends links data in random order
 export function getShuffledFriendsList(): FriendItem[] {
 	const shuffled = [...friendsData];
 	for (let i = shuffled.length - 1; i > 0; i--) {

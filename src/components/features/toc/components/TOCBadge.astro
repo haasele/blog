@@ -1,17 +1,17 @@
 ---
 /**
- * TOC 徽章组件
- * 支持数字、圆点、小圆点三种变体
+ * TOC badge component
+ * number, dot, and small-dot variants
  */
 
 export type BadgeVariant = "number" | "dot" | "dot-small";
 
 export interface Props {
-	/** 徽章文本（仅 number 变体使用） */
+	/** Badge text (number variant only) */
 	text?: string;
-	/** 徽章变体类型 */
+	/** Badge variant */
 	variant?: BadgeVariant;
-	/** 是否激活状态 */
+	/** Active state */
 	active?: boolean;
 }
 

@@ -1,23 +1,22 @@
 /**
- * 移动端文章列表初始化优化
- * Mobile Post List Initialization Fix
- * 解决移动端文章列表初始化时的闪烁和间距问题
+ * Mobile post list initialization optimization
+ * Fixes flash and spacing on mobile post list init
  */
 
-/* 关键：页面加载时立即应用正确的移动端样式 */
+/* Critical: apply correct mobile styles immediately on page load */
 @media (max-width: 768px) {
-  /* 强制在初始化前隐藏内容，避免闪烁 */
+  /* Force hide content before init to prevent flicker */
   #post-list-container:not(.js-initialized) {
     opacity: 0;
     transition: opacity 0.1s ease-in-out;
   }
 
-  /* JavaScript初始化完成后显示内容 */
+  /* Show content after JavaScript init completes */
   #post-list-container.js-initialized {
     opacity: 1;
   }
 
-  /* 确保移动端使用紧凑的列表布局 */
+  /* Ensure compact list layout on mobile */
   #post-list-container {
     display: flex !important;
     flex-direction: column !important;
@@ -28,7 +27,7 @@
     min-height: auto !important;
   }
 
-  /* 覆盖所有可能的网格模式 */
+  /* Override all possible grid modes */
   #post-list-container.grid-mode {
     display: flex !important;
     flex-direction: column !important;
@@ -37,44 +36,44 @@
     grid-auto-rows: auto !important;
   }
 
-  /* 优化文章卡片间距 */
+  /* Optimize post card spacing */
   #post-list-container .post-card-item {
     margin-bottom: 0 !important;
     margin-top: 0 !important;
     padding: 0.75rem 1rem !important;
   }
 
-  /* 优化卡片边框和圆角 */
+  /* Optimize card border and radius */
   #post-list-container .card-base {
     margin-bottom: 0 !important;
     border-radius: var(--radius-large) !important;
   }
 
-  /* 移除不必要的分隔线 */
+  /* Remove unnecessary dividers */
   #post-list-container > div.border-t-\[1px\] {
     display: none !important;
   }
 
-  /* 增加文章列表容器的底部间距，与分页按钮保持适当距离 */
+  /* Increase post list bottom margin for pagination spacing */
   #post-list-container {
-    margin-bottom: 2rem !important; /* 增加到2rem，约32px */
+    margin-bottom: 2rem !important; /* Increased to 2rem (~32px) */
   }
 }
 
-/* 桌面端保持原有样式 */
+/* Desktop keeps original styles */
 @media (min-width: 769px) {
   #post-list-container {
     transition: all 0.3s ease-in-out;
   }
 }
 
-/* 全局规则：确保所有 wallpaper-transparent 模式下的卡片都透明 */
+/* Global: ensure all cards transparent in wallpaper-transparent mode */
 body.wallpaper-transparent .card-base,
 .wallpaper-transparent .card-base,
 body.wallpaper-transparent #post-list-container .card-base,
 body.wallpaper-transparent #post-list-container > * .card-base,
 body.wallpaper-transparent .post-card-item .card-base,
-/* 确保嵌套的卡片元素在全屏壁纸模式下也应用半透明效果 */
+/* Ensure nested cards also get semi-transparent effect in fullscreen wallpaper */
 body.wallpaper-transparent .card-base .card-base,
 .wallpaper-transparent .card-base .card-base {
   background: var(--card-bg-transparent) !important;
@@ -83,13 +82,13 @@ body.wallpaper-transparent .card-base .card-base,
   -webkit-backdrop-filter: blur(8px) !important;
 }
 
-/* 暗色模式 */
+/* Dark mode */
 :root.dark body.wallpaper-transparent .card-base,
 :root.dark .wallpaper-transparent .card-base,
 :root.dark body.wallpaper-transparent #post-list-container .card-base,
 :root.dark body.wallpaper-transparent #post-list-container > * .card-base,
 :root.dark body.wallpaper-transparent .post-card-item .card-base,
-/* 确保嵌套的卡片元素在全屏壁纸模式下也应用半透明效果 */
+/* Ensure nested cards also get semi-transparent effect in fullscreen wallpaper */
 :root.dark body.wallpaper-transparent .card-base .card-base,
 :root.dark .wallpaper-transparent .card-base .card-base {
   background: var(--card-bg-transparent) !important;
@@ -98,7 +97,7 @@ body.wallpaper-transparent .card-base .card-base,
   -webkit-backdrop-filter: blur(8px) !important;
 }
 
-/* 移动端（<768px）强制透明 */
+/* Mobile (<768px) force transparent */
 @media (max-width: 768px) {
   body.wallpaper-transparent .card-base,
   body.wallpaper-transparent #post-list-container .card-base {
@@ -109,7 +108,7 @@ body.wallpaper-transparent .card-base .card-base,
   }
 }
 
-/* 中等屏幕（769px-1280px）强制透明 - 重点修复区域 */
+/* Medium screens (769px-1280px) force transparent - key fix area */
 @media (min-width: 769px) and (max-width: 1280px) {
   body.wallpaper-transparent .card-base,
   body.wallpaper-transparent #post-list-container .card-base,
@@ -130,7 +129,7 @@ body.wallpaper-transparent .card-base .card-base,
   }
 }
 
-/* 大屏幕（>1280px）强制透明 */
+/* Large screens (>1280px) force transparent */
 @media (min-width: 1281px) {
   body.wallpaper-transparent .card-base,
   body.wallpaper-transparent #post-list-container .card-base,
@@ -151,16 +150,15 @@ body.wallpaper-transparent .card-base .card-base,
   }
 }
 
-/* 
-
- * 确保文章列表容器本身也是透明的（针对移动端背景）
+/*
+ * Ensure post list container itself is transparent (mobile background)
  */
 body.wallpaper-transparent #post-list-container {
   background: transparent !important;
   background-color: transparent !important;
 }
 
-/* 移动端文章列表容器透明 */
+/* Mobile post list container transparent */
 @media (max-width: 768px) {
   body.wallpaper-transparent #post-list-container {
     background: transparent !important;

@@ -1,30 +1,30 @@
-# 组件架构设计规范
+# Component Architecture Design Specification
 
-## 概述
+## Overview
 
-本文档定义了 Mizuki 项目的组件化架构设计原则和最佳实践，旨在提高代码的可维护性、可复用性和性能。
+This document defines the component architecture design principles and best practices for the Mizuki project, aimed at improving code maintainability, reusability, and performance.
 
-## 核心原则
+## Core Principles
 
-### 1. 分层架构原则
+### 1. Layered Architecture Principle
 
-采用**原子设计（Atomic Design）**理念，将组件分为四个层次：
+Follow **Atomic Design** to organize components into four layers:
 
 ```
-atoms (原子) → molecules (分子) → organisms (有机体) → pages (页面)
+atoms → molecules → organisms → pages
 ```
 
-#### 1.1 Atoms - 原子组件
+#### 1.1 Atoms
 
-**定义**：构成 UI 的最基础、不可再分的元素。
+**Definition**: The most basic, indivisible building blocks of the UI.
 
-**特点**：
-- 职责单一，功能简单
-- 无业务逻辑
-- 高度可复用
-- 不依赖其他组件
+**Characteristics**:
+- Single responsibility, simple functionality
+- No business logic
+- Highly reusable
+- Do not depend on other components
 
-**示例**：
+**Example**:
 ```typescript
 // Button.astro
 interface Props {
@@ -44,37 +44,37 @@ const { variant = 'primary', size = 'md', disabled = false, icon } = Astro.props
 
 <style>
   .btn {
-    /* 基础按钮样式 */
+    /* Base button styles */
   }
   .btn-primary {
-    /* 主按钮样式 */
+    /* Primary button styles */
   }
   .btn-secondary {
-    /* 次要按钮样式 */
+    /* Secondary button styles */
   }
 </style>
 ```
 
-**原子组件清单**：
-- `Button.astro` - 按钮
-- `Card.astro` - 卡片容器
-- `Input.astro` - 输入框
-- `Badge.astro` - 标签/徽章
-- `Chip.astro` - Chip 标签
-- `Icon.astro` - 图标
-- `Avatar.astro` - 头像
+**Atom component inventory**:
+- `Button.astro` - Button
+- `Card.astro` - Card container
+- `Input.astro` - Input field
+- `Badge.astro` - Badge
+- `Chip.astro` - Chip tag
+- `Icon.astro` - Icon
+- `Avatar.astro` - Avatar
 
-#### 1.2 Molecules - 分子组件
+#### 1.2 Molecules
 
-**定义**：由多个原子组件组合而成，具有单一职责的小型功能组件。
+**Definition**: Small functional components composed of multiple atoms with a single responsibility.
 
-**特点**：
-- 由 2-5 个原子组件组合
-- 具有简单的交互逻辑
-- 仍然保持高度可复用性
-- 封装特定的 UI 模式
+**Characteristics**:
+- Composed of 2–5 atom components
+- Simple interaction logic
+- Still highly reusable
+- Encapsulate specific UI patterns
 
-**示例**：
+**Example**:
 ```astro
 ---
 // SearchBar.astro
@@ -86,13 +86,13 @@ interface Props {
   onSearch?: (query: string) => void
 }
 
-const { placeholder = '搜索...', onSearch } = Astro.props
+const { placeholder = 'Search...', onSearch } = Astro.props
 ---
 
 <div class="search-bar">
   <Input {placeholder} id="search-input" />
   <Button variant="primary" size="md" icon="material-symbols:search">
-    搜索
+    Search
   </Button>
 </div>
 
@@ -114,50 +114,50 @@ const { placeholder = '搜索...', onSearch } = Astro.props
 </script>
 ```
 
-**分子组件清单**：
-- `SearchBar.astro` - 搜索栏
-- `Pagination.astro` - 分页
-- `DropdownMenu.astro` - 下拉菜单
-- `FormItem.astro` - 表单项
-- `ChipCloud.astro` - 标签云
+**Molecule component inventory**:
+- `SearchBar.astro` - Search bar
+- `Pagination.astro` - Pagination
+- `DropdownMenu.astro` - Dropdown menu
+- `FormItem.astro` - Form item
+- `ChipCloud.astro` - Tag cloud
 
-#### 1.3 Organisms - 有机体组件
+#### 1.3 Organisms
 
-**定义**：复杂的业务组件，由多个分子组件和原子组件组合而成。
+**Definition**: Complex business components composed of multiple molecules and atoms.
 
-**特点**：
-- 包含复杂的业务逻辑
-- 可能有多个子组件
-- 专门用于特定的页面或功能
-- 可能需要拆分为子目录
+**Characteristics**:
+- Contain complex business logic
+- May have multiple child components
+- Dedicated to specific pages or features
+- May need to be split into subdirectories
 
-**示例**：
+**Example**:
 ```
 Navbar.astro
-├── NavbarSearch.svelte (分子)
-├── NavbarMenu.svelte (分子)
-├── LayoutSwitchButton.svelte (分子)
-└── LightDarkSwitch.svelte (原子)
+├── NavbarSearch.svelte (molecule)
+├── NavbarMenu.svelte (molecule)
+├── LayoutSwitchButton.svelte (molecule)
+└── LightDarkSwitch.svelte (atom)
 ```
 
-**有机体组件清单**：
-- `Navbar.astro` - 导航栏
-- `Sidebar.astro` - 侧边栏
-- `MusicPlayer.svelte` - 音乐播放器
-- `Footer.astro` - 页脚
-- `TOC.astro` - 目录
+**Organism component inventory**:
+- `Navbar.astro` - Navigation bar
+- `Sidebar.astro` - Sidebar
+- `MusicPlayer.svelte` - Music player
+- `Footer.astro` - Footer
+- `TOC.astro` - Table of contents
 
-#### 1.4 Widgets - 小部件组件
+#### 1.4 Widgets
 
-**定义**：侧边栏的小功能模块，介于分子和有机体之间。
+**Definition**: Small sidebar feature modules, between molecules and organisms in complexity.
 
-**特点**：
-- 相对独立的功能模块
-- 可配置的显示位置
-- 统一的 UI 风格
-- 使用通用容器组件
+**Characteristics**:
+- Relatively independent feature modules
+- Configurable display position
+- Unified UI style
+- Use shared container components
 
-**示例**：
+**Example**:
 ```astro
 ---
 // widget/Profile.astro
@@ -165,30 +165,30 @@ import WidgetLayout from './common/WidgetLayout.astro'
 import Avatar from '../atoms/Avatar.astro'
 ---
 
-<WidgetLayout name="个人资料">
+<WidgetLayout name="Profile">
   <Avatar src="/avatar.png" />
   <div class="profile-info">
     <h3>Mizuki</h3>
-    <p>前端开发者</p>
+    <p>Frontend developer</p>
   </div>
 </WidgetLayout>
 ```
 
-**小部件组件清单**：
-- `Profile.astro` - 个人资料
-- `Calendar.astro` - 日历
-- `Categories.astro` - 分类
-- `Tags.astro` - 标签
-- `SiteStats.astro` - 站点统计
-- `Announcement.astro` - 公告
+**Widget component inventory**:
+- `Profile.astro` - Profile
+- `Calendar.astro` - Calendar
+- `Categories.astro` - Categories
+- `Tags.astro` - Tags
+- `SiteStats.astro` - Site statistics
+- `Announcement.astro` - Announcement
 
-## 组件目录结构
+## Component Directory Structure
 
-### 推荐的目录组织方式
+### Recommended Directory Organization
 
 ```
 src/components/
-├── atoms/                    # 原子组件
+├── atoms/                    # Atom components
 │   ├── Button.astro
 │   ├── Card.astro
 │   ├── Input.astro
@@ -196,16 +196,16 @@ src/components/
 │   ├── Chip.astro
 │   └── Icon.astro
 │
-├── molecules/                # 分子组件
+├── molecules/                # Molecule components
 │   ├── SearchBar.astro
 │   ├── Pagination.astro
 │   ├── DropdownMenu.astro
 │   └── ChipCloud.astro
 │
-├── organisms/                # 有机体组件
+├── organisms/                # Organism components
 │   ├── Navbar.astro
 │   ├── Sidebar.astro
-│   ├── MusicPlayer.svelte   # 复杂组件可包含子目录
+│   ├── MusicPlayer.svelte   # Complex components may include subdirectories
 │   │   ├── MusicPlayer.svelte
 │   │   ├── MiniPlayer.svelte
 │   │   ├── ExpandedPlayer.svelte
@@ -220,78 +220,78 @@ src/components/
 │   ├── Footer.astro
 │   └── TOC.astro
 │
-├── widgets/                   # 侧边栏小部件
+├── widgets/                   # Sidebar widgets
 │   ├── Profile.astro
 │   ├── Calendar.astro
 │   ├── Categories.astro
 │   ├── Tags.astro
 │   ├── SiteStats.astro
-│   └── common/              # 通用小部件组件
+│   └── common/              # Shared widget components
 │       ├── WidgetLayout.astro
 │       └── WidgetHeader.astro
 │
-├── features/                  # 功能性组件
+├── features/                  # Feature components
 │   ├── comment/
 │   ├── search/
 │   └── protection/
 │
-├── layouts/                   # 页面布局
+├── layouts/                   # Page layouts
 │   ├── MainLayout.astro
 │   └── PostLayout.astro
 │
-└── utils/                     # 工具和 Hooks
+└── utils/                     # Utilities and hooks
     ├── widgetManager.ts
     └── useCalendar.ts
 ```
 
-### 复杂组件的子目录组织
+### Subdirectory Organization for Complex Components
 
-当组件需要拆分为多个子组件时，应按照以下结构组织：
+When a component needs to be split into multiple subcomponents, organize it as follows:
 
 ```
 ComponentName/
-├── ComponentName.astro/svelte  # 主组件（组合层）
-├── SubComponent1.astro/svelte  # 子组件
-├── SubComponent2.astro/svelte  # 子组件
-├── hooks/                      # 相关 Hooks
+├── ComponentName.astro/svelte  # Main component (composition layer)
+├── SubComponent1.astro/svelte  # Subcomponent
+├── SubComponent2.astro/svelte  # Subcomponent
+├── hooks/                      # Related hooks
 │   ├── useFeature1.ts
 │   └── useFeature2.ts
-├── types.ts                    # 类型定义
-└── utils/                      # 工具函数
+├── types.ts                    # Type definitions
+└── utils/                      # Utility functions
     └── helper.ts
 ```
 
-## 命名规范
+## Naming Conventions
 
-### 文件命名
+### File Naming
 
-#### Astro 组件
-- 使用 PascalCase
-- 示例：`Button.astro`, `SearchBar.astro`, `Navbar.astro`
+#### Astro components
+- Use PascalCase
+- Examples: `Button.astro`, `SearchBar.astro`, `Navbar.astro`
 
-#### Svelte 组件
-- 使用 PascalCase
-- 示例：`MusicPlayer.svelte`, `LayoutSwitchButton.svelte`
+#### Svelte components
+- Use PascalCase
+- Examples: `MusicPlayer.svelte`, `LayoutSwitchButton.svelte`
 
-#### 功能模块组件
-- 使用 功能名+Module 后缀
-- 示例：`SearchModule.astro`, `QRCodeModule.astro`
+#### Feature module components
+- Use feature name + `Module` suffix
+- Examples: `SearchModule.astro`, `QRCodeModule.astro`
 
-#### 容器组件
-- 使用 功能名+Container 后缀
-- 示例：`SidebarContainer.astro`, `WidgetContainer.astro`
+#### Container components
+- Use feature name + `Container` suffix
+- Examples: `SidebarContainer.astro`, `WidgetContainer.astro`
 
 #### Hooks
-- 使用 use 前缀
-- 示例：`useCalendar.ts`, `useMusicPlayer.ts`, `useTOC.ts`
+- Use `use` prefix
+- Examples: `useCalendar.ts`, `useMusicPlayer.ts`, `useTOC.ts`
 
-#### 工具函数
-- 使用小驼峰
-- 示例：`formatDate.ts`, `calculatePagination.ts`
+#### Utility functions
+- Use camelCase
+- Examples: `formatDate.ts`, `calculatePagination.ts`
 
-### 组件内命名
+### In-Component Naming
 
-#### Props 接口
+#### Props interface
 ```typescript
 interface Props {
   title?: string
@@ -301,30 +301,30 @@ interface Props {
 }
 ```
 
-#### 事件处理器
+#### Event handlers
 ```typescript
 const handleClick = () => {}
 const handleSubmit = () => {}
 const handleScroll = () => {}
 ```
 
-#### 响应式变量
+#### Reactive variables
 ```typescript
 let isOpen = false
 let count = 0
 let items = []
 ```
 
-## 组件职责原则
+## Component Responsibility Principles
 
-### 单一职责原则（SRP）
+### Single Responsibility Principle (SRP)
 
-每个组件应该只有一个明确的职责。
+Each component should have one clear responsibility.
 
-**✅ 正确示例**：
+**✅ Correct example**:
 ```astro
 ---
-// Button.astro - 只负责按钮的渲染和基本交互
+// Button.astro - Only responsible for button rendering and basic interaction
 interface Props {
   variant: 'primary' | 'secondary'
   children: any
@@ -337,11 +337,11 @@ const { variant } = Astro.props
 </button>
 ```
 
-**❌ 错误示例**：
+**❌ Incorrect example**:
 ```astro
 ---
-// ❌ 错误：一个组件同时负责搜索、导航、主题切换
-// SearchNavbarTheme.astro (500+ 行)
+// ❌ Wrong: one component handles search, navigation, and theme switching
+// SearchNavbarTheme.astro (500+ lines)
 const handleSearch = () => {}
 const toggleNavbar = () => {}
 const toggleTheme = () => {}
@@ -353,36 +353,36 @@ const toggleTheme = () => {}
 </div>
 
 <style>
-  /* 搜索样式、导航样式、主题样式混在一起 */
+  /* Search, navigation, and theme styles mixed together */
 </style>
 
 <script>
-  // 搜索逻辑、导航逻辑、主题逻辑混在一起
+  // Search, navigation, and theme logic mixed together
 </script>
 ```
 
-### 控制组件粒度
+### Controlling Component Granularity
 
-| 复杂度 | 行数 | 职责数 | 状态数 | 适用组件类型 |
+| Complexity | Lines | Responsibilities | State count | Suitable component types |
 |--------|------|--------|--------|-------------|
-| ⭐ 简单 | < 100 | 1 | < 3 | 原子组件、简单分子组件 |
-| ⭐⭐ 中等 | 100-200 | 1-2 | 3-5 | 分子组件、简单有机体组件 |
-| ⭐⭐⭐ 较高 | 200-300 | 2-3 | 5-10 | 有机体组件 |
-| ⭐⭐⭐⭐ 高 | 300-500 | 3-4 | 10-15 | 复杂有机体组件（需要拆分） |
-| ⭐⭐⭐⭐⭐ 极高 | > 500 | > 4 | > 15 | **必须拆分** |
+| ⭐ Simple | < 100 | 1 | < 3 | Atoms, simple molecules |
+| ⭐⭐ Medium | 100-200 | 1-2 | 3-5 | Molecules, simple organisms |
+| ⭐⭐⭐ Moderate | 200-300 | 2-3 | 5-10 | Organisms |
+| ⭐⭐⭐⭐ High | 300-500 | 3-4 | 10-15 | Complex organisms (split recommended) |
+| ⭐⭐⭐⭐⭐ Very high | > 500 | > 4 | > 15 | **Must split** |
 
-**拆分警告信号**：
-- ❌ 组件超过 500 行
-- ❌ 有 4 个或更多独立的功能模块
-- ❌ 样式超过 200 行
-- ❌ 脚本超过 150 行
-- ❌ 难以理解和测试
+**Split warning signals**:
+- ❌ Component exceeds 500 lines
+- ❌ Has 4 or more independent feature modules
+- ❌ Styles exceed 200 lines
+- ❌ Script exceeds 150 lines
+- ❌ Hard to understand and test
 
-## 组件复用模式
+## Component Reuse Patterns
 
-### 1. 组合模式
+### 1. Composition Pattern
 
-使用 Slot API 实现灵活的组合：
+Use the Slot API for flexible composition:
 
 ```astro
 ---
@@ -398,26 +398,26 @@ const toggleTheme = () => {}
 </div>
 
 <style>
-  .container { /* 容器样式 */ }
+  .container { /* Container styles */ }
 </style>
 ```
 
-**使用**：
+**Usage**:
 ```astro
 ---
 import ContainerComponent from './ContainerComponent.astro'
 ---
 
 <ContainerComponent>
-  <div slot="header">自定义头部</div>
-  <div>主要内容</div>
-  <div slot="footer">自定义底部</div>
+  <div slot="header">Custom header</div>
+  <div>Main content</div>
+  <div slot="footer">Custom footer</div>
 </ContainerComponent>
 ```
 
-### 2. 容器组件模式
+### 2. Container Component Pattern
 
-创建通用的容器组件，统一样式和行为：
+Create shared container components to unify styles and behavior:
 
 ```astro
 ---
@@ -446,9 +446,9 @@ const { name, isCollapsed, collapsedHeight } = Astro.props
 </style>
 ```
 
-### 3. 工具函数复用
+### 3. Utility Function Reuse
 
-将通用逻辑提取到工具函数：
+Extract shared logic into utility functions:
 
 ```typescript
 // utils/calendarUtils.ts
@@ -460,13 +460,13 @@ export function getFirstDayOfMonth(year: number, month: number): number {
   return new Date(year, month, 1).getDay()
 }
 
-// 在组件中使用
+// Use in components
 import { getDaysInMonth, getFirstDayOfMonth } from '@/utils/calendarUtils'
 ```
 
-### 4. Hooks 复用
+### 4. Hook Reuse
 
-将复杂的交互逻辑提取为 Hooks：
+Extract complex interaction logic into hooks:
 
 ```typescript
 // hooks/useMusicPlayer.ts
@@ -489,7 +489,7 @@ export function useMusicPlayer() {
   }
 }
 
-// 在组件中使用
+// Use in components
 <script lang="ts">
   import { useMusicPlayer } from './hooks/useMusicPlayer'
 
@@ -498,13 +498,13 @@ export function useMusicPlayer() {
 </script>
 ```
 
-## 组件间通信
+## Inter-Component Communication
 
-### Props 传递（父 → 子）
+### Props (parent → child)
 
 ```astro
 ---
-// 父组件
+// Parent component
 import ChildComponent from './ChildComponent.astro'
 ---
 
@@ -517,7 +517,7 @@ import ChildComponent from './ChildComponent.astro'
 
 ```astro
 ---
-// 子组件
+// Child component
 interface Props {
   title: string
   count: number
@@ -540,11 +540,11 @@ const { title, count, onAction } = Astro.props
 </script>
 ```
 
-### 事件派发（子 → 父）
+### Event dispatch (child → parent)
 
 ```astro
 ---
-// 子组件
+// Child component
 interface Props {
   onValueChange?: (value: string) => void
 }
@@ -564,9 +564,9 @@ const { onValueChange } = Astro.props
 </script>
 ```
 
-### 全局状态管理
+### Global state management
 
-对于跨组件的状态管理，使用全局变量或第三方库：
+For cross-component state, use global variables or a third-party library:
 
 ```typescript
 // stores/themeStore.ts
@@ -578,39 +578,39 @@ export const themeStore = writable({
 })
 ```
 
-## 性能优化
+## Performance Optimization
 
-### 1. 懒加载
+### 1. Lazy loading
 
-使用 Astro 的 Hydration 指令按需加载：
+Use Astro hydration directives to load on demand:
 
 ```astro
-<!-- 立即加载 - 必需组件 -->
+<!-- Load immediately - required components -->
 <Navbar client:load />
 
-<!-- 可见时加载 - 功能模块 -->
+<!-- Load when visible - feature modules -->
 <Calendar client:visible />
 
-<!-- 空闲时加载 - 非关键功能 -->
+<!-- Load when idle - non-critical features -->
 <MusicPlayer client:idle />
 
-<!-- 永不加载 - 静态内容 -->
+<!-- Never hydrate - static content -->
 <Footer />
 ```
 
-### 2. 动态导入
+### 2. Dynamic imports
 
 ```javascript
-// 延迟加载重型库
+// Defer loading heavy libraries
 async function initQRCode() {
   const QRCode = await import('qrcode')
   QRCode.toCanvas(canvas, url, options)
 }
 ```
 
-### 3. 虚拟滚动
+### 3. Virtual scrolling
 
-对于长列表，使用虚拟滚动：
+For long lists, use virtual scrolling:
 
 ```typescript
 import { useVirtualList } from '@/hooks/useVirtualList'
@@ -621,43 +621,43 @@ const { list, containerProps, wrapperProps } = useVirtualList({
 })
 ```
 
-## TypeScript 使用规范
+## TypeScript Usage Guidelines
 
-### Props 接口定义
+### Props interface definition
 
 ```typescript
 interface Props {
-  // 必需属性
+  // Required properties
   id: string
 
-  // 可选属性
+  // Optional properties
   title?: string
   count?: number
 
-  // 联合类型
+  // Union types
   variant?: 'primary' | 'secondary' | 'ghost'
 
-  // 数组类型
+  // Array types
   items?: Array<{
     id: string
     name: string
     slug: string
   }>
 
-  // 事件处理
+  // Event handlers
   onAction?: (value: any) => void
 
-  // 自定义类名和样式
+  // Custom class and style
   class?: string
   style?: string
 }
 ```
 
-### 默认值处理
+### Default value handling
 
 ```typescript
 const {
-  title = '默认标题',
+  title = 'Default title',
   count = 0,
   variant = 'primary',
   items = [],
@@ -666,9 +666,9 @@ const {
 } = Astro.props
 ```
 
-## 样式规范
+## Styling Guidelines
 
-### 使用 CSS 变量
+### Use CSS variables
 
 ```css
 :root {
@@ -684,7 +684,7 @@ const {
 }
 ```
 
-### 作用域样式
+### Scoped styles
 
 ```astro
 <style>
@@ -693,12 +693,12 @@ const {
     background-color: var(--bg-color);
   }
 
-  /* 避免全局选择器 */
+  /* Avoid global selectors */
   /* :global(div) { ... } */
 </style>
 ```
 
-### Tailwind CSS 结合
+### Combining with Tailwind CSS
 
 ```astro
 ---
@@ -711,32 +711,32 @@ const className = Astro.props.class
 
 <style>
   .card-base {
-    /* 组件特定的样式 */
+    /* Component-specific styles */
   }
 </style>
 ```
 
-## 组件文档
+## Component Documentation
 
-### 组件头部注释
+### Component header comments
 
 ```astro
 ---
 /**
- * Button 组件
+ * Button component
  *
- * @description 基础按钮组件，支持多种变体和尺寸
+ * @description Base button component supporting multiple variants and sizes
  *
  * @example
  * <Button variant="primary" size="md" icon="material-symbols:add">
- *   点击我
+ *   Click me
  * </Button>
  *
  * @props
- * - variant: 'primary' | 'secondary' | 'ghost' - 按钮变体，默认 'primary'
- * - size: 'sm' | 'md' | 'lg' - 按钮尺寸，默认 'md'
- * - disabled: boolean - 是否禁用，默认 false
- * - icon: string - 图标名称
+ * - variant: 'primary' | 'secondary' | 'ghost' - Button variant, default 'primary'
+ * - size: 'sm' | 'md' | 'lg' - Button size, default 'md'
+ * - disabled: boolean - Whether disabled, default false
+ * - icon: string - Icon name
  */
 
 interface Props {
@@ -748,56 +748,56 @@ interface Props {
 ---
 ```
 
-## 代码审查检查清单
+## Code Review Checklist
 
-在提交代码前，确保：
+Before submitting code, ensure:
 
-- [ ] 组件遵循分层架构（atoms/molecules/organisms）
-- [ ] 文件名符合命名规范（PascalCase）
-- [ ] 组件行数在合理范围内（< 500行）
-- [ ] 使用 TypeScript 定义 Props 接口
-- [ ] 组件职责单一明确
-- [ ] 复杂逻辑提取到 Hooks 或工具函数
-- [ ] 样式使用 CSS 变量
-- [ ] 使用适当的 Hydration 指令
-- [ ] 添加组件文档注释
-- [ ] 代码格式化和 Lint 检查通过
+- [ ] Components follow the layered architecture (atoms/molecules/organisms)
+- [ ] File names follow naming conventions (PascalCase)
+- [ ] Component line count is reasonable (< 500 lines)
+- [ ] Props interfaces are defined with TypeScript
+- [ ] Each component has a single, clear responsibility
+- [ ] Complex logic is extracted into hooks or utility functions
+- [ ] Styles use CSS variables
+- [ ] Appropriate hydration directives are used
+- [ ] Component documentation comments are added
+- [ ] Code is formatted and passes lint checks
 
-## 迁移指南
+## Migration Guide
 
-### 从现有组件迁移到新架构
+### Migrating existing components to the new architecture
 
-1. **识别组件类型**
-   - 判断组件应该属于哪个层次（atoms/molecules/organisms）
-   - 评估组件的复杂度和是否需要拆分
+1. **Identify component type**
+   - Determine which layer the component belongs to (atoms/molecules/organisms)
+   - Assess complexity and whether splitting is needed
 
-2. **移动组件文件**
-   - 将组件移动到对应的目录
-   - 更新导入路径
+2. **Move component files**
+   - Move components to the appropriate directory
+   - Update import paths
 
-3. **提取通用逻辑**
-   - 将重复的逻辑提取到 Hooks 或工具函数
-   - 创建通用的容器组件
+3. **Extract shared logic**
+   - Move repeated logic into hooks or utility functions
+   - Create shared container components
 
-4. **优化和重构**
-   - 减少组件行数
-   - 提高复用性
-   - 添加类型定义和文档
+4. **Optimize and refactor**
+   - Reduce component line count
+   - Improve reusability
+   - Add type definitions and documentation
 
-### 示例：重构 Widget 组件
+### Example: Refactoring a widget component
 
-**重构前**：
+**Before refactoring**:
 ```astro
-// widget/Categories.astro (150 行，包含样式和逻辑)
+// widget/Categories.astro (150 lines, includes styles and logic)
 ---
-// 获取分类数据
+// Fetch category data
 const categories = await getCategories()
 ---
 
 <div class="categories-widget">
   <div class="widget-header">
     <Icon name="material-symbols:category" />
-    <h3>分类</h3>
+    <h3>Categories</h3>
   </div>
   <div class="widget-content">
     {categories.map(cat => (
@@ -809,15 +809,15 @@ const categories = await getCategories()
 </div>
 
 <style>
-  .categories-widget { /* 样式 */ }
-  .widget-header { /* 样式 */ }
-  .widget-content { /* 样式 */ }
+  .categories-widget { /* styles */ }
+  .widget-header { /* styles */ }
+  .widget-content { /* styles */ }
 </style>
 ```
 
-**重构后**：
+**After refactoring**:
 ```astro
-// widget/Categories.astro (50 行)
+// widget/Categories.astro (50 lines)
 ---
 import WidgetLayout from './common/WidgetLayout.astro'
 import ChipCloud from '../molecules/ChipCloud.astro'
@@ -825,7 +825,7 @@ import ChipCloud from '../molecules/ChipCloud.astro'
 const categories = await getCategories()
 ---
 
-<WidgetLayout name="分类">
+<WidgetLayout name="Categories">
   <ChipCloud
     items={categories}
     hrefPrefix="/category/"
@@ -833,14 +833,14 @@ const categories = await getCategories()
 </WidgetLayout>
 ```
 
-## 参考资源
+## Reference Resources
 
-- [Aruma 组件架构](../../demo/Aruma/docs/rule/05-component-architecture.md)
-- [Astro 组件最佳实践](https://docs.astro.build/zh-cn/core-concepts/astro-components/)
+- [Aruma component architecture](../../demo/Aruma/docs/rule/05-component-architecture.md)
+- [Astro component best practices](https://docs.astro.build/en/core-concepts/astro-components/)
 - [Atomic Design](https://atomicdesign.bradfrost.com/)
-- [组件驱动开发](https://componentdriven.org/)
+- [Component-driven development](https://componentdriven.org/)
 
 ---
 
-**最后更新**: 2026-03-17
-**维护者**: Mizuki 开发团队
+**Last updated**: 2026-03-17
+**Maintainer**: Mizuki development team

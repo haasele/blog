@@ -1,21 +1,21 @@
 /**
- * Sakura 特效模块
- * 管理樱花飘落特效的初始化
+ * Sakura effect module
+ * Manages sakura falling effect initialization
  */
 
 import type { SakuraConfig } from "../../types/config";
 import { initSakura } from "../../utils/sakura-manager";
 
 /**
- * Sakura 特效处理器类
- * 负责樱花飘落特效的初始化和状态管理
+ * Sakura effect handler class
+ * Handles sakura falling effect initialization and state management
  */
 export class SakuraEffectHandler {
 	private initialized = false;
 	private config: SakuraConfig | null = null;
 
 	/**
-	 * 初始化 Sakura 特效
+	 * Initialize Sakura effect
 	 */
 	init(widgetConfigs: any): void {
 		const sakuraConfig = widgetConfigs?.sakura;
@@ -23,7 +23,7 @@ export class SakuraEffectHandler {
 			return;
 		}
 
-		// 避免重复初始化
+		// Avoid duplicate initialization
 		if ((window as any).sakuraInitialized) {
 			return;
 		}
@@ -35,25 +35,25 @@ export class SakuraEffectHandler {
 	}
 
 	/**
-	 * 检查是否已初始化
+	 * Check if already initialized
 	 */
 	isInitialized(): boolean {
 		return this.initialized;
 	}
 
 	/**
-	 * 获取配置
+	 * Get configuration
 	 */
 	getConfig(): SakuraConfig | null {
 		return this.config;
 	}
 }
 
-// 创建全局实例
+// Create global instance
 let globalSakuraEffectHandler: SakuraEffectHandler | null = null;
 
 /**
- * 获取全局 Sakura 特效处理器实例
+ * Get global Sakura effect handler instance
  */
 export function getSakuraEffectHandler(): SakuraEffectHandler {
 	if (!globalSakuraEffectHandler) {
@@ -63,7 +63,7 @@ export function getSakuraEffectHandler(): SakuraEffectHandler {
 }
 
 /**
- * 初始化 Sakura 特效（便捷函数）
+ * Initialize Sakura effect (convenience function)
  */
 export function setupSakura(widgetConfigs: any): void {
 	const handler = getSakuraEffectHandler();
@@ -71,7 +71,7 @@ export function setupSakura(widgetConfigs: any): void {
 }
 
 /**
- * 设置 Sakura 特效初始化的 DOM 监听
+ * Set up DOM listener for Sakura effect initialization
  */
 export function setupSakuraOnDOMReady(widgetConfigs: any): void {
 	const handler = getSakuraEffectHandler();

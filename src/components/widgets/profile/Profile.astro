@@ -125,7 +125,7 @@ import { i18n } from "../../../i18n/translation";
 	async function fetchSiteStats(isRetry = false) {
 		const containers = document.querySelectorAll(".umami-stats-container");
 
-		// oddmisc 未加载则等待重试
+		// Retry if oddmisc is not loaded yet
 		if (!window.oddmisc) {
 			if (!isRetry) {
 				setTimeout(() => fetchSiteStats(true), 500);
@@ -140,7 +140,7 @@ import { i18n } from "../../../i18n/translation";
 			const pageViews = stats.pageviews || 0;
 			const visits = stats.visits || 0;
 
-			// 数据为 0 时隐藏
+			// Hide when data is 0
 			if (pageViews === 0 && visits === 0) {
 				containers.forEach((c) => c.classList.add("hidden"));
 				return;
@@ -156,7 +156,7 @@ import { i18n } from "../../../i18n/translation";
 		}
 	}
 
-	// 避免多个 Profile 实例重复请求
+	// Avoid duplicate requests across Profile instances
 	if (!window.__siteStatsFetching) {
 		window.__siteStatsFetching = true;
 		if (document.readyState === "loading") {

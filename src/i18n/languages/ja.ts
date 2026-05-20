@@ -8,7 +8,7 @@ export const ja: Translation = {
 	[Key.search]: "検索",
 	[Key.other]: "その他",
 
-	// ナビゲーションバータイトル
+	// Navigation bar titles
 	[Key.navLinks]: "リンク",
 	[Key.navMy]: "私の",
 	[Key.navAbout]: "情報",
@@ -21,7 +21,7 @@ export const ja: Translation = {
 	[Key.tableOfContents]: "目次",
 	[Key.tocEmpty]: "目次はありません",
 
-	// お知らせ
+	// Announcement
 	[Key.announcement]: "お知らせ",
 	[Key.announcementClose]: "閉じる",
 
@@ -60,7 +60,7 @@ export const ja: Translation = {
 	[Key.anime]: "視聴したアニメ",
 	[Key.diary]: "日記",
 
-	// アニメページ
+	// Anime Page
 	[Key.animeTitle]: "視聴したアニメ",
 	[Key.animeSubtitle]: "アニメの旅の記録です",
 	[Key.animeStatusWatching]: "視聴中",
@@ -83,7 +83,7 @@ export const ja: Translation = {
 	[Key.animeConfigBangumi]:
 		"src/config.tsファイルにBangumiのユーザーIDを設定してください",
 
-	// 日記ページ
+	// Diary Page
 	[Key.diarySubtitle]: "いつでも、どこでも生活を共有",
 	[Key.diaryNoResults]: "一致するモーメントはありません",
 	[Key.diaryCount]: "件の日記のエントリー",
@@ -93,14 +93,14 @@ export const ja: Translation = {
 	[Key.diaryHoursAgo]: "時間前",
 	[Key.diaryDaysAgo]: "日前",
 
-	// 404ページ
+	// 404 Page
 	[Key.notFound]: "404",
 	[Key.notFoundTitle]: "ページが見つかりません",
 	[Key.notFoundDescription]:
 		"申し訳ありません、アクセスしたページは存在しないか移動されています。",
 	[Key.backToHome]: "ホームに戻る",
 
-	// 音楽プレーヤー
+	// Music Player
 	[Key.musicPlayer]: "音楽プレーヤー",
 	[Key.musicPlayerShow]: "音楽プレーヤーを表示",
 	[Key.musicPlayerHide]: "音楽プレーヤーを非表示",
@@ -125,7 +125,7 @@ export const ja: Translation = {
 	[Key.unknownSong]: "不明な曲",
 	[Key.unknownArtist]: "不明なアーティスト",
 
-	// アルバムページ
+	// Albums Page
 	[Key.albums]: "アルバム",
 	[Key.albumsSubtitle]: "人生の美しい瞬間の記録です",
 	[Key.albumsEmpty]: "コンテンツはありません",
@@ -133,7 +133,7 @@ export const ja: Translation = {
 		"まだアルバムが作成されていません。美しい思い出を追加しましょう!",
 	[Key.albumsBackToList]: "アルバムに戻る",
 
-	// デバイスページ
+	// Devices Page
 	[Key.devices]: "デバイス",
 	[Key.devicesSubtitle]: "日常的に使用しているデバイスを紹介",
 	[Key.devicesViewDetails]: "詳細を表示",
@@ -142,7 +142,7 @@ export const ja: Translation = {
 	[Key.albumsFilterAll]: "すべて",
 	[Key.albumsNoResults]: "一致するアルバムはありません",
 
-	// プロジェクトページ
+	// Projects Page
 	[Key.projects]: "プロジェクト",
 	[Key.projectsSubtitle]: "開発プロジェクトのポートフォリオ",
 	[Key.projectsAll]: "すべて",
@@ -169,7 +169,7 @@ export const ja: Translation = {
 	[Key.projectsVisit]: "プロジェクトを開く",
 	[Key.projectsGitHub]: "GitHub",
 
-	// RSSページ
+	// RSS Page
 	[Key.rss]: "RSSフィード",
 	[Key.rssDescription]: "最新情報を受け取るために購読する",
 	[Key.rssSubtitle]:
@@ -192,7 +192,7 @@ export const ja: Translation = {
 	[Key.rssCopyFailed]:
 		"コピーに失敗しました。リンクを手動で追加してください。",
 
-	// Atomページ
+	// Atom Page
 	[Key.atom]: "Atomフィード",
 	[Key.atomDescription]: "最新情報を受け取るために購読する",
 	[Key.atomSubtitle]:
@@ -215,12 +215,12 @@ export const ja: Translation = {
 	[Key.atomCopyFailed]:
 		"コピーに失敗しました。リンクを手動で追加してください。",
 
-	// 壁紙モード
+	// Wallpaper mode
 	[Key.wallpaperBanner]: "バナーモード",
 	[Key.wallpaperFullscreen]: "フルスクリーンモード",
 	[Key.wallpaperNone]: "壁紙を非表示",
 
-	// スキルページ
+	// Skills Page
 	[Key.skills]: "スキル",
 	[Key.skillsSubtitle]: "技術スキルと専門知識",
 	[Key.skillsFrontend]: "フロントエンド開発",
@@ -248,7 +248,7 @@ export const ja: Translation = {
 	[Key.skillsByCategory]: "カテゴリー別",
 	[Key.noData]: "データなし",
 
-	// タイムラインページ
+	// Timeline Page
 	[Key.timeline]: "タイムライン",
 	[Key.timelineSubtitle]: "成長への旅と重要なマイルストーン",
 	[Key.timelineEducation]: "教育",
@@ -269,7 +269,7 @@ export const ja: Translation = {
 	[Key.timelineStartDate]: "開始日",
 	[Key.timelineDuration]: "期間",
 
-	// パスワード保護
+	// Password Protection
 	[Key.passwordProtected]: "パスワードで保護されています",
 	[Key.passwordProtectedTitle]:
 		"このコンテンツはパスワードで保護されています",
@@ -295,7 +295,7 @@ export const ja: Translation = {
 	[Key.decryptionError]: "復号中にエラーが発生しました:",
 	[Key.passwordHint]: "ヒント",
 
-	// 最終更新時間カード
+	// Last Modified Time Card
 	[Key.lastModifiedPrefix]: "最終編集からの時間: ",
 	[Key.lastModifiedOutdated]: "一部の情報は古い可能性があります",
 	[Key.year]: "年",
@@ -305,7 +305,7 @@ export const ja: Translation = {
 	[Key.minute]: "分",
 	[Key.second]: "秒",
 
-	// 統計情報
+	// Site Stats
 	[Key.siteStats]: "統計情報",
 	[Key.siteStatsPostCount]: "投稿",
 	[Key.siteStatsCategoryCount]: "カテゴリー",
@@ -316,7 +316,7 @@ export const ja: Translation = {
 	[Key.siteStatsDaysAgo]: "{days}日前",
 	[Key.siteStatsDays]: "{days}日",
 
-	// カレンダーコンポーネント
+	// Calendar Component
 	[Key.calendarSunday]: "日",
 	[Key.calendarMonday]: "月",
 	[Key.calendarTuesday]: "火",
@@ -337,7 +337,7 @@ export const ja: Translation = {
 	[Key.calendarNovember]: "11月",
 	[Key.calendarDecember]: "12月",
 
-	// 共有機能
+	// Share Functionality
 	[Key.shareArticle]: "共有",
 	[Key.generatingPoster]: "ポスターを生成中...",
 	[Key.copied]: "コピーしました",
@@ -348,21 +348,21 @@ export const ja: Translation = {
 	[Key.shareOnSocialDescription]:
 		"この記事が役に立ったときは、ぜひ他の人に共有してください!",
 
-	// プロフィールの統計
+	// Profile Stats
 	[Key.profileStatsLoading]: "統計を読み込み中...",
 	[Key.profileStatsPageViews]: "ページの閲覧",
 	[Key.profileStatsVisits]: "訪問",
 	[Key.profileStatsUnavailable]: "統計は利用できません",
 
-	// ページ閲覧の統計
+	// Page Views Stats
 	[Key.pageViewsLoading]: "統計を読み込み中...",
 	[Key.pageViewsUnavailable]: "統計は利用できません",
 
-	// レイアウト切り替えボタン
+	// Layout Switch Button
 	[Key.switchToGridMode]: "グリッド表示に切り替え",
 	[Key.switchToListMode]: "リスト表示に切り替え",
 
-	// 関連した投稿とランダムな投稿
+	// Related Posts & Random Posts
 	[Key.relatedPosts]: "関連した投稿",
 	[Key.randomPosts]: "ランダムな投稿",
 	[Key.smartRecommend]: "スマート",

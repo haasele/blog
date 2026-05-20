@@ -14,7 +14,7 @@
 	class="btn-regular w-12 h-12 rounded-full"
 	class:opacity-50={isLoading}
 	disabled={isLoading}
-	aria-label={isPlaying ? "暂停" : "播放"}
+	aria-label={isPlaying ? "Pause" : "Play"}
 	{onclick}
 >
 	{#if isLoading}

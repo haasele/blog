@@ -40,7 +40,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 			this.element = element;
 			const textData = element.dataset.text || "";
 
-			// 尝试解析为 JSON 数组，如果失败则作为单个字符串处理
+			// Parse JSON array or treat as single string
 			try {
 				const parsed = JSON.parse(textData);
 				this.texts = Array.isArray(parsed) ? parsed : [textData];
@@ -52,7 +52,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 			this.deleteSpeed = parseInt(element.dataset.deleteSpeed || "50");
 			this.pauseTime = parseInt(element.dataset.pauseTime || "2000");
 
-			// 如果有多条文本且未启用打字机效果，随机显示一条
+			// Multiple strings without typewriter: pick one at random
 			if (this.texts.length > 1 && !this.isTypewriterEnabled()) {
 				this.showRandomText();
 			} else {
@@ -61,7 +61,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 		}
 
 		private isTypewriterEnabled(): boolean {
-			// 检查是否有打字机相关的数据属性
+			// Typewriter data attributes
 			return (
 				this.element.dataset.speed !== undefined ||
 				this.element.dataset.deleteSpeed !== undefined ||
@@ -89,7 +89,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 			const currentText = this.getCurrentText();
 
 			if (this.isDeleting) {
-				// 删除字符
+				// Delete character
 				if (this.currentIndex > 0) {
 					this.currentIndex--;
 					this.element.textContent = currentText.substring(
@@ -101,7 +101,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 						this.deleteSpeed,
 					);
 				} else {
-					// 删除完成，切换到下一条文本
+					// Done deleting; next string
 					this.isDeleting = false;
 					this.currentTextIndex =
 						(this.currentTextIndex + 1) % this.texts.length;
@@ -111,7 +111,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 					);
 				}
 			} else {
-				// 添加字符
+				// Add character
 				if (this.currentIndex < currentText.length) {
 					this.currentIndex++;
 					this.element.textContent = currentText.substring(
@@ -123,7 +123,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 						this.speed,
 					);
 				} else {
-					// 打字完成，暂停后开始删除（如果有多条文本）
+					// Typing done; pause then delete if multiple strings
 					if (this.texts.length > 1) {
 						this.isDeleting = true;
 						this.timeoutId = window.setTimeout(
@@ -131,9 +131,9 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 							this.pauseTime,
 						);
 					} else {
-						// 如果只有一条文本，保持显示不删除，但确保元素有内容
+						// Single string: keep visible; ensure non-empty layout
 						if (this.texts.length === 1 && this.texts[0] === "") {
-							this.element.innerHTML = "&nbsp;"; // 使用不间断空格保持布局
+							this.element.innerHTML = "&nbsp;"; // NBSP preserves layout
 						}
 					}
 				}
@@ -147,7 +147,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 		}
 	}
 
-	// 初始化所有打字机效果
+	// Init all typewriters
 	document.addEventListener("DOMContentLoaded", () => {
 		const typewriterElements = document.querySelectorAll(".typewriter");
 		typewriterElements.forEach((element) => {
@@ -155,7 +155,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 		});
 	});
 
-	// 支持页面切换时重新初始化
+	// Re-init on page transition
 	document.addEventListener("swup:contentReplaced", () => {
 		const typewriterElements = document.querySelectorAll(".typewriter");
 		typewriterElements.forEach((element) => {
@@ -167,14 +167,14 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 <style>
 	.typewriter {
 		position: relative;
-		min-height: 1.5em; /* 确保即使没有文字也保持最小高度 */
+		min-height: 1.5em; /* Min height when empty */
 		display: inline-block;
 		vertical-align: baseline;
 	}
 
-	/* 确保打字机效果不会导致布局抖动 */
+	/* Prevent layout shift from typewriter */
 	.typewriter:empty::before {
-		content: "\00A0"; /* 使用不间断空格保持高度 */
+		content: "\00A0"; /* NBSP for height */
 		visibility: hidden;
 	}
 </style>

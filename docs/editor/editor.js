@@ -5,50 +5,49 @@
 // ========== i18n System ==========
 const I18N = {
   'zh-CN': {
-    pageTitle: 'Mizuki 可视化编辑器',
-    themeColor: '主题颜色', themeMode: '主题模式',
-    themeDark: '默认深色', themeLight: '亮色主题', themeDeepBlue: '深蓝主题', themeHighContrast: '高对比度',
-    colorRed: '红色', colorOrange: '橙色', colorYellow: '黄色', colorGreen: '绿色',
-    colorCyan: '青色', colorBlue: '蓝色', colorPurple: '紫色', colorPink: '粉色',
-    modulePanel: '模块面板', searchModules: '搜索模块...',
-    editorPlaceholder: '在此输入 Markdown 内容...',
-    cmdHeading: '标题', cmdBold: '加粗', cmdItalic: '斜体', cmdStrikethrough: '删除线',
-    cmdUl: '无序列表', cmdOl: '有序列表', cmdTask: '任务列表', cmdQuote: '引用',
-    cmdCode: '行内代码', cmdCodeblock: '代码块', cmdLink: '链接', cmdImage: '图片',
-    cmdTable: '表格', cmdHr: '分割线',
-    viewEdit: '编辑', viewSplit: '分屏', viewPreview: '预览',
-    importFile: '导入', exportFile: '导出',
-    fmConfig: 'Front Matter 配置',
-    fmTitle: '标题', fmTitlePh: '文章标题',
-    fmPublished: '发布日期', fmUpdated: '更新日期',
-    fmDesc: '描述', fmDescPh: '文章描述',
-    fmImage: '封面图片', fmCategory: '分类', fmCategoryPh: '分类名称',
-    fmTags: '标签', fmTagsPh: '标签1, 标签2, 标签3',
-    fmDraft: '草稿', fmPinned: '置顶', fmComment: '评论', fmEncrypted: '加密',
-    fmPassword: '密码', fmPasswordPh: '访问密码',
-    fmPriority: '优先级', fmAlias: '别名', fmLang: '语言', fmLangDefault: '默认',
-    fmLicense: '许可证', fmAuthor: '作者', fmAuthorPh: '作者名', fmSourceLink: '来源链接',
-    fmApply: '应用到文章', fmCancelBtn: '取消',
-    exportTitle: '导出文件', exportTxt: '📄 纯文本 (.txt)',
-    dropMain: '📂 拖拽文件到此处导入', dropSub: '支持 .md .txt .html',
-    // Module categories & items
-    catFrontMatter: 'Front Matter', catBasicMd: '基础 Markdown', catExtended: '扩展功能',
-    catMermaid: 'Mermaid 图表', catVideo: '视频嵌入', catTemplates: '文章模板',
-    modBasicConfig: '基本配置', modEncryptConfig: '加密配置', modPinConfig: '置顶配置', modDraftConfig: '草稿配置',
-    modH1: '一级标题', modH2: '二级标题', modH3: '三级标题',
-    modBold: '加粗', modItalic: '斜体', modStrike: '删除线',
-    modUl: '无序列表', modOl: '有序列表', modTask: '任务列表',
-    modQuote: '引用块', modInlineCode: '行内代码', modCodeBlock: '代码块',
-    modLink: '链接', modImage: '图片', modTable: '表格', modHr: '分割线', modHtml: 'HTML块',
-    modGithubCard: 'GitHub 卡片',
-    modNote: 'Note 提示框', modTip: 'Tip 技巧框', modImportant: 'Important 重要框',
-    modWarning: 'Warning 警告框', modCaution: 'Caution 注意框', modCustomAdmonition: '自定义标题提示框',
-    modSpoiler: 'Spoiler 隐藏', modExcerpt: '摘要分隔',
-    modInlineMath: '行内公式', modBlockMath: '块级公式',
-    modFlowchart: '流程图', modSequence: '时序图', modGantt: '甘特图',
-    modClassDiag: '类图', modPie: '饼图', modState: '状态图',
+    pageTitle: 'Mizuki Visual Editor',
+    themeColor: 'Theme Color', themeMode: 'Theme Mode',
+    themeDark: 'Default Dark', themeLight: 'Light Theme', themeDeepBlue: 'Deep Blue', themeHighContrast: 'High Contrast',
+    colorRed: 'Red', colorOrange: 'Orange', colorYellow: 'Yellow', colorGreen: 'Green',
+    colorCyan: 'Cyan', colorBlue: 'Blue', colorPurple: 'Purple', colorPink: 'Pink',
+    modulePanel: 'Modules', searchModules: 'Search modules...',
+    editorPlaceholder: 'Type your Markdown here...',
+    cmdHeading: 'Heading', cmdBold: 'Bold', cmdItalic: 'Italic', cmdStrikethrough: 'Strikethrough',
+    cmdUl: 'Bullet List', cmdOl: 'Numbered List', cmdTask: 'Task List', cmdQuote: 'Blockquote',
+    cmdCode: 'Inline Code', cmdCodeblock: 'Code Block', cmdLink: 'Link', cmdImage: 'Image',
+    cmdTable: 'Table', cmdHr: 'Horizontal Rule',
+    viewEdit: 'Edit', viewSplit: 'Split', viewPreview: 'Preview',
+    importFile: 'Import', exportFile: 'Export',
+    fmConfig: 'Front Matter Settings',
+    fmTitle: 'Title', fmTitlePh: 'Article title',
+    fmPublished: 'Published', fmUpdated: 'Updated',
+    fmDesc: 'Description', fmDescPh: 'Article description',
+    fmImage: 'Cover image', fmCategory: 'Category', fmCategoryPh: 'Category name',
+    fmTags: 'Tags', fmTagsPh: 'tag1, tag2, tag3',
+    fmDraft: 'Draft', fmPinned: 'Pinned', fmComment: 'Comments', fmEncrypted: 'Encrypted',
+    fmPassword: 'Password', fmPasswordPh: 'Access password',
+    fmPriority: 'Priority', fmAlias: 'Alias', fmLang: 'Language', fmLangDefault: 'Default',
+    fmLicense: 'License', fmAuthor: 'Author', fmAuthorPh: 'Author name', fmSourceLink: 'Source link',
+    fmApply: 'Apply to Article', fmCancelBtn: 'Cancel',
+    exportTitle: 'Export File', exportTxt: '📄 Plain Text (.txt)',
+    dropMain: '📂 Drop files here to import', dropSub: 'Supports .md .txt .html',
+    catFrontMatter: 'Front Matter', catBasicMd: 'Basic Markdown', catExtended: 'Extended Features',
+    catMermaid: 'Mermaid Diagrams', catVideo: 'Video Embed', catTemplates: 'Article Templates',
+    modBasicConfig: 'Basic Config', modEncryptConfig: 'Encrypt Config', modPinConfig: 'Pin Config', modDraftConfig: 'Draft Config',
+    modH1: 'Heading 1', modH2: 'Heading 2', modH3: 'Heading 3',
+    modBold: 'Bold', modItalic: 'Italic', modStrike: 'Strikethrough',
+    modUl: 'Bullet List', modOl: 'Numbered List', modTask: 'Task List',
+    modQuote: 'Blockquote', modInlineCode: 'Inline Code', modCodeBlock: 'Code Block',
+    modLink: 'Link', modImage: 'Image', modTable: 'Table', modHr: 'Horizontal Rule', modHtml: 'HTML Block',
+    modGithubCard: 'GitHub Card',
+    modNote: 'Note', modTip: 'Tip', modImportant: 'Important',
+    modWarning: 'Warning', modCaution: 'Caution', modCustomAdmonition: 'Custom Admonition',
+    modSpoiler: 'Spoiler', modExcerpt: 'Excerpt Separator',
+    modInlineMath: 'Inline Math', modBlockMath: 'Block Math',
+    modFlowchart: 'Flowchart', modSequence: 'Sequence', modGantt: 'Gantt',
+    modClassDiag: 'Class Diagram', modPie: 'Pie Chart', modState: 'State Diagram',
     modYoutube: 'YouTube', modBilibili: 'Bilibili',
-    modStdArticle: '标准文章', modEncArticle: '加密文章', modPinArticle: '置顶公告', modTutorial: '技术教程'
+    modStdArticle: 'Standard Article', modEncArticle: 'Encrypted Article', modPinArticle: 'Pinned Announcement', modTutorial: 'Tech Tutorial'
   },
   'zh-TW': {
     pageTitle: 'Mizuki 視覺化編輯器',
@@ -187,10 +186,10 @@ const I18N = {
   }
 };
 
-let currentLang = 'zh-CN';
+let currentLang = 'en';
 
 function t(key) {
-  return (I18N[currentLang] && I18N[currentLang][key]) || (I18N['zh-CN'][key]) || key;
+  return (I18N[currentLang] && I18N[currentLang][key]) || (I18N.en[key]) || key;
 }
 
 function applyI18n() {
@@ -210,7 +209,7 @@ function applyI18n() {
   });
   // Update html lang attribute
   const langMap = { 'zh-CN': 'zh-CN', 'zh-TW': 'zh-TW', en: 'en', ja: 'ja' };
-  document.documentElement.lang = langMap[currentLang] || 'zh-CN';
+  document.documentElement.lang = langMap[currentLang] || 'en';
   // Re-render modules with new language
   renderModules($('#moduleSearch').value);
 }
@@ -218,50 +217,39 @@ function applyI18n() {
 // ========== Code Snippet Localization ==========
 const CODE_TRANSLATIONS = {
   'zh-TW': {
-    '文章标题': '文章標題', '文章描述': '文章描述', '标签1': '標籤1', '标签2': '標籤2', '分类名称': '分類名稱',
-    '加密文章': '加密文章', '加密文章描述': '加密文章描述', '加密': '加密', '安全': '安全',
-    '置顶文章': '置頂文章', '置顶文章描述': '置頂文章描述', '公告': '公告',
-    '草稿文章': '草稿文章', '草稿': '草稿', '示例': '範例',
-    '标题': '標題', '加粗文本': '粗體文字', '斜体文本': '斜體文字', '删除文本': '刪除文字',
-    '列表项一': '清單項一', '列表项二': '清單項二', '列表项三': '清單項三',
-    '第一项': '第一項', '第二项': '第二項', '第三项': '第三項',
-    '已完成任务': '已完成任務', '未完成任务': '未完成任務', '待办事项': '待辦事項',
-    '引用内容': '引用內容', '引用第二段': '引用第二段',
-    '行内代码': '行內程式碼', '代码内容': '程式碼內容', '代码': '程式碼',
-    '链接文本': '連結文字', '替代文本': '替代文字', '图片标题': '圖片標題',
-    '内容': '內容', '列1': '欄1', '列2': '欄2', '列3': '欄3',
-    '用户名/仓库名': '使用者名稱/儲存庫名稱',
-    '提示信息内容': '提示資訊內容', '技巧和建议内容': '技巧與建議內容',
-    '重要信息内容': '重要資訊內容', '警告内容': '警告內容', '注意事项内容': '注意事項內容',
-    '自定义标题': '自訂標題', '带有自定义标题的提示框内容': '帶有自訂標題的提示框內容',
-    '隐藏的内容': '隱藏的內容',
-    '开始': '開始', '条件判断': '條件判斷', '是': '是', '否': '否',
-    '处理步骤1': '處理步驟1', '处理步骤2': '處理步驟2', '结束': '結束',
-    '用户': '使用者', '应用': '應用', '服务器': '伺服器',
-    '提交请求': '提交請求', '发送数据': '傳送資料', '返回结果': '回傳結果', '显示结果': '顯示結果',
-    '项目时间线': '專案時間線', '设计': '設計', '需求分析': '需求分析', 'UI设计': 'UI設計',
-    '开发': '開發', '前端开发': '前端開發', '后端开发': '後端開發',
-    '用户名': '使用者名稱', '密码': '密碼', '登录': '登入', '退出': '登出',
-    '文章': '文章', '内容': '內容', '发布': '發佈', '撰写': '撰寫',
-    '数据分析': '資料分析', '分类A': '分類A', '分类B': '分類B', '分类C': '分類C', '其他': '其他',
-    '审核中': '審核中', '提交': '提交', '拒绝': '拒絕', '已发布': '已發佈', '通过': '通過', '已归档': '已歸檔', '归档': '歸檔',
-    '视频ID': '影片ID', '视频BV号': '影片BV號',
-    '文章主标题': '文章主標題', '这里是文章开头部分': '這裡是文章開頭部分',
-    '二级标题': '二級標題', '正文内容，支持': '正文內容，支持',
-    '三级标题': '三級標題', '文章总结部分': '文章總結部分', '总结': '總結',
-    '加密内容': '加密內容', '这是一篇加密文章，只有输入正确密码才能查看': '這是一篇加密文章，只有輸入正確密碼才能查看',
-    '敏感信息': '敏感資訊', '这里包含需要保护的内容': '這裡包含需要保護的內容',
-    '重要公告': '重要公告', '重要通知': '重要通知', '重要': '重要',
-    '时间': '時間', '待定': '待定', '影响范围': '影響範圍', '全站': '全站',
-    '详细内容': '詳細內容', '公告详情': '公告詳情', '重要提醒': '重要提醒', '请注意': '請注意',
-    '技术教程标题': '技術教學標題', '技术教程描述': '技術教學描述',
-    '教程': '教學', '技术': '技術', '技术教程': '技術教學',
-    '简介段落': '簡介段落', '基本概念': '基本概念', '概念说明': '概念說明',
-    '示例代码': '範例程式碼', '实际应用': '實際應用', '实用技巧': '實用技巧', '技巧内容': '技巧內容',
-    '关键词': '關鍵詞', '关键词1': '關鍵詞1', '关键词2': '關鍵詞2',
-    'HTML内容': 'HTML內容',
-    '需要密码访问的加密文章': '需要密碼存取的加密文章',
-    '加密文章示例': '加密文章範例'
+    'This is an encrypted article. Enter the correct password to view.': '這是一篇加密文章，只有輸入正確密碼才能查看', 'Admonition content with custom title.': '帶有自訂標題的提示框內容', 'Encrypted article requiring password': '需要密碼存取的加密文章', 'Technical tutorial description': '技術教學描述',
+    'Encrypted article description': '加密文章描述', 'Introduction paragraph here.': '這裡是文章開頭部分', 'Pinned article description': '置頂文章描述', 'Encrypted Article Example': '加密文章範例',
+    'Technical Tutorial Title': '技術教學標題', 'Important content here.': '重要資訊內容', 'Protected content here.': '這裡包含需要保護的內容', 'Announcement details...': '公告詳情',
+    'Introduction paragraph.': '簡介段落', 'Important Announcement': '重要公告', 'Concept explanation...': '概念說明', 'Warning content here.': '警告內容',
+    'Caution content here.': '注意事項內容', 'Article description': '文章描述', 'Note content here.': '提示資訊內容', 'Important Reminder': '重要提醒',
+    'Encrypted Article': '加密文章', 'Tip content here.': '技巧與建議內容', 'Encrypted Content': '加密內容', 'Second paragraph': '引用第二段',
+    'Project Timeline': '專案時間線', 'Summary section.': '文章總結部分', 'Important notice': '重要通知', 'Incomplete task': '未完成任務',
+    'Practical Usage': '實際應用', 'Pinned Article': '置頂文章', 'Completed task': '已完成任務', 'Quoted content': '引用內容',
+    'Hidden content': '隱藏的內容', 'Submit request': '提交請求', 'Body text with': '正文內容，支持', 'Sensitive Info': '敏感資訊',
+    'Please note...': '請注意', 'Basic Concepts': '基本概念', 'Article Title': '文章標題', 'Draft Article': '草稿文章',
+    'Return result': '回傳結果', 'Data Analysis': '資料分析', 'Section Title': '二級標題', 'Tech Tutorial': '技術教學',
+    'Announcement': '公告', 'Deleted text': '刪除文字', 'Custom Title': '自訂標題', 'Requirements': '需求分析',
+    'Example Code': '範例程式碼', 'Tip content.': '技巧內容', 'HTML content': 'HTML內容', 'Italic text': '斜體文字',
+    'List item 1': '清單項一', 'List item 2': '清單項二', 'List item 3': '清單項三', 'Second item': '第二項',
+    'inline code': '行內程式碼', 'Image title': '圖片標題', 'Show result': '顯示結果', 'Development': '開發',
+    'VIDEO_BV_ID': '影片BV號', 'Entire site': '全站', 'Useful Tips': '實用技巧', 'First item': '第一項',
+    'Third item': '第三項', 'Category A': '分類A', 'Category B': '分類B', 'Category C': '分類C',
+    'Main Title': '文章主標題', 'Subsection': '三級標題', 'Encrypted': '加密', 'Bold text': '粗體文字',
+    'Todo item': '待辦事項', 'code here': '程式碼內容', 'Link text': '連結文字', 'user/repo': '使用者名稱/儲存庫名稱',
+    'Condition': '條件判斷', 'Process 1': '處理步驟1', 'Process 2': '處理步驟2', 'Send data': '傳送資料',
+    'UI Design': 'UI設計', 'Reviewing': '審核中', 'Published': '已發佈', 'Important': '重要',
+    'Category': '分類名稱', 'Security': '安全', 'Alt text': '替代文字', 'Frontend': '前端開發',
+    'username': '使用者名稱', 'password': '密碼', 'Archived': '已歸檔', 'VIDEO_ID': '影片ID',
+    'Tutorial': '教學', 'Keywords': '關鍵詞', 'keyword1': '關鍵詞1', 'keyword2': '關鍵詞2',
+    'Example': '範例', 'Heading': '標題', 'Content': '內容', 'Backend': '後端開發',
+    'Article': '文章', 'publish': '發佈', 'Approve': '通過', 'Archive': '歸檔',
+    'Summary': '總結', 'Details': '詳細內容', 'Server': '伺服器', 'Design': '設計',
+    'logout': '登出', 'writes': '撰寫', 'Others': '其他', 'Submit': '提交',
+    'Reject': '拒絕', 'Draft': '草稿', 'Col 1': '欄1', 'Col 2': '欄2',
+    'Col 3': '欄3', 'Start': '開始', 'login': '登入', 'Scope': '影響範圍',
+    'Tag1': '標籤1', 'Tag2': '標籤2', 'code': '程式碼', 'User': '使用者',
+    'Date': '時間', 'Tech': '技術', 'Yes': '是', 'End': '結束',
+    'App': '應用', 'TBD': '待定', 'No': '否',
   },
   en: {
     '文章标题': 'Article Title', '文章描述': 'Article description', '标签1': 'Tag1', '标签2': 'Tag2', '分类名称': 'Category',
@@ -310,55 +298,30 @@ const CODE_TRANSLATIONS = {
     '加密文章示例': 'Encrypted Article Example'
   },
   ja: {
-    '文章标题': '記事タイトル', '文章描述': '記事の説明', '标签1': 'タグ1', '标签2': 'タグ2', '分类名称': 'カテゴリ名',
-    '加密文章': '暗号化記事', '加密文章描述': '暗号化記事の説明', '加密': '暗号化', '安全': 'セキュリティ',
-    '置顶文章': 'ピン留め記事', '置顶文章描述': 'ピン留め記事の説明', '公告': 'お知らせ',
-    '草稿文章': '下書き記事', '草稿': '下書き', '示例': 'サンプル',
-    '标题': '見出し', '加粗文本': '太字テキスト', '斜体文本': '斜体テキスト', '删除文本': '取消テキスト',
-    '列表项一': 'リスト項目1', '列表项二': 'リスト項目2', '列表项三': 'リスト項目3',
-    '第一项': '最初の項目', '第二项': '2番目の項目', '第三项': '3番目の項目',
-    '已完成任务': '完了タスク', '未完成任务': '未完了タスク', '待办事项': 'TODO項目',
-    '引用内容': '引用文', '引用第二段': '引用の第2段落',
-    '行内代码': 'インラインコード', '代码内容': 'コードの内容', '代码': 'コード',
-    '链接文本': 'リンクテキスト', '替代文本': '代替テキスト', '图片标题': '画像タイトル',
-    '内容': '内容', '列1': '列1', '列2': '列2', '列3': '列3',
-    '用户名/仓库名': 'ユーザー名/リポジトリ名',
-    '提示信息内容': 'ノートの内容。', '技巧和建议内容': 'ヒントの内容。',
-    '重要信息内容': '重要な内容。', '警告内容': '警告の内容。', '注意事项内容': '注意の内容。',
-    '自定义标题': 'カスタムタイトル', '带有自定义标题的提示框内容': 'カスタムタイトル付きの内容。',
-    '隐藏的内容': '隠された内容',
-    '开始': '開始', '条件判断': '条件分岐', '是': 'はい', '否': 'いいえ',
-    '处理步骤1': '処理ステップ1', '处理步骤2': '処理ステップ2', '结束': '終了',
-    '用户': 'ユーザー', '应用': 'アプリ', '服务器': 'サーバー',
-    '提交请求': 'リクエスト送信', '发送数据': 'データ送信', '返回结果': '結果返却', '显示结果': '結果表示',
-    '项目时间线': 'プロジェクトタイムライン', '設計': '設計', '需求分析': '要件分析', 'UIデザイン': 'UIデザイン',
-    '開発': '開発', 'フロントエンド': 'フロントエンド', 'バックエンド': 'バックエンド',
-    'ユーザー名': 'ユーザー名', 'パスワード': 'パスワード', 'ログイン': 'ログイン', 'ログアウト': 'ログアウト',
-    '記事': '記事', '公開': '公開', '執筆': '執筆',
-    'データ分析': 'データ分析', 'カテゴリA': 'カテゴリA', 'カテゴリB': 'カテゴリB', 'カテゴリC': 'カテゴリC', 'その他': 'その他',
-    'レビュー中': 'レビュー中', '提出': '提出', '却下': '却下', '公開済み': '公開済み', '承認': '承認', 'アーカイブ済み': 'アーカイブ済み', 'アーカイブ': 'アーカイブ',
-    '動画ID': '動画ID', '動画BV番号': '動画BV番号',
-    '記事メインタイトル': '記事メインタイトル', 'ここは記事の導入部分です。': 'ここは記事の導入部分です。',
-    'セクションタイトル': 'セクションタイトル', '本文は': '本文は',
-    'サブセクション': 'サブセクション', 'まとめのセクション。': 'まとめのセクション。', 'まとめ': 'まとめ',
-    '暗号化コンテンツ': '暗号化コンテンツ', 'この記事は暗号化されています。正しいパスワードを入力してください。': 'この記事は暗号化されています。正しいパスワードを入力してください。',
-    '機密情報': '機密情報', '保護が必要な内容です。': '保護が必要な内容です。',
-    '重要なお知らせ': '重要なお知らせ', '重要な通知': '重要な通知', '重要': '重要',
-    '日時': '日時', '未定': '未定', '影響範囲': '影響範囲', 'サイト全体': 'サイト全体',
-    '詳細': '詳細', 'お知らせの詳細...': 'お知らせの詳細...', '重要なリマインダー': '重要なリマインダー', 'ご注意ください...': 'ご注意ください...',
-    '技術チュートリアルタイトル': '技術チュートリアルタイトル', '技術チュートリアルの説明': '技術チュートリアルの説明',
-    'チュートリアル': 'チュートリアル', '技術': '技術', '技術チュートリアル': '技術チュートリアル',
-    '紹介文。': '紹介文。', '基本概念': '基本概念', '概念の説明...': '概念の説明...',
-    'サンプルコード': 'サンプルコード', '実践的な使い方': '実践的な使い方', '実用ヒント': '実用ヒント', 'ヒントの内容。': 'ヒントの内容。',
-    'キーワード': 'キーワード', 'キーワード1': 'キーワード1', 'キーワード2': 'キーワード2',
-    'HTML内容': 'HTML内容',
-    'パスワードが必要な暗号化記事': 'パスワードが必要な暗号化記事',
-    '暗号化記事の例': '暗号化記事の例'
+    'Admonition content with custom title.': 'カスタムタイトル付きの内容。', 'Encrypted article description': '暗号化記事の説明', 'Pinned article description': 'ピン留め記事の説明', 'Important content here.': '重要な内容。',
+    'Warning content here.': '警告の内容。', 'Caution content here.': '注意の内容。', 'Article description': '記事の説明', 'Note content here.': 'ノートの内容。',
+    'Encrypted Article': '暗号化記事', 'Tip content here.': 'ヒントの内容。', 'Second paragraph': '引用の第2段落', 'Project Timeline': 'プロジェクトタイムライン',
+    'Incomplete task': '未完了タスク', 'Pinned Article': 'ピン留め記事', 'Completed task': '完了タスク', 'Quoted content': '引用文',
+    'Hidden content': '隠された内容', 'Submit request': 'リクエスト送信', 'Basic Concepts': '基本概念', 'Article Title': '記事タイトル',
+    'Draft Article': '下書き記事', 'Return result': '結果返却', 'Announcement': 'お知らせ', 'Deleted text': '取消テキスト',
+    'Custom Title': 'カスタムタイトル', 'Requirements': '要件分析', 'HTML content': 'HTML内容', 'Italic text': '斜体テキスト',
+    'List item 1': 'リスト項目1', 'List item 2': 'リスト項目2', 'List item 3': 'リスト項目3', 'Second item': '2番目の項目',
+    'inline code': 'インラインコード', 'Image title': '画像タイトル', 'Show result': '結果表示', 'First item': '最初の項目',
+    'Third item': '3番目の項目', 'Encrypted': '暗号化', 'Bold text': '太字テキスト', 'Todo item': 'TODO項目',
+    'code here': 'コードの内容', 'Link text': 'リンクテキスト', 'user/repo': 'ユーザー名/リポジトリ名', 'Condition': '条件分岐',
+    'Process 1': '処理ステップ1', 'Process 2': '処理ステップ2', 'Send data': 'データ送信', 'Important': '重要',
+    'Category': 'カテゴリ名', 'Security': 'セキュリティ', 'Alt text': '代替テキスト', 'Example': 'サンプル',
+    'Heading': '見出し', 'Content': '内容', 'Server': 'サーバー', 'Draft': '下書き',
+    'Col 1': '列1', 'Col 2': '列2', 'Col 3': '列3', 'Start': '開始',
+    'Tag1': 'タグ1', 'Tag2': 'タグ2', 'code': 'コード', 'User': 'ユーザー',
+    'Yes': 'はい', 'End': '終了', 'App': 'アプリ', 'No': 'いいえ',
   }
+
+
 };
 
 function localizeCode(code) {
-  if (currentLang === 'zh-CN') {return code;}
+  if (currentLang === 'en' || currentLang === 'zh-CN') {return code;}
   const map = CODE_TRANSLATIONS[currentLang];
   if (!map) {return code;}
   // Sort keys by length descending so longer phrases are replaced first
@@ -373,60 +336,60 @@ function localizeCode(code) {
 // ========== Module Data ==========
 const MODULES = [
   { catKey: 'catFrontMatter', icon: '⚙️', items: [
-    { nameKey: 'modBasicConfig', icon: '📋', code: '---\ntitle: "文章标题"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndescription: "文章描述"\nimage: "./cover.webp"\ntags: [标签1, 标签2]\ncategory: 分类名称\ndraft: false\npinned: false\ncomment: true\n---\n\n' },
-    { nameKey: 'modEncryptConfig', icon: '🔒', code: '---\ntitle: "加密文章"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndescription: "加密文章描述"\nencrypted: true\npassword: "123456"\ntags: [加密]\ncategory: 安全\n---\n\n' },
-    { nameKey: 'modPinConfig', icon: '📌', code: '---\ntitle: "置顶文章"\npublished: ' + new Date().toISOString().split('T')[0] + '\npinned: true\npriority: 0\ndescription: "置顶文章描述"\ntags: [公告]\ncategory: 公告\n---\n\n' },
-    { nameKey: 'modDraftConfig', icon: '📝', code: '---\ntitle: "草稿文章"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndraft: true\ntags: [草稿]\ncategory: 示例\n---\n\n' }
+    { nameKey: 'modBasicConfig', icon: '📋', code: '---\ntitle: "Article Title"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndescription: "Article description"\nimage: "./cover.webp"\ntags: [Tag1, Tag2]\ncategory: Category\ndraft: false\npinned: false\ncomment: true\n---\n\n' },
+    { nameKey: 'modEncryptConfig', icon: '🔒', code: '---\ntitle: "Encrypted Article"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndescription: "Encrypted article description"\nencrypted: true\npassword: "123456"\ntags: [Encrypted]\ncategory: Security\n---\n\n' },
+    { nameKey: 'modPinConfig', icon: '📌', code: '---\ntitle: "Pinned Article"\npublished: ' + new Date().toISOString().split('T')[0] + '\npinned: true\npriority: 0\ndescription: "Pinned article description"\ntags: [Announcement]\ncategory: Announcement\n---\n\n' },
+    { nameKey: 'modDraftConfig', icon: '📝', code: '---\ntitle: "Draft Article"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndraft: true\ntags: [Draft]\ncategory: Example\n---\n\n' }
   ]},
   { catKey: 'catBasicMd', icon: '✏️', items: [
-    { nameKey: 'modH1', icon: 'H1', code: '# 标题\n\n' },
-    { nameKey: 'modH2', icon: 'H2', code: '## 标题\n\n' },
-    { nameKey: 'modH3', icon: 'H3', code: '### 标题\n\n' },
-    { nameKey: 'modBold', icon: 'B', code: '**加粗文本**' },
-    { nameKey: 'modItalic', icon: 'I', code: '*斜体文本*' },
-    { nameKey: 'modStrike', icon: 'S', code: '~~删除文本~~' },
-    { nameKey: 'modUl', icon: '⊙', code: '- 列表项一\n- 列表项二\n- 列表项三\n\n' },
-    { nameKey: 'modOl', icon: '①', code: '1. 第一项\n2. 第二项\n3. 第三项\n\n' },
-    { nameKey: 'modTask', icon: '☑', code: '- [x] 已完成任务\n- [ ] 未完成任务\n- [ ] 待办事项\n\n' },
-    { nameKey: 'modQuote', icon: '❝', code: '> 引用内容\n>\n> 引用第二段\n\n' },
-    { nameKey: 'modInlineCode', icon: '⌥', code: '`行内代码`' },
-    { nameKey: 'modCodeBlock', icon: '{ }', code: '```javascript\n// 代码内容\nconsole.log("Hello");\n```\n\n' },
-    { nameKey: 'modLink', icon: '🔗', code: '[链接文本](https://example.com "标题")' },
-    { nameKey: 'modImage', icon: '🖼', code: '![替代文本](./images/photo.png "图片标题")\n\n' },
-    { nameKey: 'modTable', icon: '▦', code: '| 列1 | 列2 | 列3 |\n|------|------|------|\n| 内容 | 内容 | 内容 |\n| 内容 | 内容 | 内容 |\n\n' },
+    { nameKey: 'modH1', icon: 'H1', code: '# Heading\n\n' },
+    { nameKey: 'modH2', icon: 'H2', code: '## Heading\n\n' },
+    { nameKey: 'modH3', icon: 'H3', code: '### Heading\n\n' },
+    { nameKey: 'modBold', icon: 'B', code: '**Bold text**' },
+    { nameKey: 'modItalic', icon: 'I', code: '*Italic text*' },
+    { nameKey: 'modStrike', icon: 'S', code: '~~Deleted text~~' },
+    { nameKey: 'modUl', icon: '⊙', code: '- List item 1\n- List item 2\n- List item 3\n\n' },
+    { nameKey: 'modOl', icon: '①', code: '1. First item\n2. Second item\n3. Third item\n\n' },
+    { nameKey: 'modTask', icon: '☑', code: '- [x] Completed task\n- [ ] Incomplete task\n- [ ] Todo item\n\n' },
+    { nameKey: 'modQuote', icon: '❝', code: '> Quoted content\n>\n> Second paragraph\n\n' },
+    { nameKey: 'modInlineCode', icon: '⌥', code: '`inline code`' },
+    { nameKey: 'modCodeBlock', icon: '{ }', code: '```javascript\n// code here\nconsole.log("Hello");\n```\n\n' },
+    { nameKey: 'modLink', icon: '🔗', code: '[Link text](https://example.com "Heading")' },
+    { nameKey: 'modImage', icon: '🖼', code: '![Alt text](./images/photo.png "Image title")\n\n' },
+    { nameKey: 'modTable', icon: '▦', code: '| Col 1 | Col 2 | Col 3 |\n|------|------|------|\n| Content | Content | Content |\n| Content | Content | Content |\n\n' },
     { nameKey: 'modHr', icon: '─', code: '\n---\n\n' },
-    { nameKey: 'modHtml', icon: '🏷', code: '<div class="custom">\n  HTML内容\n</div>\n\n' }
+    { nameKey: 'modHtml', icon: '🏷', code: '<div class="custom">\n  HTML content\n</div>\n\n' }
   ]},
   { catKey: 'catExtended', icon: '🚀', items: [
-    { nameKey: 'modGithubCard', icon: '🐙', code: ':::github{repo="用户名/仓库名"}\n\n' },
-    { nameKey: 'modNote', icon: '💡', code: '::::note\n提示信息内容。\n::::\n\n' },
-    { nameKey: 'modTip', icon: '💚', code: '::::tip\n技巧和建议内容。\n::::\n\n' },
-    { nameKey: 'modImportant', icon: '💜', code: '::::important\n重要信息内容。\n::::\n\n' },
-    { nameKey: 'modWarning', icon: '⚠️', code: '::::warning\n警告内容。\n::::\n\n' },
-    { nameKey: 'modCaution', icon: '🔴', code: '::::caution\n注意事项内容。\n::::\n\n' },
-    { nameKey: 'modCustomAdmonition', icon: '📌', code: '::::note[自定义标题]\n带有自定义标题的提示框内容。\n::::\n\n' },
-    { nameKey: 'modSpoiler', icon: '👁', code: ':spoiler[隐藏的内容]' },
+    { nameKey: 'modGithubCard', icon: '🐙', code: ':::github{repo="user/repo"}\n\n' },
+    { nameKey: 'modNote', icon: '💡', code: '::::note\nNote content here.\n::::\n\n' },
+    { nameKey: 'modTip', icon: '💚', code: '::::tip\nTip content here.\n::::\n\n' },
+    { nameKey: 'modImportant', icon: '💜', code: '::::important\nImportant content here.\n::::\n\n' },
+    { nameKey: 'modWarning', icon: '⚠️', code: '::::warning\nWarning content here.\n::::\n\n' },
+    { nameKey: 'modCaution', icon: '🔴', code: '::::caution\nCaution content here.\n::::\n\n' },
+    { nameKey: 'modCustomAdmonition', icon: '📌', code: '::::note[Custom Title]\nAdmonition content with custom title.\n::::\n\n' },
+    { nameKey: 'modSpoiler', icon: '👁', code: ':spoiler[Hidden content]' },
     { nameKey: 'modExcerpt', icon: '✂️', code: '\n<!--more-->\n\n' },
     { nameKey: 'modInlineMath', icon: '∑', code: '$E = mc^2$' },
     { nameKey: 'modBlockMath', icon: '∫', code: '$$\n\\\\int_{-\\\\infty}^{\\\\infty} e^{-x^2} dx = \\\\sqrt{\\\\pi}\n$$\n\n' }
   ]},
   { catKey: 'catMermaid', icon: '📊', items: [
-    { nameKey: 'modFlowchart', icon: '🔀', code: '```mermaid\ngraph TD\n    A[开始] --> B{条件判断}\n    B -->|是| C[处理步骤1]\n    B -->|否| D[处理步骤2]\n    C --> E[结束]\n    D --> E\n```\n\n' },
-    { nameKey: 'modSequence', icon: '⏱', code: '```mermaid\nsequenceDiagram\n    participant 用户\n    participant 应用\n    participant 服务器\n    用户->>应用: 提交请求\n    应用->>服务器: 发送数据\n    服务器-->>应用: 返回结果\n    应用-->>用户: 显示结果\n```\n\n' },
-    { nameKey: 'modGantt', icon: '📅', code: '```mermaid\ngantt\n    title 项目时间线\n    dateFormat YYYY-MM-DD\n    section 设计\n    需求分析 :a1, 2024-01-01, 7d\n    UI设计   :a2, after a1, 10d\n    section 开发\n    前端开发 :b1, 2024-01-15, 15d\n    后端开发 :b2, 2024-01-20, 18d\n```\n\n' },
-    { nameKey: 'modClassDiag', icon: '🏗', code: '```mermaid\nclassDiagram\n    class 用户 {\n        +用户名\n        +密码\n        +登录()\n        +退出()\n    }\n    class 文章 {\n        +标题\n        +内容\n        +发布()\n    }\n    用户 "1" -- "*" 文章 : 撰写\n```\n\n' },
-    { nameKey: 'modPie', icon: '🥧', code: '```mermaid\npie title 数据分析\n    "分类A" : 45.6\n    "分类B" : 30.1\n    "分类C" : 15.3\n    "其他"  : 9.0\n```\n\n' },
-    { nameKey: 'modState', icon: '🔄', code: '```mermaid\nstateDiagram-v2\n    [*] --> 草稿\n    草稿 --> 审核中 : 提交\n    审核中 --> 草稿 : 拒绝\n    审核中 --> 已发布 : 通过\n    已发布 --> 已归档 : 归档\n```\n\n' }
+    { nameKey: 'modFlowchart', icon: '🔀', code: '```mermaid\ngraph TD\n    A[Start] --> B{Condition}\n    B -->|Yes| C[Process 1]\n    B -->|No| D[Process 2]\n    C --> E[End]\n    D --> E\n```\n\n' },
+    { nameKey: 'modSequence', icon: '⏱', code: '```mermaid\nsequenceDiagram\n    participant User\n    participant App\n    participant Server\n    User->>App: Submit request\n    App->>Server: Send data\n    Server-->>App: Return result\n    App-->>User: Show result\n```\n\n' },
+    { nameKey: 'modGantt', icon: '📅', code: '```mermaid\ngantt\n    title Project Timeline\n    dateFormat YYYY-MM-DD\n    section Design\n    Requirements :a1, 2024-01-01, 7d\n    UI Design   :a2, after a1, 10d\n    section Development\n    Frontend :b1, 2024-01-15, 15d\n    Backend :b2, 2024-01-20, 18d\n```\n\n' },
+    { nameKey: 'modClassDiag', icon: '🏗', code: '```mermaid\nclassDiagram\n    class User {\n        +username\n        +password\n        +login()\n        +logout()\n    }\n    class Article {\n        +title\n        +content\n        +publish()\n    }\n    User "1" -- "*" Article : writes\n```\n\n' },
+    { nameKey: 'modPie', icon: '🥧', code: '```mermaid\npie title Data Analysis\n    "Category A" : 45.6\n    "Category B" : 30.1\n    "Category C" : 15.3\n    "Others"  : 9.0\n```\n\n' },
+    { nameKey: 'modState', icon: '🔄', code: '```mermaid\nstateDiagram-v2\n    [*] --> Draft\n    Draft --> Reviewing : Submit\n    Reviewing --> Draft : Reject\n    Reviewing --> Published : Approve\n    Published --> Archived : Archive\n```\n\n' }
   ]},
   { catKey: 'catVideo', icon: '🎬', items: [
-    { nameKey: 'modYoutube', icon: '▶️', code: '<iframe width="100%" height="468" src="https://www.youtube.com/embed/视频ID" title="YouTube" frameborder="0" allowfullscreen></iframe>\n\n' },
-    { nameKey: 'modBilibili', icon: '📺', code: '<iframe width="100%" height="468" src="//player.bilibili.com/player.html?bvid=视频BV号&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>\n\n' }
+    { nameKey: 'modYoutube', icon: '▶️', code: '<iframe width="100%" height="468" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube" frameborder="0" allowfullscreen></iframe>\n\n' },
+    { nameKey: 'modBilibili', icon: '📺', code: '<iframe width="100%" height="468" src="//player.bilibili.com/player.html?bvid=VIDEO_BV_ID&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>\n\n' }
   ]},
   { catKey: 'catTemplates', icon: '📑', items: [
-    { nameKey: 'modStdArticle', icon: '📄', code: '---\ntitle: "文章标题"\npublished: ' + new Date().toISOString().split('T')[0] + '\nupdated: \ndescription: "文章描述"\nimage: ./cover.webp\ntags: [标签1, 标签2]\ncategory: 分类名称\ndraft: false\npinned: false\ncomment: true\n---\n\n# 文章主标题\n\n这里是文章开头部分。\n\n<!--more-->\n\n## 二级标题\n\n正文内容，支持**加粗**、*斜体*、`行内代码`。\n\n### 三级标题\n\n- 列表项一\n- 列表项二\n\n```javascript\nconsole.log("Hello World");\n```\n\n> 引用内容\n\n---\n\n## 总结\n\n文章总结部分。\n' },
-    { nameKey: 'modEncArticle', icon: '🔐', code: '---\ntitle: "加密文章示例"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndescription: "需要密码访问的加密文章"\nencrypted: true\npassword: "myPassword123"\ntags: [加密, 安全]\ncategory: 安全\n---\n\n# 🔒 加密内容\n\n> 这是一篇加密文章，只有输入正确密码才能查看。\n\n## 敏感信息\n\n这里包含需要保护的内容。\n' },
-    { nameKey: 'modPinArticle', icon: '📢', code: '---\ntitle: "重要公告"\npublished: ' + new Date().toISOString().split('T')[0] + '\npinned: true\npriority: 0\ndescription: "重要通知"\ntags: [公告, 重要]\ncategory: 公告\n---\n\n# 🚨 重要公告\n\n> 📅 **时间**：待定\n> 🔧 **影响范围**：全站\n\n## 详细内容\n\n公告详情...\n\n::::warning[重要提醒]\n请注意...\n::::\n' },
-    { nameKey: 'modTutorial', icon: '🎓', code: '---\ntitle: "技术教程标题"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndescription: "技术教程描述"\nimage: "./cover.webp"\ntags: [教程, 技术]\ncategory: 技术教程\nlicenseName: "CC BY-NC-SA 4.0"\n---\n\n# 技术教程标题\n\n简介段落。\n\n<!--more-->\n\n## 基本概念\n\n概念说明...\n\n### 示例代码\n\n```python\ndef hello():\n    print("Hello World")\n```\n\n## 实际应用\n\n::::tip[实用技巧]\n技巧内容。\n::::\n\n```mermaid\ngraph TD\n    A[开始] --> B[结束]\n```\n\n## 总结\n\n**关键词**：关键词1, 关键词2\n' }
+    { nameKey: 'modStdArticle', icon: '📄', code: '---\ntitle: "Article Title"\npublished: ' + new Date().toISOString().split('T')[0] + '\nupdated: \ndescription: "Article description"\nimage: ./cover.webp\ntags: [Tag1, Tag2]\ncategory: Category\ndraft: false\npinned: false\ncomment: true\n---\n\n# Main Title\n\nIntroduction paragraph here.\n\n<!--more-->\n\n## Section Title\n\nBody text with **bold**, *italic*, and `inline code`.\n\n### Subsection\n\n- List item 1\n- List item 2\n\n```javascript\nconsole.log("Hello World");\n```\n\n> Quoted content\n\n---\n\n## Summary\n\nSummary section.\n' },
+    { nameKey: 'modEncArticle', icon: '🔐', code: '---\ntitle: "Encrypted Article Example"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndescription: "Encrypted article requiring password"\nencrypted: true\npassword: "myPassword123"\ntags: [Encrypted, Security]\ncategory: Security\n---\n\n# 🔒 Encrypted Content\n\n> This is an encrypted article. Enter the correct password to view.\n\n## Sensitive Info\n\nProtected content here.\n' },
+    { nameKey: 'modPinArticle', icon: '📢', code: '---\ntitle: "Important Announcement"\npublished: ' + new Date().toISOString().split('T')[0] + '\npinned: true\npriority: 0\ndescription: "Important notice"\ntags: [Announcement, Important]\ncategory: Announcement\n---\n\n# 🚨 Important Announcement\n\n> 📅 **Date**: TBD\n> 🔧 **Scope**: Entire site\n\n## Details\n\nAnnouncement details...\n\n::::warning[Important Reminder]\nPlease note...\n::::\n' },
+    { nameKey: 'modTutorial', icon: '🎓', code: '---\ntitle: "Technical Tutorial Title"\npublished: ' + new Date().toISOString().split('T')[0] + '\ndescription: "Technical tutorial description"\nimage: "./cover.webp"\ntags: [Tutorial, Tech]\ncategory: Tech Tutorial\nlicenseName: "CC BY-NC-SA 4.0"\n---\n\n# Technical Tutorial Title\n\nIntroduction paragraph.\n\n<!--more-->\n\n## Basic Concepts\n\nConcept explanation...\n\n### Example Code\n\n```python\ndef hello():\n    print("Hello World")\n```\n\n## Practical Usage\n\n::::tip[Useful Tips]\nTip content.\n::::\n\n```mermaid\ngraph TD\n    A[Start] --> B[End]\n```\n\n## Summary\n\n**Keywords**: keyword1, keyword2\n' }
   ]}
 ];
 
@@ -522,7 +485,7 @@ const savedLang = localStorage.getItem('mizuki-editor-lang');
 if (savedLang && I18N[savedLang]) {
   setLanguage(savedLang);
 } else {
-  applyI18n(); // apply default zh-CN
+  applyI18n(); // apply default en
 }
 
 // ========== Module Panel ==========
@@ -580,11 +543,11 @@ $$('[data-cmd]').forEach(btn => {
   btn.onclick = () => {
     const cmd = btn.dataset.cmd;
     const map = {
-      heading: '## ', bold: '**加粗**', italic: '*斜体*', strikethrough: '~~删除~~',
+      heading: '## ', bold: '**Bold**', italic: '*Italic*', strikethrough: '~~Deleted~~',
       ul: '- ', ol: '1. ', task: '- [ ] ', quote: '> ',
-      code: '`代码`', codeblock: '```\n代码\n```\n',
-      link: '[文本](url)', image: '![描述](url)',
-      table: '| 列1 | 列2 |\n|------|------|\n| 内容 | 内容 |\n',
+      code: '`code`', codeblock: '```\ncode\n```\n',
+      link: '[text](url)', image: '![description](url)',
+      table: '| Col 1 | Col 2 |\n|------|------|\n| Content | Content |\n',
       hr: '\n---\n'
     };
     if (map[cmd]) {insertAtCursor(map[cmd]);}

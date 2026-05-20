@@ -337,7 +337,7 @@ class MusicPlayerStore {
 	private loadLocalPlaylist(): void {
 		this.state.playlist = [...LOCAL_PLAYLIST];
 		if (this.state.playlist.length === 0) {
-			this.showError("本地播放列表为空");
+			this.showError("Local playlist is empty");
 		} else {
 			this.loadSong(this.state.playlist[0], false);
 		}
@@ -522,8 +522,8 @@ class MusicPlayerStore {
 
 	toggleExpanded(): void {
 		this.state.isExpanded = !this.state.isExpanded;
-		// 保持与原先 usePlayerState.toggleExpandedUI 一致的联动行为：
-		// 展开时强制取消隐藏，并关闭播放列表，避免状态组合异常
+		// Keep the same coupled behavior as the original usePlayerState.toggleExpandedUI:
+		// when expanding, force unhide and close the playlist to avoid invalid state combinations
 		if (this.state.isExpanded) {
 			this.state.showPlaylist = false;
 			this.state.isHidden = false;
@@ -533,8 +533,8 @@ class MusicPlayerStore {
 
 	toggleHidden(): void {
 		this.state.isHidden = !this.state.isHidden;
-		// 保持与原先 usePlayerState.toggleHiddenUI 一致的联动行为：
-		// 隐藏时收起播放器并关闭播放列表，防止展开 UI 悬挂在小球旁边
+		// Keep the same coupled behavior as the original usePlayerState.toggleHiddenUI:
+		// when hiding, collapse the player and close the playlist so expanded UI does not hang beside the orb
 		if (this.state.isHidden) {
 			this.state.isExpanded = false;
 			this.state.showPlaylist = false;

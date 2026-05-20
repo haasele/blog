@@ -6,24 +6,24 @@ import type {
 } from "@/types/config";
 
 /**
- * Widget 组件类型
+ * Widget component type
  */
 export type WidgetType = WidgetComponentType;
 
 /**
- * Widget 组件配置
+ * Widget component configuration
  */
 export interface WidgetConfig extends WidgetComponentConfig {
 	customProps?: Record<string, unknown>;
 }
 
 /**
- * Widget 组件映射表类型
+ * Widget component map type
  */
 export type WidgetComponentMap = Partial<Record<WidgetType, unknown>>;
 
 /**
- * 渲染组件选项
+ * Widget render options
  */
 export interface RenderComponentOptions {
 	component: WidgetConfig;
@@ -33,7 +33,7 @@ export interface RenderComponentOptions {
 }
 
 /**
- * 渲染组件结果
+ * Widget render result
  */
 export interface RenderComponentResult {
 	Component: unknown;
@@ -41,12 +41,12 @@ export interface RenderComponentResult {
 }
 
 /**
- * 设备类型
+ * Device type
  */
 export type DeviceType = "mobile" | "tablet" | "desktop";
 
 /**
- * 响应式边栏配置
+ * Responsive sidebar configuration
  */
 export interface ResponsiveSidebarConfig {
 	breakpoints: {
@@ -65,7 +65,7 @@ export interface ResponsiveSidebarConfig {
 }
 
 /**
- * 侧边栏管理器接口
+ * Sidebar manager interface
  */
 export interface SidebarManagerInterface {
 	init(): void;
@@ -73,11 +73,11 @@ export interface SidebarManagerInterface {
 }
 
 /**
- * 侧边栏元素 ID 类型
+ * Sidebar element ID type
  */
 export type SidebarElementId = "sidebar" | "right-sidebar";
 
 /**
- * 侧边栏位置
+ * Sidebar position
  */
 export type SidebarPosition = "left" | "right" | "drawer";

@@ -50,7 +50,7 @@
 	};
 
 	const toggleDesktopSearch = () => {
-		// 如果窗口刚获得焦点，不自动展开搜索框
+		// Do not auto-expand search when window just gained focus
 		if (windowJustFocused) {
 			return;
 		}
@@ -75,10 +75,10 @@
 	};
 
 	const handleBlur = () => {
-		// 延迟处理以允许搜索结果的点击事件先于折叠逻辑执行
+		// Defer so result clicks run before collapse logic
 		blurTimer = setTimeout(() => {
 			isDesktopSearchExpanded = false;
-			// 仅隐藏面板并折叠，保留搜索关键词和结果以便下次展开时查看
+			// Hide panel only; keep query and results for next expand
 			setPanelVisibility(false, true);
 		}, 200);
 	};
@@ -100,7 +100,7 @@
 		if (panel) {
 			panel.classList.add("float-panel-closed");
 		}
-		// 清空搜索关键词和结果
+		// Clear search query and results
 		keywordDesktop = "";
 		keywordMobile = "";
 		result = [];
@@ -182,13 +182,13 @@
 			}, 2000); // Adjust timeout as needed
 		}
 
-		// 监听窗口焦点事件，防止切换窗口时自动展开搜索框
+		// Listen for window focus to avoid auto-expand on tab switch
 		const handleFocus = () => {
 			windowJustFocused = true;
 			clearTimeout(focusTimer);
 			focusTimer = setTimeout(() => {
 				windowJustFocused = false;
-			}, 500); // 500ms 后才允许 mouseenter 触发展开
+			}, 500); // Allow mouseenter expand only after 500ms
 		};
 
 		window.addEventListener("focus", handleFocus);

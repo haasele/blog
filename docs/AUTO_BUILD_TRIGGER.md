@@ -1,67 +1,67 @@
-# 内容仓库更新自动触发构建 - 快速参考
+# Auto-Build Trigger on Content Repo Updates - Quick Reference
 
-## 🎯 问题
+## 🎯 Problem
 
-启用内容分离后,内容仓库 (Mizuki-Content) 更新不会自动触发代码仓库 (Mizuki) 的重新部署。
+After enabling content separation, content repository (Mizuki-Content) updates do not automatically trigger redeployment of the code repository (Mizuki).
 
-## ✅ 解决方案 (推荐)
+## ✅ Solution (Recommended)
 
-使用 **Repository Dispatch** 让内容更新时自动触发构建,适用于所有部署平台。
+Use **Repository Dispatch** to automatically trigger builds when content updates — works on all deployment platforms.
 
 ---
 
-## 📝 5 步快速配置
+## 📝 5-Step Quick Setup
 
-### Step 1: 创建 GitHub Token
+### Step 1: Create a GitHub Token
 
-访问: https://github.com/settings/tokens
+Visit: https://github.com/settings/tokens
 
-- 点击 **Generate new token (classic)**
+- Click **Generate new token (classic)**
 - Note: `Mizuki Content Trigger`
-- Scopes: 勾选 ✅ `repo`
-- 点击生成并**复制 Token** ⚠️ (只显示一次)
+- Scopes: check ✅ `repo`
+- Generate and **copy the token** ⚠️ (shown only once)
 
-### Step 2: 添加 Secret
+### Step 2: Add Secret
 
-在**内容仓库** (Mizuki-Content):
+In the **content repository** (Mizuki-Content):
 
 Settings → Secrets and variables → Actions → New repository secret
 
 - Name: `DISPATCH_TOKEN`
-- Secret: 粘贴刚才的 Token
+- Secret: paste the token from Step 1
 
-### Step 3: 修改触发器配置
+### Step 3: Update Trigger Configuration
 
-编辑内容仓库的 `.github/workflows/trigger-build.yml`
+Edit `.github/workflows/trigger-build.yml` in the content repository.
 
-找到第 27 行,修改为你的代码仓库:
+Find line 27 and set your code repository:
 
 ```yaml
-repository: your-username/Mizuki  # 改为你的
+repository: your-username/Mizuki  # Change to yours
 ```
 
-例如: `matsuzaka-yuki/Mizuki`
+Example: `matsuzaka-yuki/Mizuki`
 
-### Step 4: 更新代码仓库工作流
+### Step 4: Update Code Repository Workflow
 
-编辑**代码仓库**的 `.github/workflows/deploy.yml`
+Edit `.github/workflows/deploy.yml` in the **code repository**.
 
-在 `on:` 部分添加:
+Add under `on:`:
 
 ```yaml
 on:
   push:
     branches:
       - main
-  repository_dispatch:  # 👈 添加这个
+  repository_dispatch:  # 👈 Add this
     types:
       - content-updated
   workflow_dispatch:
 ```
 
-### Step 5: 测试
+### Step 5: Test
 
-在内容仓库推送一次:
+Push once from the content repository:
 
 ```bash
 git add .
@@ -69,57 +69,57 @@ git commit -m "test: trigger build"
 git push
 ```
 
-查看:
-1. 内容仓库 Actions - 确认触发器运行
-2. 代码仓库 Actions - 确认部署被触发
+Verify:
+1. Content repo Actions — confirm trigger workflow ran
+2. Code repo Actions — confirm deployment was triggered
 
 ---
 
-## 🔍 故障排查
+## 🔍 Troubleshooting
 
-### Token 问题
+### Token Issues
 
-**错误**: `Bad credentials`
+**Error**: `Bad credentials`
 
-**解决**:
-- 确认 Token 复制完整
-- 确认 Token 有 `repo` 权限
-- 重新生成 Token
+**Fix**:
+- Confirm the token was copied completely
+- Confirm the token has `repo` scope
+- Regenerate the token
 
-### 仓库名称问题
+### Repository Name Issues
 
-**错误**: `Not Found`
+**Error**: `Not Found`
 
-**解决**:
-- 确认格式: `owner/repo` (用斜杠分隔)
-- 确认拼写正确
-- 示例: `matsuzaka-yuki/Mizuki`
+**Fix**:
+- Confirm format: `owner/repo` (slash-separated)
+- Confirm spelling
+- Example: `matsuzaka-yuki/Mizuki`
 
-### 代码仓库未触发
+### Code Repository Not Triggered
 
-**检查**:
-- [ ] `.github/workflows/deploy.yml` 包含 `repository_dispatch`
-- [ ] Event type 为 `content-updated`
-- [ ] 代码仓库 Actions 已启用
-
----
-
-## 📚 详细文档
-
-需要更多配置选项? 查看:
-- [部署指南 - 完整说明](./DEPLOYMENT.md#内容仓库更新触发构建) - 包含 Webhook、定时构建等其他方案
-- [内容仓库配置指南](../Mizuki-Content/.github/workflows/README.md) - 工作流详细说明
+**Check**:
+- [ ] `.github/workflows/deploy.yml` includes `repository_dispatch`
+- [ ] Event type is `content-updated`
+- [ ] Actions are enabled on the code repository
 
 ---
 
-## 💡 提示
+## 📚 Detailed Documentation
 
-配置成功后:
-- ✅ 内容仓库每次推送都会自动触发部署
-- ✅ 可在 Actions 页面查看触发历史
-- ✅ 支持手动触发 (workflow_dispatch)
+Need more options? See:
+- [Deployment guide - full details](./DEPLOYMENT.md#content-repository-update-triggers-build) - Webhook, scheduled builds, and other approaches
+- [Content repository workflow guide](../Mizuki-Content/.github/workflows/README.md) - Workflow details
 
 ---
 
-**配置时间**: 约 5 分钟  
-**一次配置,长期有效** ✨
+## 💡 Tips
+
+After setup:
+- ✅ Every content repo push automatically triggers deployment
+- ✅ View trigger history on the Actions page
+- ✅ Manual trigger supported (`workflow_dispatch`)
+
+---
+
+**Setup time**: ~5 minutes  
+**Configure once, works long-term** ✨

@@ -1,90 +1,90 @@
-# 文件组织架构规范
+# File Organization Architecture Guidelines
 
-## 概述
+## Overview
 
-本文档定义了 Mizuki 项目的文件组织架构，确保代码结构清晰、模块化、易于维护。
+This document defines the file organization architecture for the Mizuki project, ensuring a clear, modular, and maintainable code structure.
 
-## 核心原则
+## Core Principles
 
-### 1. 按功能分层
+### 1. Layer by Function
 
-目录应该按照功能和职责进行分层，而非按技术类型。
+Directories should be organized by function and responsibility, not by technology type.
 
-**❌ 错误示例**：
+**❌ Incorrect Example**:
 ```
 src/
-├── astro/              # 按 .astro 文件分组
-├── svelte/            # 按 .svelte 文件分组
-└── typescript/         # 按 .ts 文件分组
+├── astro/              # Grouped by .astro files
+├── svelte/            # Grouped by .svelte files
+└── typescript/         # Grouped by .ts files
 ```
 
-**✅ 正确示例**：
-```
-src/
-├── components/         # 按 UI 功能分组
-├── utils/              # 按工具功能分组
-├── types/              # 按类型定义分组
-└── layouts/            # 按布局功能分组
-```
-
-### 2. 按职责分离
-
-每个目录应该有明确的职责范围，避免职责重叠。
-
-**❌ 错误示例**：
+**✅ Correct Example**:
 ```
 src/
-├── components/
-│   ├── widgets/      # Widget 组件
-│   └── misc/        # 杂项组件（职责不明确）
-└── helpers/            # 工具函数
-    └── widget/      # Widget 工具（职责重复）
+├── components/         # Grouped by UI function
+├── utils/              # Grouped by utility function
+├── types/              # Grouped by type definitions
+└── layouts/            # Grouped by layout function
 ```
 
-**✅ 正确示例**：
+### 2. Separation of Concerns
+
+Each directory should have a clearly defined scope, avoiding overlapping responsibilities.
+
+**❌ Incorrect Example**:
 ```
 src/
 ├── components/
-│   ├── atoms/        # 原子 UI 组件
-│   ├── molecules/     # 分子 UI 组件
-│   ├── organisms/     # 有机体 UI 组件
-│   ├── widgets/       # 侧边栏小部件
-│   └── features/      # 功能性组件
-└── utils/              # 工具函数（统一定义）
+│   ├── widgets/      # Widget components
+│   └── misc/        # Miscellaneous components (unclear responsibility)
+└── helpers/            # Utility functions
+    └── widget/      # Widget utilities (duplicate responsibility)
 ```
 
-### 3. 扁平化结构
+**✅ Correct Example**:
+```
+src/
+├── components/
+│   ├── atoms/        # Atomic UI components
+│   ├── molecules/     # Molecular UI components
+│   ├── organisms/     # Organism UI components
+│   ├── widgets/       # Sidebar widgets
+│   └── features/      # Feature components
+└── utils/              # Utility functions (unified definition)
+```
 
-避免过深的嵌套层级，保持结构扁平化。
+### 3. Flat Structure
 
-**❌ 错误示例**：
+Avoid excessive nesting depth; keep the structure flat.
+
+**❌ Incorrect Example**:
 ```
 src/components/widgets/sidebar/primary/left/
 ```
 
-**✅ 正确示例**：
+**✅ Correct Example**:
 ```
 src/components/widgets/
 ```
 
-### 4. 一致性
+### 4. Consistency
 
-使用统一的命名和组织模式。
+Use unified naming and organization patterns.
 
-**示例**：
-- 所有组件目录都包含 `atoms/`、`molecules/`、`organisms/`
-- 所有复杂组件都包含 `hooks/`、`types.ts`
-- 所有工具函数都按功能分类
+**Example**:
+- All component directories include `atoms/`, `molecules/`, `organisms/`
+- All complex components include `hooks/`, `types.ts`
+- All utility functions are categorized by function
 
-## 目录结构规范
+## Directory Structure Guidelines
 
-### 完整的目录树
+### Complete Directory Tree
 
 ```
 Mizuki/
-├── src/                           # 源代码目录
-│   ├── components/              # 组件目录
-│   │   ├── atoms/            # 原子组件（基础 UI 元素）
+├── src/                           # Source code directory
+│   ├── components/              # Components directory
+│   │   ├── atoms/            # Atomic components (basic UI elements)
 │   │   │   ├── Button.astro
 │   │   │   ├── Card.astro
 │   │   │   ├── Input.astro
@@ -95,25 +95,25 @@ Mizuki/
 │   │   │   ├── Modal.astro
 │   │   │   └── Tabs.astro
 │   │   │
-│   │   ├── molecules/         # 分子组件（由原子组件组合）
+│   │   ├── molecules/         # Molecular components (composed of atoms)
 │   │   │   ├── SearchBar.astro
 │   │   │   ├── Pagination.astro
 │   │   │   ├── DropdownMenu.astro
 │   │   │   ├── FormItem.astro
 │   │   │   └── ChipCloud.astro
 │   │   │
-│   │   ├── organisms/         # 有机体组件（复杂业务组件）
+│   │   ├── organisms/         # Organism components (complex business components)
 │   │   │   ├── Navbar.astro
 │   │   │   ├── Sidebar.astro
 │   │   │   ├── Footer.astro
-│   │   │   ├── MusicPlayer/       # 复杂组件的子目录
+│   │   │   ├── MusicPlayer/       # Subdirectory for complex components
 │   │   │   │   ├── MusicPlayer.astro
 │   │   │   │   ├── MiniPlayer.svelte
 │   │   │   │   ├── ExpandedPlayer.svelte
 │   │   │   │   ├── controls/
 │   │   │   │   ├── hooks/
 │   │   │   │   └── types.ts
-│   │   │   ├── Calendar/          # 复杂组件的子目录
+│   │   │   ├── Calendar/          # Subdirectory for complex components
 │   │   │   │   ├── Calendar.astro
 │   │   │   │   ├── CalendarGrid.svelte
 │   │   │   │   ├── CalendarHeader.svelte
@@ -121,35 +121,35 @@ Mizuki/
 │   │   │   │   └── utils/
 │   │   │   └── TOC/
 │   │   │
-│   │   ├── widgets/           # 侧边栏小部件
+│   │   ├── widgets/           # Sidebar widgets
 │   │   │   ├── Profile.astro
 │   │   │   ├── Calendar.astro
 │   │   │   ├── Categories.astro
 │   │   │   ├── Tags.astro
 │   │   │   ├── SiteStats.astro
 │   │   │   ├── Announcement.astro
-│   │   │   └── common/          # 通用小部件组件
+│   │   │   └── common/          # Shared widget components
 │   │   │       ├── WidgetLayout.astro
 │   │   │       └── WidgetHeader.astro
 │   │   │
-│   │   ├── features/          # 功能性组件
-│   │   │   ├── comment/          # 评论功能
-│   │   │   ├── search/           # 搜索功能
-│   │   │   ├── protection/       # 密码保护
-│   │   │   └── media/            # 媒体相关
+│   │   ├── features/          # Feature components
+│   │   │   ├── comment/          # Comment feature
+│   │   │   ├── search/           # Search feature
+│   │   │   ├── protection/       # Password protection
+│   │   │   └── media/            # Media-related
 │   │   │
-│   │   ├── layouts/          # 布局组件
+│   │   ├── layouts/          # Layout components
 │   │   │   ├── MainLayout.astro
 │   │   │   ├── PostLayout.astro
 │   │   │   └── PageLayout.astro
 │   │   │
-│   │   └── misc/             # 杂项组件（待整理）
+│   │   └── misc/             # Miscellaneous components (to be reorganized)
 │   │
-│   ├── layouts/               # 页面布局
+│   ├── layouts/               # Page layouts
 │   │   ├── Layout.astro
 │   │   └── BlogPost.astro
 │   │
-│   ├── pages/                # 页面路由
+│   ├── pages/                # Page routes
 │   │   ├── index.astro
 │   │   ├── posts/
 │   │   │   ├── [slug].astro
@@ -160,35 +160,35 @@ Mizuki/
 │   │   ├── skills/
 │   │   └── api/
 │   │
-│   ├── utils/                # 工具函数
+│   ├── utils/                # Utility functions
 │   │   ├── content-utils.ts
 │   │   ├── date-utils.ts
 │   │   ├── url-utils.ts
 │   │   ├── string-utils.ts
 │   │   └── widgetManager.ts
 │   │
-│   ├── types/                # 类型定义
+│   ├── types/                # Type definitions
 │   │   ├── config.ts
 │   │   └── api.ts
 │   │
-│   ├── constants/            # 常量
+│   ├── constants/            # Constants
 │   │   ├── index.ts
 │   │   ├── theme.ts
 │   │   └── routes.ts
 │   │
-│   ├── assets/               # 静态资源
+│   ├── assets/               # Static assets
 │   │   ├── images/
 │   │   │   ├── home/
 │   │   │   └── icons/
 │   │   ├── fonts/
 │   │   └── styles/
 │   │
-│   ├── styles/               # 全局样式
+│   ├── styles/               # Global styles
 │   │   ├── global.css
 │   │   ├── theme.css
 │   │   └── components.css
 │   │
-│   ├── i18n/                # 国际化
+│   ├── i18n/                # Internationalization
 │   │   ├── i18nKey.ts
 │   │   ├── translation.ts
 │   │   └── languages/
@@ -196,96 +196,96 @@ Mizuki/
 │   │       ├── en.ts
 │   │       └── ja.ts
 │   │
-│   ├── data/                # 数据文件
+│   ├── data/                # Data files
 │   │   ├── friends.ts
 │   │   └── projects.ts
 │   │
-│   ├── scripts/              # 脚本文件
+│   ├── scripts/              # Script files
 │   │   ├── build.ts
 │   │   └── deploy.ts
 │   │
-│   ├── plugins/              # Astro 插件
+│   ├── plugins/              # Astro plugins
 │   │   └── expressive-code/
 │   │
-│   ├── config.ts             # 主配置文件
-│   ├── content.config.ts    # 内容集合配置
-│   ├── env.d.ts             # 环境类型定义
-│   └── global.d.ts          # 全局类型定义
+│   ├── config.ts             # Main configuration file
+│   ├── content.config.ts    # Content collection configuration
+│   ├── env.d.ts             # Environment type definitions
+│   └── global.d.ts          # Global type definitions
 │
-├── public/                       # 公共静态文件
-│   ├── assets/              # 静态资源
+├── public/                       # Public static files
+│   ├── assets/              # Static assets
 │   │   ├── images/
 │   │   ├── fonts/
 │   │   └── icons/
 │   ├── favicon.ico
 │   └── robots.txt
 │
-├── docs/                         # 项目文档
+├── docs/                         # Project documentation
 │   ├── README.md
-│   ├── rule/               # 开发规范
+│   ├── rule/               # Development guidelines
 │   │   ├── README.md
 │   │   ├── 01-component-architecture.md
 │   │   ├── 02-component-split-guide.md
 │   │   ├── 03-file-organization-architecture.md
 │   │   └── IMPLEMENTATION_SUMMARY.md
-│   └── image/              # 文档图片
+│   └── image/              # Documentation images
 │
-├── demo/                         # 参考示例
-│   └── Aruma/             # Aruma 主题参考
+├── demo/                         # Reference examples
+│   └── Aruma/             # Aruma theme reference
 │
-├── scripts/                      # 构建和部署脚本
+├── scripts/                      # Build and deployment scripts
 │   ├── build.sh
 │   └── deploy.sh
 │
-├── .vscode/                      # VS Code 配置
+├── .vscode/                      # VS Code configuration
 │   └── settings.json
 │
-├── .github/                      # GitHub 配置
+├── .github/                      # GitHub configuration
 │   └── workflows/
 │       └── ci.yml
 │
-├── astro.config.mjs             # Astro 配置
-├── tailwind.config.cjs           # Tailwind 配置
-├── tsconfig.json                # TypeScript 配置
-├── svelte.config.js             # Svelte 配置
-├── package.json                 # 依赖管理
-├── pnpm-lock.yaml              # 依赖锁定
-├── pnpm-workspace.yaml        # PNPM 工作区
-├── .env.example                 # 环境变量示例
-├── .gitignore                   # Git 忽略文件
-├── .prettierrc                 # Prettier 配置
-├── .prettierignore              # Prettier 忽略文件
-├── README.md                    # 项目说明
-├── LICENSE                      # 许可证
-└── _frontmatter.json            # Frontmatter 默认值
+├── astro.config.mjs             # Astro configuration
+├── tailwind.config.cjs           # Tailwind configuration
+├── tsconfig.json                # TypeScript configuration
+├── svelte.config.js             # Svelte configuration
+├── package.json                 # Dependency management
+├── pnpm-lock.yaml              # Dependency lock file
+├── pnpm-workspace.yaml        # PNPM workspace
+├── .env.example                 # Environment variable example
+├── .gitignore                   # Git ignore file
+├── .prettierrc                 # Prettier configuration
+├── .prettierignore              # Prettier ignore file
+├── README.md                    # Project description
+├── LICENSE                      # License
+└── _frontmatter.json            # Frontmatter defaults
 ```
 
-## 目录职责说明
+## Directory Responsibilities
 
-### src/components/ - 组件目录
+### src/components/ - Components Directory
 
-#### atoms/ - 原子组件
+#### atoms/ - Atomic Components
 
-**职责**：提供基础的、不可再分的 UI 元素。
+**Responsibility**: Provide basic, indivisible UI elements.
 
-**特点**：
-- 职责单一
-- 无业务逻辑
-- 高度可复用
-- 状态简单（< 3 个变量）
+**Characteristics**:
+- Single responsibility
+- No business logic
+- Highly reusable
+- Simple state (< 3 variables)
 
-**包含文件**：
-- `Button.astro` - 按钮
-- `Card.astro` - 卡片容器
-- `Input.astro` - 输入框
-- `Badge.astro` - 徽章
-- `Chip.astro` - Chip 标签
-- `Avatar.astro` - 头像
-- `Icon.astro` - 图标
-- `Modal.astro` - 模态框
-- `Tabs.astro` - 标签页
+**Included Files**:
+- `Button.astro` - Button
+- `Card.astro` - Card container
+- `Input.astro` - Input field
+- `Badge.astro` - Badge
+- `Chip.astro` - Chip tag
+- `Avatar.astro` - Avatar
+- `Icon.astro` - Icon
+- `Modal.astro` - Modal dialog
+- `Tabs.astro` - Tabs
 
-**使用场景**：
+**Usage Example**:
 ```astro
 ---
 import Button from '../atoms/Button.astro'
@@ -293,98 +293,98 @@ import Input from '../atoms/Input.astro'
 ---
 
 <form>
-  <Input name="username" placeholder="用户名" />
-  <Button variant="primary">提交</Button>
+  <Input name="username" placeholder="Username" />
+  <Button variant="primary">Submit</Button>
 </form>
 ```
 
-#### molecules/ - 分子组件
+#### molecules/ - Molecular Components
 
-**职责**：由多个原子组件组合而成的小型功能组件。
+**Responsibility**: Small functional components composed of multiple atomic components.
 
-**特点**：
-- 包含 2-5 个原子组件
-- 有简单的交互逻辑
-- 仍然保持高度可复用性
+**Characteristics**:
+- Contains 2–5 atomic components
+- Has simple interaction logic
+- Remains highly reusable
 
-**包含文件**：
-- `SearchBar.astro` - 搜索栏（Input + Button）
-- `Pagination.astro` - 分页（多个 Button）
-- `DropdownMenu.astro` - 下拉菜单（Button + Card）
-- `FormItem.astro` - 表单项（Label + Input + Error）
-- `ChipCloud.astro` - 标签云（多个 Chip）
+**Included Files**:
+- `SearchBar.astro` - Search bar (Input + Button)
+- `Pagination.astro` - Pagination (multiple Buttons)
+- `DropdownMenu.astro` - Dropdown menu (Button + Card)
+- `FormItem.astro` - Form item (Label + Input + Error)
+- `ChipCloud.astro` - Tag cloud (multiple Chips)
 
-**使用场景**：
+**Usage Example**:
 ```astro
 ---
 import SearchBar from '../molecules/SearchBar.astro'
 ---
 
 <SearchBar
-  placeholder="搜索文章..."
+  placeholder="Search posts..."
   onSearch={(query) => navigate(`/search?q=${query}`)}
 />
 ```
 
-#### organisms/ - 有机体组件
+#### organisms/ - Organism Components
 
-**职责**：复杂的业务组件，由多个分子组件和原子组件组合。
+**Responsibility**: Complex business components composed of multiple molecular and atomic components.
 
-**特点**：
-- 包含复杂的业务逻辑
-- 可能有多个子组件
-- 专门用于特定的页面或功能
-- 可能需要拆分为子目录
+**Characteristics**:
+- Contains complex business logic
+- May have multiple subcomponents
+- Designed for specific pages or features
+- May need to be split into subdirectories
 
-**包含文件**：
-- `Navbar.astro` - 导航栏
-- `Sidebar.astro` - 侧边栏
-- `Footer.astro` - 页脚
-- `MusicPlayer/` - 音乐播放器（复杂组件）
-- `Calendar/` - 日历（复杂组件）
-- `TOC/` - 目录
+**Included Files**:
+- `Navbar.astro` - Navigation bar
+- `Sidebar.astro` - Sidebar
+- `Footer.astro` - Footer
+- `MusicPlayer/` - Music player (complex component)
+- `Calendar/` - Calendar (complex component)
+- `TOC/` - Table of contents
 
-**复杂组件的子目录结构**：
+**Subdirectory Structure for Complex Components**:
 ```
 MusicPlayer/
-├── MusicPlayer.astro        # 主容器（组合层）
-├── MiniPlayer.svelte        # 迷你播放器 UI
-├── ExpandedPlayer.svelte    # 展开播放器 UI
-├── PlaylistPanel.svelte      # 播放列表 UI
-├── controls/               # 控制组件
+├── MusicPlayer.astro        # Main container (composition layer)
+├── MiniPlayer.svelte        # Mini player UI
+├── ExpandedPlayer.svelte    # Expanded player UI
+├── PlaylistPanel.svelte      # Playlist UI
+├── controls/               # Control components
 │   ├── PlayControls.svelte
 │   ├── ProgressBar.svelte
 │   └── VolumeControl.svelte
-├── hooks/                 # 相关 Hooks
+├── hooks/                 # Related hooks
 │   ├── useAudio.ts
 │   ├── usePlaylist.ts
 │   └── useVolume.ts
-├── types.ts               # 类型定义
-└── utils/                 # 工具函数
+├── types.ts               # Type definitions
+└── utils/                 # Utility functions
 ```
 
-#### widgets/ - 侧边栏小部件
+#### widgets/ - Sidebar Widgets
 
-**职责**：侧边栏的小功能模块。
+**Responsibility**: Small functional modules for the sidebar.
 
-**特点**：
-- 相对独立的功能模块
-- 可配置的显示位置
-- 统一的 UI 风格
-- 使用通用容器组件
+**Characteristics**:
+- Relatively independent functional modules
+- Configurable display position
+- Unified UI style
+- Uses shared container components
 
-**包含文件**：
-- `Profile.astro` - 个人资料
-- `Calendar.astro` - 日历
-- `Categories.astro` - 分类
-- `Tags.astro` - 标签
-- `SiteStats.astro` - 站点统计
-- `Announcement.astro` - 公告
-- `common/` - 通用小部件组件
-  - `WidgetLayout.astro` - 通用小部件容器
-  - `WidgetHeader.astro` - 通用小部件头部
+**Included Files**:
+- `Profile.astro` - Profile
+- `Calendar.astro` - Calendar
+- `Categories.astro` - Categories
+- `Tags.astro` - Tags
+- `SiteStats.astro` - Site statistics
+- `Announcement.astro` - Announcement
+- `common/` - Shared widget components
+  - `WidgetLayout.astro` - Shared widget container
+  - `WidgetHeader.astro` - Shared widget header
 
-**使用场景**：
+**Usage Example**:
 ```astro
 ---
 import WidgetLayout from './common/WidgetLayout.astro'
@@ -393,147 +393,147 @@ import ChipCloud from '../molecules/ChipCloud.astro'
 const categories = await getCategories()
 ---
 
-<WidgetLayout name="分类" icon="material-symbols:category">
+<WidgetLayout name="Categories" icon="material-symbols:category">
   <ChipCloud items={categories} hrefPrefix="/category/" />
 </WidgetLayout>
 ```
 
-#### features/ - 功能性组件
+#### features/ - Feature Components
 
-**职责**：特定功能的组件集合。
+**Responsibility**: Component collections for specific features.
 
-**子目录**：
-- `comment/` - 评论相关
+**Subdirectories**:
+- `comment/` - Comment-related
   - `Twikoo.astro`
   - `index.astro`
-- `search/` - 搜索相关
+- `search/` - Search-related
   - `Search.svelte`
   - `SearchModal.astro`
-- `protection/` - 密码保护
+- `protection/` - Password protection
   - `PasswordProtection.astro`
   - `EncryptionService.ts`
-- `media/` - 媒体相关
+- `media/` - Media-related
   - `MusicPlayer.svelte`
   - `ImageGallery.astro`
 
-#### layouts/ - 布局组件
+#### layouts/ - Layout Components
 
-**职责**：页面级别的布局组件。
+**Responsibility**: Page-level layout components.
 
-**包含文件**：
-- `MainLayout.astro` - 主布局
-- `PostLayout.astro` - 文章布局
-- `PageLayout.astro` - 页面布局
+**Included Files**:
+- `MainLayout.astro` - Main layout
+- `PostLayout.astro` - Post layout
+- `PageLayout.astro` - Page layout
 
-#### misc/ - 杂项组件
+#### misc/ - Miscellaneous Components
 
-**职责**：不符合上述分类的临时组件。
+**Responsibility**: Temporary components that do not fit the categories above.
 
-**说明**：此目录用于存放待整理的组件，应该逐步迁移到合适的分类。
+**Note**: This directory holds components pending reorganization and should be gradually migrated to appropriate categories.
 
-**包含文件**：
+**Included Files**:
 - `AnimationTest.astro`
 - `FullscreenWallpaper.astro`
 - `ImageWrapper.astro`
 - `Markdown.astro`
 - `SharePoster.svelte`
 
-**迁移目标**：
-- `AnimationTest.astro` → 删除或移到 `organisms/`
+**Migration Targets**:
+- `AnimationTest.astro` → Delete or move to `organisms/`
 - `FullscreenWallpaper.astro` → `features/media/`
 - `ImageWrapper.astro` → `atoms/`
-- `Markdown.astro` → `organisms/` 或 `features/media/`
+- `Markdown.astro` → `organisms/` or `features/media/`
 - `SharePoster.svelte` → `features/media/`
 
-### src/layouts/ - 页面布局
+### src/layouts/ - Page Layouts
 
-**职责**：定义页面的整体结构。
+**Responsibility**: Define the overall structure of pages.
 
-**包含文件**：
-- `Layout.astro` - 主布局（所有页面共享）
-- `BlogPost.astro` - 文章页面布局
+**Included Files**:
+- `Layout.astro` - Main layout (shared by all pages)
+- `BlogPost.astro` - Post page layout
 
-**使用场景**：
+**Usage Example**:
 ```astro
 ---
 import MainLayout from '../layouts/Layout.astro'
 ---
 
-<MainLayout title="文章标题">
+<MainLayout title="Post Title">
   <article>
-    <!-- 文章内容 -->
+    <!-- Post content -->
   </article>
 </MainLayout>
 ```
 
-### src/pages/ - 页面路由
+### src/pages/ - Page Routes
 
-**职责**：定义页面的路由结构。
+**Responsibility**: Define the routing structure for pages.
 
-**组织方式**：
-- 按功能分组（posts、albums、friends 等）
-- 使用 `[slug]` 等动态路由
-- `api/` 子目录用于 API 路由
+**Organization**:
+- Group by feature (posts, albums, friends, etc.)
+- Use dynamic routes such as `[slug]`
+- Use the `api/` subdirectory for API routes
 
-**目录结构**：
+**Directory Structure**:
 ```
 pages/
-├── index.astro              # 首页
-├── posts/                  # 文章页面
-│   ├── index.astro         # 文章列表
-│   └── [slug].astro       # 文章详情（动态路由）
-├── albums/                 # 相册页面
-│   ├── index.astro         # 相册列表
-│   └── [id].astro          # 相册详情
-├── friends/                # 友链页面
+├── index.astro              # Home page
+├── posts/                  # Post pages
+│   ├── index.astro         # Post list
+│   └── [slug].astro       # Post detail (dynamic route)
+├── albums/                 # Album pages
+│   ├── index.astro         # Album list
+│   └── [id].astro          # Album detail
+├── friends/                # Friends page
 │   └── index.astro
-├── projects/               # 项目页面
+├── projects/               # Projects page
 │   └── index.astro
-├── skills/                 # 技能页面
+├── skills/                 # Skills page
 │   └── index.astro
-├── api/                    # API 路由
+├── api/                    # API routes
 │   ├── search.ts
 │   └── sitemap.xml.ts
-└── [...slug].astro          # 404 页面
+└── [...slug].astro          # 404 page
 ```
 
-### src/utils/ - 工具函数
+### src/utils/ - Utility Functions
 
-**职责**：提供可复用的工具函数。
+**Responsibility**: Provide reusable utility functions.
 
-**包含文件**：
-- `content-utils.ts` - 内容相关工具
-- `date-utils.ts` - 日期相关工具
-- `url-utils.ts` - URL 相关工具
-- `string-utils.ts` - 字符串相关工具
-- `widgetManager.ts` - Widget 管理器
+**Included Files**:
+- `content-utils.ts` - Content-related utilities
+- `date-utils.ts` - Date-related utilities
+- `url-utils.ts` - URL-related utilities
+- `string-utils.ts` - String-related utilities
+- `widgetManager.ts` - Widget manager
 
-**命名规范**：
-- 按功能分类（content、date、url 等）
-- 使用 `*-utils.ts` 后缀
-- 导出时使用命名空间避免冲突
+**Naming Conventions**:
+- Categorize by function (content, date, url, etc.)
+- Use the `*-utils.ts` suffix
+- Use namespaces on export to avoid conflicts
 
-**示例**：
+**Example**:
 ```typescript
 // content-utils.ts
 export async function getCategories() { }
 export async function getTags() { }
 export async function getPosts() { }
 
-// 使用时
+// Usage
 import { getCategories, getTags, getPosts } from '@/utils/content-utils'
 ```
 
-### src/types/ - 类型定义
+### src/types/ - Type Definitions
 
-**职责**：集中管理 TypeScript 类型定义。
+**Responsibility**: Centralize TypeScript type definitions.
 
-**包含文件**：
-- `config.ts` - 配置类型
-- `api.ts` - API 类型
-- `components.ts` - 组件 Props 类型（可选）
+**Included Files**:
+- `config.ts` - Configuration types
+- `api.ts` - API types
+- `components.ts` - Component props types (optional)
 
-**示例**：
+**Example**:
 ```typescript
 // types/config.ts
 export interface SiteConfig {
@@ -550,16 +550,16 @@ export interface ThemeColorConfig {
 }
 ```
 
-### src/constants/ - 常量
+### src/constants/ - Constants
 
-**职责**：集中管理常量。
+**Responsibility**: Centralize constant definitions.
 
-**包含文件**：
-- `index.ts` - 主常量导出
-- `theme.ts` - 主题相关常量
-- `routes.ts` - 路由常量
+**Included Files**:
+- `index.ts` - Main constant exports
+- `theme.ts` - Theme-related constants
+- `routes.ts` - Route constants
 
-**示例**：
+**Example**:
 ```typescript
 // constants/routes.ts
 export const ROUTES = {
@@ -569,34 +569,34 @@ export const ROUTES = {
   FRIENDS: '/friends',
 } as const
 
-// 使用时
+// Usage
 import { ROUTES } from '@/constants/routes'
 navigate(ROUTES.POSTS)
 ```
 
-### src/assets/ - 静态资源
+### src/assets/ - Static Assets
 
-**职责**：存放源代码中的静态资源。
+**Responsibility**: Store static assets used in source code.
 
-**子目录**：
-- `images/` - 图片
-  - `home/` - 首页图片
-  - `icons/` - 图标
-- `fonts/` - 字体文件
-- `styles/` - 样式文件（如全局 CSS）
+**Subdirectories**:
+- `images/` - Images
+  - `home/` - Home page images
+  - `icons/` - Icons
+- `fonts/` - Font files
+- `styles/` - Style files (e.g., global CSS)
 
-**注意**：构建时会复制到 `public/` 目录。
+**Note**: Assets are copied to the `public/` directory during build.
 
-### src/styles/ - 全局样式
+### src/styles/ - Global Styles
 
-**职责**：定义全局样式和主题。
+**Responsibility**: Define global styles and themes.
 
-**包含文件**：
-- `global.css` - 全局样式
-- `theme.css` - 主题样式
-- `components.css` - 组件样式（可选）
+**Included Files**:
+- `global.css` - Global styles
+- `theme.css` - Theme styles
+- `components.css` - Component styles (optional)
 
-**使用场景**：
+**Usage Example**:
 ```astro
 ---
 import '../styles/global.css'
@@ -610,19 +610,19 @@ import '../styles/theme.css'
 </html>
 ```
 
-### src/i18n/ - 国际化
+### src/i18n/ - Internationalization
 
-**职责**：管理多语言支持。
+**Responsibility**: Manage multi-language support.
 
-**包含文件**：
-- `i18nKey.ts` - i18n 键定义
-- `translation.ts` - i18n 核心函数
-- `languages/` - 语言文件
-  - `zh-CN.ts` - 简体中文
-  - `en.ts` - 英文
-  - `ja.ts` - 日文
+**Included Files**:
+- `i18nKey.ts` - i18n key definitions
+- `translation.ts` - i18n core functions
+- `languages/` - Language files
+  - `zh-CN.ts` - Simplified Chinese
+  - `en.ts` - English
+  - `ja.ts` - Japanese
 
-**使用场景**：
+**Usage Example**:
 ```typescript
 import { i18n } from '@/i18n/translation'
 import I18nKey from '@/i18n/i18nKey'
@@ -630,16 +630,16 @@ import I18nKey from '@/i18n/i18nKey'
 const title = i18n(I18nKey.homePage)
 ```
 
-### src/data/ - 数据文件
+### src/data/ - Data Files
 
-**职责**：存放静态数据文件。
+**Responsibility**: Store static data files.
 
-**包含文件**：
-- `friends.ts` - 友链数据
-- `projects.ts` - 项目数据
-- `skills.ts` - 技能数据
+**Included Files**:
+- `friends.ts` - Friends link data
+- `projects.ts` - Project data
+- `skills.ts` - Skills data
 
-**示例**：
+**Example**:
 ```typescript
 // data/friends.ts
 export interface Friend {
@@ -659,188 +659,188 @@ export const friends: Friend[] = [
 ]
 ```
 
-## 文件命名规范
+## File Naming Conventions
 
-### 组件文件
+### Component Files
 
-#### Astro 组件
+#### Astro Components
 
-**格式**：`PascalCase.astro`
+**Format**: `PascalCase.astro`
 
-**示例**：
+**Examples**:
 - `Button.astro`
 - `SearchBar.astro`
 - `MusicPlayer.astro`
 
-**功能模块后缀**：
-- `SearchModule.astro` - 搜索功能模块
-- `QRCodeModule.astro` - 二维码功能模块
+**Feature Module Suffixes**:
+- `SearchModule.astro` - Search feature module
+- `QRCodeModule.astro` - QR code feature module
 
-**容器组件后缀**：
-- `SidebarContainer.astro` - 侧边栏容器
-- `WidgetContainer.astro` - Widget 容器
+**Container Component Suffixes**:
+- `SidebarContainer.astro` - Sidebar container
+- `WidgetContainer.astro` - Widget container
 
-#### Svelte 组件
+#### Svelte Components
 
-**格式**：`PascalCase.svelte`
+**Format**: `PascalCase.svelte`
 
-**示例**：
+**Examples**:
 - `MusicPlayer.svelte`
 - `ChipCloud.svelte`
 - `ProfileCard.svelte`
 
-### 工具函数文件
+### Utility Function Files
 
-**格式**：`[功能]-utils.ts`
+**Format**: `[function]-utils.ts`
 
-**示例**：
+**Examples**:
 - `content-utils.ts`
 - `date-utils.ts`
 - `url-utils.ts`
 - `string-utils.ts`
 
-### 类型定义文件
+### Type Definition Files
 
-**格式**：`[主题].ts`
+**Format**: `[topic].ts`
 
-**示例**：
-- `config.ts` - 配置类型
-- `api.ts` - API 类型
-- `components.ts` - 组件类型
+**Examples**:
+- `config.ts` - Configuration types
+- `api.ts` - API types
+- `components.ts` - Component types
 
-### 常量文件
+### Constant Files
 
-**格式**：`[主题].ts`
+**Format**: `[topic].ts`
 
-**示例**：
-- `theme.ts` - 主题常量
-- `routes.ts` - 路由常量
-- `api.ts` - API 端点常量
+**Examples**:
+- `theme.ts` - Theme constants
+- `routes.ts` - Route constants
+- `api.ts` - API endpoint constants
 
-### 页面文件
+### Page Files
 
-#### 静态路由
+#### Static Routes
 
-**格式**：`[name].astro`
+**Format**: `[name].astro`
 
-**示例**：
-- `index.astro` - 首页
-- `about.astro` - 关于页面
-- `contact.astro` - 联系页面
+**Examples**:
+- `index.astro` - Home page
+- `about.astro` - About page
+- `contact.astro` - Contact page
 
-#### 动态路由
+#### Dynamic Routes
 
-**格式**：`[param].astro`
+**Format**: `[param].astro`
 
-**示例**：
-- `[slug].astro` - 文章详情
-- `[id].astro` - 相册详情
+**Examples**:
+- `[slug].astro` - Post detail
+- `[id].astro` - Album detail
 
-#### 集合路由
+#### Catch-All Routes
 
-**格式**：`[...catch-all].astro`
+**Format**: `[...catch-all].astro`
 
-**示例**：
-- `[...slug].astro` - 404 页面
-- `[...path].astro` - 动态路径匹配
+**Examples**:
+- `[...slug].astro` - 404 page
+- `[...path].astro` - Dynamic path matching
 
-### 样式文件
+### Style Files
 
-**格式**：`[主题].css`
+**Format**: `[topic].css`
 
-**示例**：
-- `global.css` - 全局样式
-- `theme.css` - 主题样式
-- `components.css` - 组件样式
+**Examples**:
+- `global.css` - Global styles
+- `theme.css` - Theme styles
+- `components.css` - Component styles
 
-### 脚本文件
+### Script Files
 
-**格式**：`[功能].[ext]`
+**Format**: `[function].[ext]`
 
-**示例**：
-- `build.ts` - 构建脚本
-- `deploy.sh` - 部署脚本
-- `setup.ts` - 初始化脚本
+**Examples**:
+- `build.ts` - Build script
+- `deploy.sh` - Deployment script
+- `setup.ts` - Initialization script
 
-### 文档文件
+### Documentation Files
 
-**格式**：`[主题].md`
+**Format**: `[topic].md`
 
-**示例**：
-- `README.md` - 项目说明
-- `CONTRIBUTING.md` - 贡献指南
-- `ARCHITECTURE.md` - 架构文档
+**Examples**:
+- `README.md` - Project description
+- `CONTRIBUTING.md` - Contributing guide
+- `ARCHITECTURE.md` - Architecture documentation
 
-### 配置文件
+### Configuration Files
 
-**格式**：`[工具].config.[ext]`
+**Format**: `[tool].config.[ext]`
 
-**示例**：
-- `astro.config.mjs` - Astro 配置
-- `tailwind.config.cjs` - Tailwind 配置
-- `tsconfig.json` - TypeScript 配置
+**Examples**:
+- `astro.config.mjs` - Astro configuration
+- `tailwind.config.cjs` - Tailwind configuration
+- `tsconfig.json` - TypeScript configuration
 
-## 模块化组织原则
+## Modular Organization Principles
 
-### 1. 单一职责
+### 1. Single Responsibility
 
-每个模块（文件或目录）应该只有一个明确的职责。
+Each module (file or directory) should have one clearly defined responsibility.
 
-**示例**：
+**Example**:
 
-✅ **正确**：
+✅ **Correct**:
 ```typescript
-// content-utils.ts - 只负责内容相关工具
+// content-utils.ts - Only handles content-related utilities
 export function getPosts() { }
 export function getCategories() { }
 export function getTags() { }
 ```
 
-❌ **错误**：
+❌ **Incorrect**:
 ```typescript
-// utils.ts - 职责过多
-export function getPosts() { }        // 内容相关
-export function formatDate() { }        // 日期相关
-export function buildUrl() { }          // URL 相关
-export function validateEmail() { }      // 验证相关
+// utils.ts - Too many responsibilities
+export function getPosts() { }        // Content-related
+export function formatDate() { }        // Date-related
+export function buildUrl() { }          // URL-related
+export function validateEmail() { }      // Validation-related
 ```
 
-### 2. 按功能分组
+### 2. Group by Function
 
-相关的功能应该组织在同一个目录下。
+Related functionality should be organized in the same directory.
 
-**示例**：
+**Example**:
 
-✅ **正确**：
+✅ **Correct**:
 ```
 src/components/features/
-├── comment/              # 评论功能
+├── comment/              # Comment feature
 │   ├── Twikoo.astro
 │   └── index.astro
-├── search/               # 搜索功能
+├── search/               # Search feature
 │   ├── Search.svelte
 │   └── SearchModal.astro
-└── protection/           # 保护功能
+└── protection/           # Protection feature
     ├── PasswordProtection.astro
     └── EncryptionService.ts
 ```
 
-❌ **错误**：
+❌ **Incorrect**:
 ```
 src/components/
-├── Twikoo.astro          # 评论组件
-├── Search.svelte          # 搜索组件
-├── PasswordProtection.astro # 保护组件
-└── EncryptionService.ts   # 服务
+├── Twikoo.astro          # Comment component
+├── Search.svelte          # Search component
+├── PasswordProtection.astro # Protection component
+└── EncryptionService.ts   # Service
 ```
 
-### 3. 避免循环依赖
+### 3. Avoid Circular Dependencies
 
-模块之间应该避免循环依赖。
+Modules should avoid circular dependencies.
 
-**示例**：
+**Example**:
 
-❌ **错误**：
+❌ **Incorrect**:
 ```typescript
 // ModuleA.ts
 import { something } from './ModuleB'
@@ -849,7 +849,7 @@ import { something } from './ModuleB'
 import { somethingElse } from './ModuleA'
 ```
 
-✅ **正确**：
+✅ **Correct**:
 ```typescript
 // ModuleA.ts
 import { Shared } from './Shared'
@@ -858,13 +858,13 @@ import { Shared } from './Shared'
 import { Shared } from './Shared'
 ```
 
-### 4. 清晰的导出接口
+### 4. Clear Export Interfaces
 
-模块应该提供清晰的导出接口。
+Modules should provide clear export interfaces.
 
-**示例**：
+**Example**:
 
-✅ **正确**：
+✅ **Correct**:
 ```typescript
 // content-utils.ts
 export interface Post {
@@ -877,20 +877,20 @@ export async function getPosts(): Promise<Post[]> { }
 export async function getPost(id: string): Promise<Post> { }
 ```
 
-✅ **正确（默认导出）**：
+✅ **Correct (default export)**:
 ```typescript
 // widgetManager.ts
 export default class WidgetManager { }
 export { WidgetManager }
 ```
 
-### 5. 命名空间组织
+### 5. Namespace Organization
 
-避免命名冲突，使用命名空间。
+Avoid naming conflicts by using namespaces.
 
-**示例**：
+**Example**:
 
-✅ **正确**：
+✅ **Correct**:
 ```typescript
 // content-utils.ts
 export const getPosts = () => { }
@@ -898,26 +898,26 @@ export const getPosts = () => { }
 // date-utils.ts
 export const formatDate = () => { }
 
-// 使用
+// Usage
 import { getPosts } from '@/utils/content-utils'
 import { formatDate } from '@/utils/date-utils'
 ```
 
-❌ **错误**：
+❌ **Incorrect**:
 ```typescript
 // utils.ts
-export const getPosts = () => { }        // 冲突
-export const formatDate = () => { }      // 冲突
-export const formatUrl = () => { }        // 冲突
+export const getPosts = () => { }        // Conflict
+export const formatDate = () => { }      // Conflict
+export const formatUrl = () => { }        // Conflict
 ```
 
-## 文件依赖管理
+## File Dependency Management
 
-### 1. 使用绝对路径导入
+### 1. Use Absolute Path Imports
 
-推荐使用绝对路径（@ 别名）导入，提高可维护性。
+Prefer absolute path imports (using the `@` alias) for better maintainability.
 
-**tsconfig.json 配置**：
+**tsconfig.json Configuration**:
 ```json
 {
   "compilerOptions": {
@@ -933,68 +933,68 @@ export const formatUrl = () => { }        // 冲突
 }
 ```
 
-**使用示例**：
+**Usage Example**:
 ```astro
 ---
-// ✅ 正确：使用绝对路径
+// ✅ Correct: Use absolute paths
 import Button from '@components/atoms/Button.astro'
 import { getPosts } from '@utils/content-utils'
 import { ROUTES } from '@constants/routes'
 ---
 
-// ❌ 错误：使用相对路径
+// ❌ Incorrect: Use relative paths
 import Button from '../../components/atoms/Button.astro'
 import { getPosts } from '../utils/content-utils'
 import { ROUTES } from '../constants/routes'
 ---
 ```
 
-### 2. 按层次导入
+### 2. Import by Layer
 
-按照依赖层次导入，避免混乱。
+Import in dependency order to avoid confusion.
 
-**导入顺序**：
-1. 外部库
-2. 内部库
-3. 组件
-4. 工具函数
-5. 类型
-6. 常量
+**Import Order**:
+1. External libraries
+2. Internal libraries
+3. Components
+4. Utility functions
+5. Types
+6. Constants
 
-**示例**：
+**Example**:
 ```astro
 ---
-// 1. 外部库
+// 1. External libraries
 import { getCollection } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
-// 2. 内部库
+// 2. Internal libraries
 import I18nKey from '@i18n/i18nKey'
 import { i18n } from '@i18n/translation'
 
-// 3. 组件
+// 3. Components
 import Button from '@components/atoms/Button.astro'
 import Card from '@components/atoms/Card.astro'
 
-// 4. 工具函数
+// 4. Utility functions
 import { getPosts } from '@utils/content-utils'
 import { formatDate } from '@utils/date-utils'
 
-// 5. 类型
+// 5. Types
 import type { Post } from '@types/config'
 
-// 6. 常量
+// 6. Constants
 import { ROUTES } from '@constants/routes'
 ---
 ```
 
-### 3. 避免深度嵌套导入
+### 3. Avoid Deeply Nested Imports
 
-导入路径不应过深。
+Import paths should not be excessively deep.
 
-**示例**：
+**Example**:
 
-❌ **错误**：
+❌ **Incorrect**:
 ```astro
 ---
 import Button from '../../../components/atoms/Button.astro'
@@ -1002,7 +1002,7 @@ import { getPosts } from '../../utils/content-utils'
 ---
 ```
 
-✅ **正确**：
+✅ **Correct**:
 ```astro
 ---
 import Button from '@components/atoms/Button.astro'
@@ -1010,54 +1010,54 @@ import { getPosts } from '@utils/content-utils'
 ---
 ```
 
-## 复杂组件的文件组织
+## File Organization for Complex Components
 
-### 超大型组件的子目录结构
+### Subdirectory Structure for Large Components
 
-当组件超过 300 行或包含多个子功能时，应该创建子目录。
+When a component exceeds 300 lines or contains multiple sub-features, create a subdirectory.
 
-**结构模板**：
+**Structure Template**:
 ```
 ComponentName/
-├── ComponentName.astro      # 主组件（组合层）
-├── SubComponent1.svelte      # 子组件 1
-├── SubComponent2.svelte      # 子组件 2
-├── SubComponent3.svelte      # 子组件 3
-├── controls/                 # 控制组件
+├── ComponentName.astro      # Main component (composition layer)
+├── SubComponent1.svelte      # Subcomponent 1
+├── SubComponent2.svelte      # Subcomponent 2
+├── SubComponent3.svelte      # Subcomponent 3
+├── controls/                 # Control components
 │   ├── Control1.svelte
 │   └── Control2.svelte
-├── hooks/                   # 相关 Hooks
+├── hooks/                   # Related hooks
 │   ├── useFeature1.ts
 │   ├── useFeature2.ts
 │   └── useFeature3.ts
-├── utils/                   # 工具函数
+├── utils/                   # Utility functions
 │   └── helper.ts
-├── types.ts                 # 类型定义
-└── README.md                # 组件说明（可选）
+├── types.ts                 # Type definitions
+└── README.md                # Component documentation (optional)
 ```
 
-### 实例：MusicPlayer
+### Example: MusicPlayer
 
-**目录结构**：
+**Directory Structure**:
 ```
 MusicPlayer/
-├── MusicPlayer.astro          # 主容器（< 50 行）
-├── MiniPlayer.svelte          # 迷你播放器（~150 行）
-├── ExpandedPlayer.svelte      # 展开播放器（~200 行）
-├── PlaylistPanel.svelte      # 播放列表（~120 行）
-├── controls/                # 控制组件
-│   ├── PlayControls.svelte    # 播放控制（~80 行）
-│   ├── ProgressBar.svelte     # 进度条（~100 行）
-│   └── VolumeControl.svelte  # 音量控制（~60 行）
-├── hooks/                  # 相关 Hooks
-│   ├── useAudio.ts           # 音频播放逻辑（~80 行）
-│   ├── usePlaylist.ts        # 播放列表管理（~90 行）
-│   └── useVolume.ts         # 音量控制逻辑（~50 行）
-├── types.ts                # 类型定义（~40 行）
-└── README.md               # 组件说明
+├── MusicPlayer.astro          # Main container (< 50 lines)
+├── MiniPlayer.svelte          # Mini player (~150 lines)
+├── ExpandedPlayer.svelte      # Expanded player (~200 lines)
+├── PlaylistPanel.svelte      # Playlist (~120 lines)
+├── controls/                # Control components
+│   ├── PlayControls.svelte    # Playback controls (~80 lines)
+│   ├── ProgressBar.svelte     # Progress bar (~100 lines)
+│   └── VolumeControl.svelte  # Volume control (~60 lines)
+├── hooks/                  # Related hooks
+│   ├── useAudio.ts           # Audio playback logic (~80 lines)
+│   ├── usePlaylist.ts        # Playlist management (~90 lines)
+│   └── useVolume.ts         # Volume control logic (~50 lines)
+├── types.ts                # Type definitions (~40 lines)
+└── README.md               # Component documentation
 ```
 
-**使用方式**：
+**Usage**:
 ```astro
 ---
 import MusicPlayer from './MusicPlayer.astro'
@@ -1066,51 +1066,51 @@ import MusicPlayer from './MusicPlayer.astro'
 <MusicPlayer client:visible />
 ```
 
-### 实例：Calendar
+### Example: Calendar
 
-**目录结构**：
+**Directory Structure**:
 ```
 Calendar/
-├── Calendar.astro            # 主容器（< 50 行）
-├── CalendarHeader.svelte     # 头部导航（~80 行）
-├── CalendarGrid.svelte      # 日历网格（~150 行）
-├── PostList.astro          # 文章列表（~100 行）
-├── hooks/                  # 相关 Hooks
-│   └── useCalendar.ts      # 日历逻辑（~120 行）
-├── utils/                  # 工具函数
-│   └── calendarUtils.ts    # 日期计算（~80 行）
-├── types.ts                # 类型定义（~40 行）
-└── README.md               # 组件说明
+├── Calendar.astro            # Main container (< 50 lines)
+├── CalendarHeader.svelte     # Header navigation (~80 lines)
+├── CalendarGrid.svelte      # Calendar grid (~150 lines)
+├── PostList.astro          # Post list (~100 lines)
+├── hooks/                  # Related hooks
+│   └── useCalendar.ts      # Calendar logic (~120 lines)
+├── utils/                  # Utility functions
+│   └── calendarUtils.ts    # Date calculations (~80 lines)
+├── types.ts                # Type definitions (~40 lines)
+└── README.md               # Component documentation
 ```
 
-## 公共文件管理
+## Shared File Management
 
-### 1. 索引文件
+### 1. Index Files
 
-使用 `index.ts` 作为公共导出接口。
+Use `index.ts` as the public export interface.
 
-**示例**：
+**Example**:
 ```typescript
 // components/atoms/index.ts
 export { default as Button } from './Button.astro'
 export { default as Card } from './Card.astro'
 export { default as Input } from './Input.astro'
 
-// 使用
+// Usage
 import { Button, Card, Input } from '@components/atoms'
 ```
 
-### 2. README 文件
+### 2. README Files
 
-为复杂目录添加 README 文件。
+Add README files for complex directories.
 
-**示例**：
+**Example**:
 ```markdown
-# MusicPlayer 组件
+# MusicPlayer Component
 
-音乐播放器组件，支持播放列表、音量控制、进度管理。
+Music player component with playlist, volume control, and progress management.
 
-## 使用方法
+## Usage
 
 ```astro
 <MusicPlayer
@@ -1121,15 +1121,15 @@ import { Button, Card, Input } from '@components/atoms'
 
 ## Props
 
-- `playlist`: 播放列表
-- `autoplay`: 是否自动播放
+- `playlist`: Playlist
+- `autoplay`: Whether to autoplay
 ```
 
-### 3. 类型定义文件
+### 3. Type Definition Files
 
-为复杂组件集中定义类型。
+Centralize type definitions for complex components.
 
-**示例**：
+**Example**:
 ```typescript
 // MusicPlayer/types.ts
 export interface Song {
@@ -1152,33 +1152,33 @@ export interface MusicPlayerProps {
 }
 ```
 
-## 与 Aruma 的对比
+## Comparison with Aruma
 
-### 文件组织对比
+### File Organization Comparison
 
-| 方面 | Mizuki | Aruma | 改进建议 |
+| Aspect | Mizuki | Aruma | Improvement Suggestions |
 |------|--------|-------|----------|
-| **组件分层** | ✅ 已实现 | ✅ 完整 | 继续完善 |
-| **目录结构** | ⚠️ 混乱 | ✅ 清晰 | 重组目录 |
-| **复杂组件** | ⚠️ 单文件 | ✅ 子目录 | 拆分超大型组件 |
-| **工具函数** | ⚠️ 分散 | ✅ 统一 | 合并工具函数 |
-| **类型定义** | ⚠️ 分散 | ✅ 集中 | 统一类型定义 |
-| **文档** | ✅ 完善 | ✅ 完善 | 保持优势 |
+| **Component Layering** | ✅ Implemented | ✅ Complete | Continue improving |
+| **Directory Structure** | ⚠️ Disorganized | ✅ Clear | Reorganize directories |
+| **Complex Components** | ⚠️ Single file | ✅ Subdirectories | Split oversized components |
+| **Utility Functions** | ⚠️ Scattered | ✅ Unified | Consolidate utilities |
+| **Type Definitions** | ⚠️ Scattered | ✅ Centralized | Unify type definitions |
+| **Documentation** | ✅ Comprehensive | ✅ Comprehensive | Maintain advantage |
 
-### Aruma 的优秀实践
+### Aruma Best Practices
 
-1. **清晰的组件分层**
+1. **Clear Component Layering**
    ```
    components/
-   ├── admin/              # 管理后台
-   ├── cards/              # 卡片组件
-   ├── comment/            # 评论组件
-   ├── layouts/            # 布局组件
-   ├── svelte/             # Svelte 组件
-   └── ui/                # UI 组件
+   ├── admin/              # Admin dashboard
+   ├── cards/              # Card components
+   ├── comment/            # Comment components
+   ├── layouts/            # Layout components
+   ├── svelte/             # Svelte components
+   └── ui/                # UI components
    ```
 
-2. **复杂组件的子目录**
+2. **Subdirectories for Complex Components**
    ```
    MusicPlayer.svelte → 
    MusicPlayer/
@@ -1188,188 +1188,188 @@ export interface MusicPlayerProps {
    └── types.ts
    ```
 
-3. **统一的工具函数**
+3. **Unified Utility Functions**
    ```
    lib/
    ├── utils/
    └── types/
    ```
 
-## 迁移指南
+## Migration Guide
 
-### 从当前结构迁移到新结构
+### Migrating from Current Structure to New Structure
 
-#### 步骤 1：创建新目录
+#### Step 1: Create New Directories
 
 ```bash
-# 创建新的分层目录
+# Create new layered directories
 mkdir -p src/components/{atoms,molecules,organisms}
 mkdir -p src/components/widgets/common
 mkdir -p src/components/features/{comment,search,protection,media}
 mkdir -p src/components/layouts
 ```
 
-#### 步骤 2：移动文件
+#### Step 2: Move Files
 
 ```bash
-# 移动原子组件
+# Move atomic components
 mv src/components/Button.astro src/components/atoms/
 mv src/components/Card.astro src/components/atoms/
 mv src/components/Input.astro src/components/atoms/
 
-# 移动小部件
+# Move widgets
 mv src/components/widget/* src/components/widgets/
 mv src/components/widget/common src/components/widgets/common
 
-# 移动功能组件
+# Move feature components
 mv src/components/comment src/components/features/
 mv src/components/control src/components/molecules/
 ```
 
-#### 步骤 3：更新导入路径
+#### Step 3: Update Import Paths
 
 ```bash
-# 查找所有导入
+# Find all imports
 grep -r "from.*components" src/pages src/layouts
 
-# 批量更新路径
-# 使用编辑器或脚本批量替换
+# Batch update paths
+# Use an editor or script for bulk replacement
 ```
 
-#### 步骤 4：测试
+#### Step 4: Test
 
 ```bash
-# 运行构建检查错误
+# Run build to check for errors
 pnpm run build
 
-# 运行开发服务器测试
+# Run dev server for testing
 pnpm run dev
 
-# 检查 Lint
+# Run lint
 pnpm run lint
 
-# 检查类型
+# Run type check
 pnpm run typecheck
 ```
 
-### 重构 Checklist
+### Refactoring Checklist
 
-- [ ] 创建新的目录结构
-- [ ] 移动文件到对应的分类
-- [ ] 更新所有导入路径
-- [ ] 重命名文件以符合命名规范
-- [ ] 拆分超大型组件
-- [ ] 合并重复的工具函数
-- [ ] 统一类型定义
-- [ ] 添加 README 文件
-- [ ] 更新文档
-- [ ] 运行测试验证
+- [ ] Create new directory structure
+- [ ] Move files to appropriate categories
+- [ ] Update all import paths
+- [ ] Rename files to match naming conventions
+- [ ] Split oversized components
+- [ ] Consolidate duplicate utility functions
+- [ ] Unify type definitions
+- [ ] Add README files
+- [ ] Update documentation
+- [ ] Run tests for verification
 
-## 最佳实践
+## Best Practices
 
-### 1. 定期整理
+### 1. Regular Maintenance
 
-定期检查和整理文件结构，保持清晰。
+Regularly review and organize the file structure to keep it clear.
 
-**检查项**：
-- 是否有过时的文件？
-- 是否有重复的代码？
-- 是否有职责不清的目录？
-- 是否需要拆分大型组件？
+**Checklist**:
+- Are there outdated files?
+- Is there duplicate code?
+- Are there directories with unclear responsibilities?
+- Do large components need to be split?
 
-### 2. 使用工具
+### 2. Use Tools
 
-使用工具辅助文件管理。
+Use tools to assist with file management.
 
-**推荐工具**：
-- **目录树**：`tree src/`
-- **文件搜索**：`find src/ -name "*.astro"`
-- **代码统计**：`wc -l src/components/*.astro`
-- **重复检测**：使用 IDE 插件
+**Recommended Tools**:
+- **Directory tree**: `tree src/`
+- **File search**: `find src/ -name "*.astro"`
+- **Code statistics**: `wc -l src/components/*.astro`
+- **Duplicate detection**: Use IDE plugins
 
-### 3. 文档同步
+### 3. Keep Documentation in Sync
 
-文件结构变更后及时更新文档。
+Update documentation promptly after file structure changes.
 
-**更新内容**：
-- 目录结构图
-- 使用示例
-- 迁移指南
+**Update Content**:
+- Directory structure diagrams
+- Usage examples
+- Migration guides
 
-### 4. 代码审查
+### 4. Code Review
 
-在代码审查时检查文件组织。
+Check file organization during code review.
 
-**审查要点**：
-- [ ] 文件放在正确的目录
-- [ ] 文件名符合命名规范
-- [ ] 导入路径正确
-- [ ] 没有循环依赖
+**Review Points**:
+- [ ] Files are in the correct directory
+- [ ] Filenames follow naming conventions
+- [ ] Import paths are correct
+- [ ] No circular dependencies
 
-## 常见问题
+## FAQ
 
-### Q1: 如何处理临时文件？
+### Q1: How should temporary files be handled?
 
-**A**：使用临时目录或添加 TODO 注释。
+**A**: Use a temporary directory or add TODO comments.
 
-**示例**：
+**Example**:
 ```typescript
-// TODO: 迁移到 atoms/
-// TODO: 拆分为子组件
+// TODO: Migrate to atoms/
+// TODO: Split into subcomponents
 ```
 
-### Q2: 何时拆分为子目录？
+### Q2: When should a component be split into a subdirectory?
 
-**A**：当组件满足以下条件时：
-- 组件 > 300 行
-- 有 3+ 个子功能
-- 需要多个辅助文件
+**A**: When the component meets these conditions:
+- Component > 300 lines
+- Has 3+ sub-features
+- Requires multiple auxiliary files
 
-### Q3: 如何处理共享的组件？
+### Q3: How should shared components be handled?
 
-**A**：使用公共目录或提取到更高层次。
+**A**: Use a shared directory or extract to a higher level.
 
-**示例**：
+**Example**:
 ```
 src/components/
-├── atoms/              # 共享的原子组件
-├── widgets/common/      # 共享的 Widget 组件
-└── organisms/          # 使用共享组件
+├── atoms/              # Shared atomic components
+├── widgets/common/      # Shared widget components
+└── organisms/          # Uses shared components
 ```
 
-### Q4: 如何命名相似功能的文件？
+### Q4: How should files for similar features be named?
 
-**A**：使用统一的前缀或后缀。
+**A**: Use consistent prefixes or suffixes.
 
-**示例**：
-- `Calendar.astro` - 主组件
-- `CalendarHeader.svelte` - 头部
-- `CalendarGrid.svelte` - 网格
-- `CalendarUtils.ts` - 工具函数
+**Example**:
+- `Calendar.astro` - Main component
+- `CalendarHeader.svelte` - Header
+- `CalendarGrid.svelte` - Grid
+- `CalendarUtils.ts` - Utility functions
 
-## 总结
+## Summary
 
-良好的文件组织架构是项目成功的关键：
+A well-organized file architecture is key to project success:
 
-✅ **清晰的职责分离** - 每个目录有明确的职责
-✅ **统一的命名规范** - 易于理解和导航
-✅ **合理的依赖管理** - 避免循环依赖
-✅ **模块化的组织** - 易于维护和扩展
+✅ **Clear separation of concerns** - Each directory has a defined responsibility
+✅ **Unified naming conventions** - Easy to understand and navigate
+✅ **Sound dependency management** - Avoid circular dependencies
+✅ **Modular organization** - Easy to maintain and extend
 
-遵循本规范可以：
-1. 提高代码可读性
-2. 减少维护成本
-3. 提升开发效率
-4. 降低新手上手难度
+Following these guidelines helps:
+1. Improve code readability
+2. Reduce maintenance costs
+3. Increase development efficiency
+4. Lower the onboarding barrier for new contributors
 
 ---
 
-**最后更新**: 2026-03-17
-**维护者**: Mizuki 开发团队
+**Last Updated**: 2026-03-17
+**Maintainers**: Mizuki Development Team
 
-## 参考资源
+## References
 
-- [组件架构设计规范](./01-component-architecture.md)
-- [组件拆分指南](./02-component-split-guide.md)
-- [Aruma 文件组织](../../demo/Aruma/docs/)
-- [Astro 项目结构](https://docs.astro.build/zh-cn/core-concepts/project-structure/)
+- [Component Architecture Guidelines](./01-component-architecture.md)
+- [Component Split Guide](./02-component-split-guide.md)
+- [Aruma File Organization](../../demo/Aruma/docs/)
+- [Astro Project Structure](https://docs.astro.build/en/core-concepts/project-structure/)

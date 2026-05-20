@@ -1,18 +1,18 @@
 /**
- * 滚动处理器
- * 管理页面滚动相关的功能，包括自定义滚动条和滚动监听
+ * Scroll handler
+ * Manages page scroll features including custom scrollbars and scroll listeners
  */
 
 /**
- * 滚动处理器类
- * 负责自定义滚动条初始化和滚动事件管理
+ * Scroll handler class
+ * Handles custom scrollbar initialization and scroll event management
  */
 export class ScrollHandler {
 	private katexScrollbarStyleAdded = false;
 
 	/**
-	 * 初始化自定义滚动条
-	 * 为 KaTeX 公式添加水平滚动支持
+	 * Initialize custom scrollbar
+	 * Adds horizontal scroll support for KaTeX formulas
 	 */
 	initCustomScrollbar(): void {
 		const katexElements = document.querySelectorAll(
@@ -29,14 +29,14 @@ export class ScrollHandler {
 			element.parentNode.insertBefore(container, element);
 			container.appendChild(element);
 
-			// 使用 CSS 滚动条
+			// Use CSS scrollbar
 			container.style.cssText = `
 				overflow-x: auto;
 				scrollbar-width: thin;
 				scrollbar-color: rgba(0,0,0,0.3) transparent;
 			`;
 
-			// 添加 webkit 自定义滚动条样式（只添加一次）
+			// Add webkit custom scrollbar styles (once only)
 			this.addKatexScrollbarStyle();
 
 			element.setAttribute("data-scrollbar-initialized", "true");
@@ -44,7 +44,7 @@ export class ScrollHandler {
 	}
 
 	/**
-	 * 添加 KaTeX 滚动条样式（只添加一次）
+	 * Add KaTeX scrollbar styles (once only)
 	 */
 	private addKatexScrollbarStyle(): void {
 		if (this.katexScrollbarStyleAdded) {
@@ -76,7 +76,7 @@ export class ScrollHandler {
 	}
 
 	/**
-	 * 检查并加载 KaTeX 样式
+	 * Check and load KaTeX styles
 	 */
 	checkKatex(): void {
 		if (document.querySelector(".katex")) {
@@ -85,8 +85,8 @@ export class ScrollHandler {
 	}
 
 	/**
-	 * 节流函数
-	 * 限制函数调用频率
+	 * Throttle function
+	 * Limits function call frequency
 	 */
 	static throttle<T extends (...args: any[]) => any>(
 		func: T,
@@ -103,11 +103,11 @@ export class ScrollHandler {
 	}
 }
 
-// 创建全局实例
+// Create global instance
 let globalScrollHandler: ScrollHandler | null = null;
 
 /**
- * 获取全局滚动处理器实例
+ * Get global scroll handler instance
  */
 export function getScrollHandler(): ScrollHandler {
 	if (!globalScrollHandler) {
@@ -117,7 +117,7 @@ export function getScrollHandler(): ScrollHandler {
 }
 
 /**
- * 初始化自定义滚动条（便捷函数）
+ * Initialize custom scrollbar (convenience function)
  */
 export function initCustomScrollbar(): void {
 	const handler = getScrollHandler();
@@ -125,7 +125,7 @@ export function initCustomScrollbar(): void {
 }
 
 /**
- * 检查 KaTeX（便捷函数）
+ * Check KaTeX (convenience function)
  */
 export function checkKatex(): void {
 	const handler = getScrollHandler();
