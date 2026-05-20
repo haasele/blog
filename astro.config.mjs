@@ -31,216 +31,221 @@ import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkFixGithubAdmonitions } from "./src/plugins/remark-fix-github-admonitions.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
-	site: siteConfig.siteURL,
-	base: "/",
-	trailingSlash: "always",
+  site: siteConfig.siteURL,
+  base: "/",
+  trailingSlash: "always",
+  output: "static",
 
-	output: "static",
-
-	integrations: [
-		oddmisc({
-			umami: {
-				shareUrl: false,
-			},
-		}),
-		swup({
-			theme: false,
-			animationClass: "transition-swup-",
-			containers: ["main"],
-			smoothScrolling: false, // Disable smooth scrolling for performance; avoids anchor navigation conflicts
-			cache: true,
-			preload: false, // 禁用预加载以提升性能
-			accessibility: true,
-			updateHead: process.env.NODE_ENV === "production",
-			updateBodyClass: false,
-			globalInstance: true,
-			// Scroll-related configuration
-			resolveUrl: (url) => url,
-			animateHistoryBrowsing: false,
-			skipPopStateHandling: (event) => {
-				// Skip anchor links; let the browser handle them natively
-				return (
-					event.state &&
-					event.state.url &&
-					event.state.url.includes("#")
-				);
-			},
-		}),
-		icon(),
-		expressiveCode({
-			themes: ["github-light", "github-dark"],
-			plugins: [
-				pluginCollapsibleSections(),
-				pluginLineNumbers(),
-				pluginLanguageBadge(),
-				pluginCustomCopyButton(),
-			],
-			defaultProps: {
-				wrap: true,
-				overridesByLang: {
-					shellsession: { showLineNumbers: false },
-					bash: { frame: "code" },
-					shell: { frame: "code" },
-					sh: { frame: "code" },
-					zsh: { frame: "code" },
-				},
-			},
-			styleOverrides: {
-				codeBackground: "var(--codeblock-bg)",
-				borderRadius: "0.75rem",
-				borderColor: "none",
-				codeFontSize: "0.875rem",
-				codeFontFamily:
-					"'JetBrains Mono Variable', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', 'Microsoft JhengHei', '微軟正黑體', 'Microsoft YaHei', '微软雅黑', 'Noto Sans HK', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans SC', 'Noto Sans KR', ui-monospace, monospace",
-				codeLineHeight: "1.5rem",
-				frames: {
-					editorBackground: "var(--codeblock-bg)",
-					terminalBackground: "var(--codeblock-bg)",
-					terminalTitlebarBackground: "var(--codeblock-bg)",
-					editorTabBarBackground: "var(--codeblock-bg)",
-					editorActiveTabBackground: "none",
-					editorActiveTabIndicatorBottomColor: "var(--primary)",
-					editorActiveTabIndicatorTopColor: "none",
-					editorTabBarBorderBottomColor: "var(--codeblock-bg)",
-					terminalTitlebarBorderBottomColor: "none",
-				},
-				textMarkers: {
-					delHue: 0,
-					insHue: 180,
-					markHue: 250,
-				},
-			},
-			frames: {
-				showCopyToClipboardButton: false,
-			},
-		}),
-		svelte({
-			preprocess: vitePreprocess(),
-		}),
-		sitemap(),
-		mdx(),
+  integrations: [
+      oddmisc({
+          umami: {
+              shareUrl: false,
+          },
+      }),
+      swup({
+          theme: false,
+          animationClass: "transition-swup-",
+          containers: ["main"],
+          smoothScrolling: false, // Disable smooth scrolling for performance; avoids anchor navigation conflicts
+          cache: true,
+          preload: false, // 禁用预加载以提升性能
+          accessibility: true,
+          updateHead: process.env.NODE_ENV === "production",
+          updateBodyClass: false,
+          globalInstance: true,
+          // Scroll-related configuration
+          resolveUrl: (url) => url,
+          animateHistoryBrowsing: false,
+          skipPopStateHandling: (event) => {
+              // Skip anchor links; let the browser handle them natively
+              return (
+                  event.state &&
+                  event.state.url &&
+                  event.state.url.includes("#")
+              );
+          },
+      }),
+      icon(),
+      expressiveCode({
+          themes: ["github-light", "github-dark"],
+          plugins: [
+              pluginCollapsibleSections(),
+              pluginLineNumbers(),
+              pluginLanguageBadge(),
+              pluginCustomCopyButton(),
+          ],
+          defaultProps: {
+              wrap: true,
+              overridesByLang: {
+                  shellsession: { showLineNumbers: false },
+                  bash: { frame: "code" },
+                  shell: { frame: "code" },
+                  sh: { frame: "code" },
+                  zsh: { frame: "code" },
+              },
+          },
+          styleOverrides: {
+              codeBackground: "var(--codeblock-bg)",
+              borderRadius: "0.75rem",
+              borderColor: "none",
+              codeFontSize: "0.875rem",
+              codeFontFamily:
+                  "'JetBrains Mono Variable', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', 'Microsoft JhengHei', '微軟正黑體', 'Microsoft YaHei', '微软雅黑', 'Noto Sans HK', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans SC', 'Noto Sans KR', ui-monospace, monospace",
+              codeLineHeight: "1.5rem",
+              frames: {
+                  editorBackground: "var(--codeblock-bg)",
+                  terminalBackground: "var(--codeblock-bg)",
+                  terminalTitlebarBackground: "var(--codeblock-bg)",
+                  editorTabBarBackground: "var(--codeblock-bg)",
+                  editorActiveTabBackground: "none",
+                  editorActiveTabIndicatorBottomColor: "var(--primary)",
+                  editorActiveTabIndicatorTopColor: "none",
+                  editorTabBarBorderBottomColor: "var(--codeblock-bg)",
+                  terminalTitlebarBorderBottomColor: "none",
+              },
+              textMarkers: {
+                  delHue: 0,
+                  insHue: 180,
+                  markHue: 250,
+              },
+          },
+          frames: {
+              showCopyToClipboardButton: false,
+          },
+      }),
+      svelte({
+          preprocess: vitePreprocess(),
+      }),
+      sitemap(),
+      mdx(),
 	],
-	markdown: {
-		remarkPlugins: [
-			remarkMath,
-			remarkContent,
-			remarkFixGithubAdmonitions,
-			remarkDirective,
-			remarkSectionize,
-			parseDirectiveNode,
-			remarkMermaid,
-		],
-		rehypePlugins: [
-			rehypeKatex,
-			[
-				rehypeExternalLinks,
-				{
-					target: "_blank",
-					rel: ["nofollow", "noopener", "noreferrer"],
-				},
-			],
-			rehypeSlug,
-			rehypeWrapTable,
-			rehypeMermaid,
-			[
-				rehypeComponents,
-				{
-					components: {
-						github: GithubCardComponent,
-						note: (x, y) => AdmonitionComponent(x, y, "note"),
-						tip: (x, y) => AdmonitionComponent(x, y, "tip"),
-						important: (x, y) =>
-							AdmonitionComponent(x, y, "important"),
-						caution: (x, y) => AdmonitionComponent(x, y, "caution"),
-						warning: (x, y) => AdmonitionComponent(x, y, "warning"),
-					},
-				},
-			],
-			[
-				rehypeAutolinkHeadings,
-				{
-					behavior: "append",
-					properties: {
-						className: ["anchor"],
-					},
-					content: {
-						type: "element",
-						tagName: "span",
-						properties: {
-							className: ["anchor-icon"],
-							"data-pagefind-ignore": true,
-						},
-						children: [{ type: "text", value: "#" }],
-					},
-				},
-			],
-			rehypeImageWidth,
-		],
+
+  markdown: {
+      remarkPlugins: [
+          remarkMath,
+          remarkContent,
+          remarkFixGithubAdmonitions,
+          remarkDirective,
+          remarkSectionize,
+          parseDirectiveNode,
+          remarkMermaid,
+      ],
+      rehypePlugins: [
+          rehypeKatex,
+          [
+              rehypeExternalLinks,
+              {
+                  target: "_blank",
+                  rel: ["nofollow", "noopener", "noreferrer"],
+              },
+          ],
+          rehypeSlug,
+          rehypeWrapTable,
+          rehypeMermaid,
+          [
+              rehypeComponents,
+              {
+                  components: {
+                      github: GithubCardComponent,
+                      note: (x, y) => AdmonitionComponent(x, y, "note"),
+                      tip: (x, y) => AdmonitionComponent(x, y, "tip"),
+                      important: (x, y) =>
+                          AdmonitionComponent(x, y, "important"),
+                      caution: (x, y) => AdmonitionComponent(x, y, "caution"),
+                      warning: (x, y) => AdmonitionComponent(x, y, "warning"),
+                  },
+              },
+          ],
+          [
+              rehypeAutolinkHeadings,
+              {
+                  behavior: "append",
+                  properties: {
+                      className: ["anchor"],
+                  },
+                  content: {
+                      type: "element",
+                      tagName: "span",
+                      properties: {
+                          className: ["anchor-icon"],
+                          "data-pagefind-ignore": true,
+                      },
+                      children: [{ type: "text", value: "#" }],
+                  },
+              },
+          ],
+          rehypeImageWidth,
+      ],
 	},
-	vite: {
-		plugins: [tailwindcss()],
-		// Dev pre-bundling: compile common deps upfront to avoid 8s+ wait on first page load
-		optimizeDeps: {
-			include: [
-				"@iconify/svelte",
-				"svelte",
-				"svelte/transition",
-				"svelte/easing",
-				"overlayscrollbars",
-				"@fancyapps/ui",
-				"marked",
-				"sanitize-html",
-				"qrcode",
-			],
-		},
-		// Warm up common entry files so Vite transforms them right after server start
-		server: {
-			warmup: {
-				clientFiles: [
-					"src/layouts/Layout.astro",
-					"src/pages/index.astro",
-					"src/components/widgets/music-player/MusicPlayer.svelte",
-					"src/components/organisms/navigation/Search.svelte",
-					"src/components/control/ThemeSwitch.svelte",
-					"src/components/features/settings/DisplaySettings.svelte",
-					"src/scripts/swup-manager.ts",
-				],
-			},
-		},
-		build: {
-			// Static asset optimization: avoid inlining small images as base64 and bloating HTML
-			assetsInlineLimit: 4096,
-			// CSS code splitting
-			cssCodeSplit: true,
-			cssMinify: "esbuild",
-			// Inline small CSS files to reduce network requests
-			inlineStylesheets: "auto",
-			// Remove console and debugger in production
-			minify: "esbuild",
-			rollupOptions: {
-				onwarn(warning, warn) {
-					if (
-						warning.message.includes(
-							"is dynamically imported by",
-						) &&
-						warning.message.includes(
-							"but also statically imported by",
-						)
-					) {
-						return;
-					}
-					warn(warning);
-				},
-			},
-		},
-		// Remove console.log and debugger in production
-		esbuildOptions: {
-			drop:
-				process.env.NODE_ENV === "production"
-					? ["console", "debugger"]
-					: [],
-		},
+
+  vite: {
+      plugins: [tailwindcss()],
+      // Dev pre-bundling: compile common deps upfront to avoid 8s+ wait on first page load
+      optimizeDeps: {
+          include: [
+              "@iconify/svelte",
+              "svelte",
+              "svelte/transition",
+              "svelte/easing",
+              "overlayscrollbars",
+              "@fancyapps/ui",
+              "marked",
+              "sanitize-html",
+              "qrcode",
+          ],
+      },
+      // Warm up common entry files so Vite transforms them right after server start
+      server: {
+          warmup: {
+              clientFiles: [
+                  "src/layouts/Layout.astro",
+                  "src/pages/index.astro",
+                  "src/components/widgets/music-player/MusicPlayer.svelte",
+                  "src/components/organisms/navigation/Search.svelte",
+                  "src/components/control/ThemeSwitch.svelte",
+                  "src/components/features/settings/DisplaySettings.svelte",
+                  "src/scripts/swup-manager.ts",
+              ],
+          },
+      },
+      build: {
+          // Static asset optimization: avoid inlining small images as base64 and bloating HTML
+          assetsInlineLimit: 4096,
+          // CSS code splitting
+          cssCodeSplit: true,
+          cssMinify: "esbuild",
+          // Inline small CSS files to reduce network requests
+          inlineStylesheets: "auto",
+          // Remove console and debugger in production
+          minify: "esbuild",
+          rollupOptions: {
+              onwarn(warning, warn) {
+                  if (
+                      warning.message.includes(
+                          "is dynamically imported by",
+                      ) &&
+                      warning.message.includes(
+                          "but also statically imported by",
+                      )
+                  ) {
+                      return;
+                  }
+                  warn(warning);
+              },
+          },
+      },
+      // Remove console.log and debugger in production
+      esbuildOptions: {
+          drop:
+              process.env.NODE_ENV === "production"
+                  ? ["console", "debugger"]
+                  : [],
+      },
 	},
+
+  adapter: cloudflare(),
 });
