@@ -3,7 +3,8 @@ import type { APIContext, ImageMetadata } from "astro";
 import { getImage } from "astro:assets";
 import MarkdownIt from "markdown-it";
 import { parse as htmlParser } from "node-html-parser";
-import sanitizeHtml from "sanitize-html";
+import { JSDOM } from "linkedom"; // bereits in Astro enthalten
+import DOMPurify from "dompurify";
 
 import { profileConfig, siteConfig } from "@/config";
 import { getSortedPosts } from "@/utils/content-utils";
@@ -17,6 +18,9 @@ const markdownParser = new MarkdownIt();
 const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/content/**/*.{jpeg,jpg,png,gif,webp}", // include posts and assets
 );
+
+const { window } = new JSDOM("");
+const purify = DOMPurify(window);
 
 export async function GET(context: APIContext) {
 	if (!context.site) {
@@ -124,8 +128,8 @@ export async function GET(context: APIContext) {
 
 		// Atom entry
 		const postUrl = new URL(getPostUrl(post), context.site).href;
-		const content = sanitizeHtml(html.toString(), {
-			allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+		const content = purify.sanitize(html.toString(), {
+			ADD_TAGS: ["img"],
 		});
 
 		atomFeed += `

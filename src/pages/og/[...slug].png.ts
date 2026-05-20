@@ -4,7 +4,8 @@ import type { APIContext, GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import satori from "satori";
-import sharp from "sharp";
+import { Resvg, initWasm } from "@resvg/resvg-wasm";
+import resvgWasm from "@resvg/resvg-wasm/index_bg.wasm?url";
 
 import { getPostPublicDescription } from "@/utils/post-card-content";
 import { removeFileExtension } from "@/utils/url-utils";
@@ -114,8 +115,10 @@ export async function GET({
 		await fetchNotoSansSCFonts();
 
 	// Avatar + icon: still read from disk (small assets)
-	const avatarBuffer = fs.readFileSync(`./src/${profileConfig.avatar}`);
-	const avatarBase64 = `data:image/png;base64,${avatarBuffer.toString("base64")}`;
+	const avatarResp = await fetch(
+		new URL(`../../${profileConfig.avatar}`, import.meta.url),
+	);
+	const avatarBase64 = `data:image/png;base64,${Buffer.from(await avatarResp.arrayBuffer()).toString("base64")}`;
 
 	let iconPath = "./public/favicon/favicon.ico";
 	if (siteConfig.favicon.length > 0) {
@@ -345,7 +348,9 @@ export async function GET({
 		fonts,
 	});
 
-	const png = await sharp(Buffer.from(svg)).png().toBuffer();
+	await initWasm(fetch(resvgWasm));
+	const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 1200 } });
+	const png = resvg.render().asPng();
 
 	return new Response(new Uint8Array(png), {
 		headers: {

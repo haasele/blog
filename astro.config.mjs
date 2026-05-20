@@ -184,6 +184,10 @@ export default defineConfig({
 
 	vite: {
 		plugins: [tailwindcss()],
+		ssr: {
+			external: ["node:fs", "node:path", "node:url"],
+			noExternal: ["oddmisc", "@resvg/resvg-wasm", "sanitize-html"],
+		},
 		// Dev pre-bundling: compile common deps upfront to avoid 8s+ wait on first page load
 		optimizeDeps: {
 			include: [
@@ -247,14 +251,12 @@ export default defineConfig({
 		},
 	},
 
-	adapter: cloudflare(),
-	platformProxy: {
-		enabled: true,
-	},
-	// Verhindert, dass Node-spezifische Module gebundelt werden
-	vite: {
-		ssr: {
-			external: ["node:path"], // oder noExternal entfernen
+	adapter: cloudflare({
+		platformProxy: {
+			enabled: true,
 		},
+	}),
+	image: {
+		service: { entrypoint: "astro/assets/services/noop" },
 	},
 });
