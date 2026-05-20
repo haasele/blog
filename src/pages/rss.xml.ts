@@ -5,7 +5,8 @@ import type { APIContext, ImageMetadata } from "astro";
 import { getImage } from "astro:assets";
 import MarkdownIt from "markdown-it";
 import { parse as htmlParser } from "node-html-parser";
-import sanitizeHtml from "sanitize-html";
+import { JSDOM } from "jsdom";
+import DOMPurify from "dompurify";
 
 import { siteConfig } from "@/config";
 import { getSortedPosts } from "@/utils/content-utils";
@@ -21,6 +22,8 @@ const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 export async function GET(context: APIContext) {
+	const { window } = new JSDOM("");
+	const purify = DOMPurify(window as any);
 	if (!context.site) {
 		throw Error("site not set");
 	}
@@ -120,8 +123,9 @@ export async function GET(context: APIContext) {
 			pubDate: post.data.published,
 			link: getPostUrl(post),
 			// sanitize the new html string with corrected image paths
-			content: sanitizeHtml(html.toString(), {
-				allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+			content: purify.sanitize(html.toString(), {
+				ADD_TAGS: ["img"],
+				FORCE_BODY: true,
 			}),
 		});
 	}

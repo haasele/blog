@@ -3,7 +3,7 @@ import type { APIContext, ImageMetadata } from "astro";
 import { getImage } from "astro:assets";
 import MarkdownIt from "markdown-it";
 import { parse as htmlParser } from "node-html-parser";
-import { JSDOM } from "linkedom"; // bereits in Astro enthalten
+import { JSDOM } from "jsdom"; // bereits in Astro enthalten
 import DOMPurify from "dompurify";
 
 import { profileConfig, siteConfig } from "@/config";
@@ -19,10 +19,9 @@ const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/content/**/*.{jpeg,jpg,png,gif,webp}", // include posts and assets
 );
 
-const { window } = new JSDOM("");
-const purify = DOMPurify(window);
-
 export async function GET(context: APIContext) {
+	const { window } = new JSDOM("");
+	const purify = DOMPurify(window);
 	if (!context.site) {
 		throw Error("site not set");
 	}
