@@ -1,8 +1,8 @@
 {
 	"compatibility_date": "2026-05-20",
 	"compatibility_flags": ["global_fetch_strictly_public", "nodejs_compat"],
-	"name": "mizuki",
-	"main": "@astrojs/cloudflare/entrypoints/server",
+	"name": "blog",
+	"main": "./dist/_worker.js",
 	"assets": {
 		"directory": "./dist",
 		"binding": "ASSETS",
