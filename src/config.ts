@@ -23,15 +23,15 @@ import { LinkPreset } from "./types/config";
 // Site language
 const SITE_LANG = "en"; // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 export const siteConfig: SiteConfig = {
-	title: "Mizuki",
-	subtitle: "One demo website",
-	siteURL: "https://mizuki.mysqil.com/", // Replace with your site URL (trailing slash required)
-	siteStartDate: "2025-01-01", // Site launch date for uptime calculation in site stats
+	title: "haasele",
+	subtitle: "haasele's Blog",
+	siteURL: "https://blog.haasele.dev/", // Replace with your site URL (trailing slash required)
+	siteStartDate: "2026-05-20", // Site launch date for uptime calculation in site stats
 
 	lang: SITE_LANG,
 
 	themeColor: {
-		hue: 240, // Default theme hue (0-360). e.g. red: 0, cyan: 200, teal: 250, pink: 345
+		hue: 140, // Default theme hue (0-360). e.g. red: 0, cyan: 200, teal: 250, pink: 345
 		fixed: false, // Hide theme color picker from visitors
 	},
 
@@ -52,7 +52,7 @@ export const siteConfig: SiteConfig = {
 		// Display mode: "text-icon" shows icon + text, "logo" shows logo only
 		mode: "text-icon",
 		// Navbar title text
-		text: "MizukiUI",
+		text: "</haasele>",
 		// Navbar title icon path, defaults to public/assets/home/home.webp
 		icon: "assets/home/home.webp",
 		// Site logo image path
@@ -194,7 +194,7 @@ export const siteConfig: SiteConfig = {
 		mobileTop: true, // Mobile top TOC button
 		desktopSidebar: true, // Desktop right sidebar TOC
 		floating: true, // Floating TOC button
-		depth: 2, // TOC depth (1-6); 1 = h1 only, 2 = h1 + h2, etc.
+		depth: 3, // TOC depth (1-6); 1 = h1 only, 2 = h1 + h2, etc.
 		useJapaneseBadge: true, // Use Japanese kana badges (あいうえお...) instead of numbers (1, 2, 3...)
 	},
 	showCoverInContent: true, // Show post cover on article page
@@ -295,7 +295,7 @@ export const navBarConfig: NavBarConfig = {
 			],
 		},
 		{
-			name: "My",
+			name: "Me",
 			url: "/content/",
 			icon: "material-symbols:person",
 			children: [
@@ -663,30 +663,6 @@ export const sakuraConfig: SakuraConfig = {
 	zIndex: 100, // Z-index for petal layer
 };
 
-// Pio live2d mascot config
-export const pioConfig: import("./types/config").PioConfig = {
-	enable: false, // Disable mascot for better performance
-	models: ["/pio/models/pio/model.json"], // Default model path
-	position: "left", // Model position
-	width: 280, // Default width
-	height: 250, // Default height
-	mode: "draggable", // Default: draggable
-	hiddenOnMobile: true, // Hide on mobile by default
-	dialog: {
-		welcome: "Welcome to Mizuki Website!", // Welcome message
-		touch: [
-			"What are you doing?",
-			"Stop touching me!",
-			"HENTAI!",
-			"Don't bully me like that!",
-		], // Touch responses
-		home: "Click here to go back to homepage!", // Home prompt
-		skin: ["Want to see my new outfit?", "The new outfit looks great~"], // Outfit change prompts
-		close: "QWQ See you next time~", // Close prompt
-		link: "https://github.com/LyraVoid/Mizuki", // About link
-	},
-};
-
 // Related posts config
 export const relatedPostsConfig: RelatedPostsConfig = {
 	enable: true,
@@ -707,7 +683,6 @@ export const widgetConfigs = {
 	layout: sidebarLayoutConfig,
 	sakura: sakuraConfig,
 	fullscreenWallpaper: fullscreenWallpaperConfig,
-	pio: pioConfig,
 	share: shareConfig,
 	relatedPosts: relatedPostsConfig,
 	randomPosts: randomPostsConfig,

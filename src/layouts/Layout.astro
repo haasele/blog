@@ -1,9 +1,8 @@
 ---
 import ConfigCarrier from "@components/misc/ConfigCarrier.astro";
 import MusicPlayer from "@components/widgets/music-player/MusicPlayer.svelte";
-import Pio from "@components/features/pio/Pio.svelte"; // Svelte Pio component
 import { PageProgressBar } from "@components/control/PageProgressBar";
-import { pioConfig, profileConfig, siteConfig } from "@/config";
+import { profileConfig, siteConfig } from "@/config";
 
 const BANNER_HEIGHT = 35;
 const BANNER_HEIGHT_EXTEND = 30;
@@ -205,15 +204,6 @@ if (siteConfig.font) {
 			}}
 		></style>
 
-		<!-- Pio styles - non-render-blocking -->
-		{
-			pioConfig.enable && (
-				<Fragment
-					set:html={`<link rel="stylesheet" href="/pio/static/pio.css" media="print" onload="this.media='all'" />`}
-				/>
-			)
-		}
-
 		<link
 			rel="alternate"
 			type="application/rss+xml"
@@ -249,9 +239,6 @@ if (siteConfig.font) {
 
 		<!-- Music player core (when enable=true); UI via showFloatingPlayer -->
 		<MusicPlayer client:idle />
-
-		<!-- Pio - load when in viewport -->
-		{pioConfig.enable && <Pio client:visible />}
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
