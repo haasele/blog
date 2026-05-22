@@ -59,7 +59,7 @@ Der Begriff "Demokratie" - weißt du eigentlich was er bedeutet?
 
 Wenn du dir denkst "Ja da wählen alle, gleich, geheim und frei und alle bestimmen halt mit, duh." Dann muss ich dich enttäuschen, aber das ist falsch, duh.
 
-Der Begriff Demokratie bedeutet wörtlich aus dem lateinischem demos kratos übersetzt "Volksherrschaft". Oder um es in den Worten von Abraham Lincoln zu sagen:
+Der Begriff Demokratie bedeutet wörtlich aus dem altgriechischem demos kratos übersetzt "Volksherrschaft". Oder um es in den Worten von Abraham Lincoln zu sagen:
 „Regierung des Volkes, durch das Volk, für das Volk.“
 
 Fällt dir dabei etwas auf? Richtig! Keine Wahlen, kein Parlamentarismus! Diese zusammenhängenden Eigenschaften haben sich so sehr im Gedanken der heutigen Bevölkerung eingebrannt, dass wir Sie automatisch mit dem Wort Demokratie verbinden, dabei gehören sie initial überhaupt nicht mit dazu.
@@ -100,4 +100,9 @@ Nun, der Kapitalismus denkt, dass diese theoretische Einheit sehr wohl praktisch
 
 All in all, eine eher negative Ausrichtung des Ist-Zustands. Aber es kann besser werden! Und in den kommenden Blogbeiträgen werde ich auf genau diese Möglichkeiten der Besserung eingehen. Dieser Beitrag soll euch erstmal initial zum nachdenken anregen, das aktuelle kritisch zu hinterfragen - Existiert dieses System wirklich zu deinem Gunsten? oder doch eher zum Gunsten weniger anderer?
 
-Long Story short - Danke dass du bis hier hin gelesen hast! Wenn dir gefällt was ich schreibe, schau gern öfter hier vorbei!
+Long Story short - Danke dass du bis hier hin gelesen hast! Wenn dir gefällt was ich schreibe, schau gern öfter hier vorbei! 
+
+---
+
+Disclaimer
+Ich schreibe diese Blogbeiträge selbst natürlich ebenfalls mit einem Bias, einem marxistischem um genau zu sein. Komplett ohne Bias lassen sich Standpunkte nicht vermitteln, da sie dann entweder belanglos währen oder aber als zentristisch-Extrem formuliert werden - genau das will ich hier ja verhindern und darüber aufklären.
