@@ -1,3 +1,16 @@
+---
+title: The Current State
+published: 2026-05-21
+pinned: true
+description: Wo stehen wir als Menschheit? Was passiert aktuell in der Welt?
+tags: [Post, Blogging, Kapitalismus, Bias, Systemkritik]
+category: Politik
+licenseName: "Unlicensed"
+author: haasele
+sourceLink: "https://github.com/haasele/blog/src/content/posts/first_post.md"
+draft: false
+---
+
 # The Current State
 Seid einmal ehrlich zu euch selbst, wann dachtet ihr das letzte Mal "Diese Welt ist so hart am Arsch, bin ich eigentlich die einzige Person die noch klar bei Verstand ist?" 
 
