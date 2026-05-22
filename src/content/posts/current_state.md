@@ -50,15 +50,18 @@ Nobel, aber dumm. Wieso? Weil Zentrismus auch eine Extreme ist, sie wird einem n
 
 Ein Beispiel:
 Im Parlament sitzen 3 Parteien, 
-Partei Links sagt -> "Wir verletzen die Grundrechte der Menschen, wenn wir die Sozialleistungen nicht erhöhen um ihnen den Mindeststandard zu gewährleisten"
+Partei Links sagt 
+-> "Wir verletzen die Grundrechte der Menschen, wenn wir die Sozialleistungen nicht erhöhen, um ihnen den Mindeststandard zu gewährleisten"
 
-Partei Rechts sagt -> "Diese ganzen arbeitslosen und Ausländer, die sollen gefälligst arbeiten gehen und wenn sie es nicht tun, streichen wir ihnen  auch noch die restlichen Sozialleistungen die wir haben.
+Partei Rechts sagt -> "Diese ganzen Arbeitslosen und Ausländer, die sollen gefälligst arbeiten gehen und wenn sie es nicht tun, streichen wir ihnen  auch noch die restlichen Sozialleistungen die sie haben.
 
 Nun kommt der Zentrist und sucht den Kompromiss in den beiden Standpunkten. Er entscheidet sich für 
+
 -> "Lasst uns einfach die Sozialleistungen genau so lassen wie sie sind." 
 
-Somit wird zwar abgewährt, dass sie komplett gestrichen werden, jedoch werden dennoch die von Partei Links genannten Grundrechte verletzt, da die Menschen nun unterhalb des von Experten berechneten Minimums erhalten. 
-Du denkst das ist ein absurdes Beispiel? Das ist did aktuell gelebte Realität und eine echte Debatte aus dem deutschen Parlament, von Anfang 2026. (Ende vom Lied war übrigens "Wir lassen alles so wie es ist und kürzen nur ein bisschen, außer in Extremfällen...die wir als solche beurteilen")
+Somit wird zwar abgewährt, dass sie komplett gestrichen werden, jedoch werden dennoch die von Partei Links genannten Grundrechte verletzt, da die Menschen nun unterhalb des von Experten berechneten Minimums erhalten.
+
+Du denkst, das ist ein absurdes Beispiel? Das ist die aktuell gelebte Realität und eine echte Debatte aus dem deutschen Parlament, von Anfang 2026. (Ende vom Lied war übrigens "Wir lassen alles so wie es ist und kürzen nur ein bisschen, außer in Extremfällen...die WIR als solche beurteilen.")
 
 
 
