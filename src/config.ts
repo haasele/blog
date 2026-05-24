@@ -365,7 +365,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/avatar.jpeg", // Relative to /src; paths starting with '/' are relative to /public
+	avatar: "assets/images/avatar.jpg", // Relative to /src; paths starting with '/' are relative to /public
 	name: "Leon☭",
 	bio: "🌱 Stolzer Veganer, denn da lachen die Kälber",
 	typewriter: {
